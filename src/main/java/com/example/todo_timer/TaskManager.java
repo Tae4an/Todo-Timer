@@ -1,5 +1,4 @@
 package com.example.todo_timer;
-
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
@@ -12,13 +11,15 @@ public class TaskManager {
     }
 
     public void editTask(ListView<String> taskListView, int index, String updatedTask) {
-        if (!updatedTask.isEmpty()) {
+        if (index >= 0 && index < taskListView.getItems().size() && !updatedTask.isEmpty()) {
             ObservableList<String> tasks = taskListView.getItems();
             tasks.set(index, updatedTask);
         }
     }
 
     public void deleteTask(ListView<String> taskListView, int index) {
-        taskListView.getItems().remove(index);
+        if (index >= 0 && index < taskListView.getItems().size()) {
+            taskListView.getItems().remove(index);
+        }
     }
 }

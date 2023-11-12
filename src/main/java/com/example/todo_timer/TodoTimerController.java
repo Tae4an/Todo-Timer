@@ -30,7 +30,7 @@ public class TodoTimerController {
     @FXML
     private void editTask() {
         int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();
-        if (selectedIndex != -1) {
+        if (selectedIndex >= 0) {
             String currentTask = taskListView.getItems().get(selectedIndex);
             Optional<String> result = showEditDialog(currentTask);
 
@@ -41,7 +41,9 @@ public class TodoTimerController {
     @FXML
     private void deleteTask() {
         int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();
-        taskManager.deleteTask(taskListView, selectedIndex);
+        if (selectedIndex >= 0) {
+            taskManager.deleteTask(taskListView, selectedIndex);
+        }
     }
 
     private Optional<String> showEditDialog(String currentTask) {
