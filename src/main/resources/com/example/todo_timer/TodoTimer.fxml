@@ -4,17 +4,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+<AnchorPane prefHeight="403.0" prefWidth="221.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
 
     <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" />
     <TextField fx:id="taskInput" layoutX="14.0" layoutY="228.0" promptText="Add a task..." />
     <Button layoutX="178.0" layoutY="227.0" mnemonicParsing="false" onAction="#addTask" text="추가" />
 
-    <Button layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#startTimer" text="타이머 시작" />
-    <Button layoutX="100.0" layoutY="286.0" mnemonicParsing="false" onAction="#stopTimer" text="타이머 중지" />
-
     <Button layoutX="14.0" layoutY="259.0" mnemonicParsing="false" onAction="#editTask" text="작업 수정" />
     <Button layoutX="100.0" layoutY="260.0" mnemonicParsing="false" onAction="#deleteTask" text="작업 삭제" />
 
-    <Text fx:id="timerText" layoutX="14.0" layoutY="320.0" />
+    <Text fx:id="timerText" layoutX="14.0" layoutY="339.0" wrappingWidth="94.00000190734863">
+        <font>
+            <Font name="Agency FB" size="20" />
+        </font>
+    </Text>
+    <Button fx:id="startButton" layoutX="14.0" layoutY="288.0" onAction="#handleStartButton" text="작업 시작" />
+    <Button fx:id="stopButton" layoutX="100.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleStopButton" text="작업 종료" />
 </AnchorPane>
