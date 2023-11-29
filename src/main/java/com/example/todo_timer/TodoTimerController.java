@@ -3,65 +3,101 @@ package com.example.todo_timer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
-import javafx.util.Duration;  // 이 부분을 수정
+import javafx.util.Duration;
 
 import java.util.Optional;
 
 /**
  * ToDo 타이머 애플리케이션의 컨트롤러 클래스
+ * 마지막 수정 일자 : 2023.11.29
  */
 public class TodoTimerController {
 
     @FXML
-    private ListView<String> taskListView;
+    private ListView<String> taskListView;  // 작업 목록을 나타내는 ListView. 사용자가 작업을 추가, 수정, 삭제할 때 업데이트 됨
 
     @FXML
-    private TextField taskInput;
+    private TextField taskInput;  // 사용자가 새 작업을 입력하는 TextField. "추가" 버튼을 클릭하면 작업 목록에 새로운 작업이 추가
 
     @FXML
-    private Text timerText;
+    private Text timerText;  // 타이머 시간을 표시하는 Text. 타이머가 감소할 때마다 업데이트되며, 작업 시간을 나타냄
 
-    // 작업 관리자(TaskManager) 및 타이머 관리자(TimerManager) 인스턴스
-    private final TaskManager taskManager;
-    private final TimerManager timerManager;
+    @FXML
+    private Button btn_setting;  // 설정 버튼. 현재는 버튼의 동작이 구현되어 있지 않음
 
-    // JavaFX에서 제공하는 타이머 객체
-    private Timeline timer;
+    @FXML
+    private Button btn_start_pause;  // 시작/일시정지 버튼. 타이머를 시작하거나 일시정지할 때 사용됩니다. 버튼의 레이블은 상태에 따라 동적으로 변경 됨
 
-    // 경과 시간을 나타내는 Duration 객체
-    private Duration timeElapsed = Duration.ZERO;
 
-    // 타이머 실행 여부를 나타내는 플래그
-    private boolean isTimerRunning;
+    private final TaskManager taskManager;  // 작업 관리자(TaskManager) 인스턴스. 작업 목록을 관리하는 데 사용됨
+
+    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용됨
+
+    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
+
+    private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
+
+    private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정
+
 
     /**
-     * TodoTimerController의 생성자
-     * TaskManager와 TimerManager 인스턴스를 초기화하고,
-     * 타이머를 설정
+     * TodoTimerController의 생성자.
+     * 설정 버튼을 매개변수로 받아 초기화하며, TaskManager와 Timer를 설정합
+     *
+     * @param btnSetting 설정 버튼. TodoTimerController에 설정 버튼을 전달하고 초기화
      */
-    public TodoTimerController() {
+    public TodoTimerController(Button btnSetting) {
+        // 전달 받은 설정 버튼을 클래스 필드에 할당
         // TaskManager 초기화
         this.taskManager = new TaskManager();
-
-        // TimerManager 초기화
-        this.timerManager = new TimerManager();
-
-        // 타이머 설정
-        // 초당 한 번씩 이벤트를 발생시키는 KeyFrame을 가지는 Timeline을 생성
-        // 해당 이벤트는 updateTimerText() 메서드를 호출하여 타이머 텍스트를 업데이트
-        this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimerText()));
-
-        // 타이머가 현재 실행 중인지 나타내는 플래그를 초기화
-        this.isTimerRunning = false;
-
-        // 경과 시간을 나타내는 Duration을 초기화
-        this.timeElapsed = Duration.ZERO;
+        // 타이머 초기화
+        initializeTimer();
     }
 
+    /**
+     * 타이머를 초기화하는 메서드.
+     * 1초 간격으로 이벤트를 실행하는 Timeline을 생성하고, 타이머를 무한히 반복하도록 설정합니다.
+     * 타이머 이벤트에서는 일시정지 상태가 아니라면 타이머를 업데이트하고, 시간이 종료되면 타이머를 중지
+     */
+    private void initializeTimer() {
+        // 타이머 초기화: 1초 간격으로 이벤트를 실행하는 Timeline 생성
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            if (!isPaused) {
+                updateTimerDisplay();
+                if (minutes == 0 && seconds == 0) {
+                    stopTimer();
+                } else {
+                    decrementTime();
+                }
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE); // 타이머를 무한히 반복
+    }
+
+    /**
+     * 타이머 텍스트를 업데이트하는 메서드
+     */
+    private void updateTimerDisplay() {
+        // 타이머 텍스트 업데이트
+        timerText.setText(String.format("%02d:%02d", minutes, seconds));
+    }
+
+    /**
+     * 시간을 감소시키는 메서드
+     */
+    private void decrementTime() {
+        if (seconds == 0) {
+            minutes--;
+            seconds = 59;
+        } else {
+            seconds--;
+        }
+    }
 
     /**
      * "추가" 버튼 클릭 시 호출되는 메서드
@@ -129,64 +165,52 @@ public class TodoTimerController {
     }
 
     /**
-     * 타이머를 업데이트하는 메서드
-     * 1초마다 호출되며, 경과 시간을 1초씩 더하고 형식화하여 타이머 화면에 표시
-     */
-    private void updateTimerText() {
-        // 경과 시간에 1초를 더함
-        timeElapsed = timeElapsed.add(Duration.seconds(1));
-        // 형식화된 시간 문자열을 타이머 화면에 표시
-        timerText.setText(formatTime(timeElapsed));
-    }
-
-    /**
-     * 주어진 Duration을 형식화하는 메서드
-     * Duration을 분과 초로 변환하여 문자열로 반환
-     *
-     * @param duration 형식화할 Duration 객체
-     * @return 형식화된 시간 문자열 (mm:ss)
-     */
-    private String formatTime(Duration duration) {
-        // Duration을 초로 변환
-        long seconds = (long) duration.toSeconds();
-        // 초를 절댓값으로 변환
-        long absSeconds = Math.abs(seconds);
-        // 분을 계산
-        long minutes = absSeconds / 60;
-        // 남은 초를 계산
-        long remainingSeconds = absSeconds % 60;
-        // 시간을 음수로 표현할 경우에는 음수 부호를 붙임
-        return String.format("%02d:%02d", minutes * (seconds < 0 ? -1 : 1), remainingSeconds);
-    }
-
-    /**
-     * 시작 버튼이 클릭 되었을 때 호출되는 메서드
-     * 타이머가 실행 중이지 않은 경우에만 타이머를 시작
+     * "시작" 버튼 클릭 시 호출되는 메서드
+     * 타이머를 시작하고, 일시정지 상태를 해제
      */
     @FXML
     private void startTimer() {
-        // 타이머가 실행 중이 아닌 경우에만 시작
-        if (!isTimerRunning) {
-            // 타이머를 무한 반복으로 설정하고 실행
-            timer.setCycleCount(Timeline.INDEFINITE);
-            timer.play();
-            // 타이머 실행 상태를 갱신
-            isTimerRunning = true;
-        }
+        // 타이머 시작 메서드
+        timer.play();
+        isPaused = false;
     }
 
     /**
-     * "정지" 버튼 클릭 시 호출되는 메서드
-     * 타이머가 실행 중인 경우에만 타이머를 일시 정지시키고, 상태를 갱신
+     * "일시정지" 버튼 클릭 시 호출되는 메서드
+     * 타이머를 일시정지 상태로 변경
+     */
+    @FXML
+    private void pauseTimer() {
+        // 타이머 일시정지 메서드
+        isPaused = true;
+    }
+
+    /**
+     * "종료" 버튼 클릭 시 호출되는 메서드
+     * 타이머를 종료하고 초기 상태로 설정
      */
     @FXML
     private void stopTimer() {
-        // 타이머가 현재 실행 중인지 확인합니다.
-        if (isTimerRunning) {
-            // 타이머를 일시 정지
-            timer.pause();
-            // 타이머가 정지 되었음을 상태 변수에 반영
-            isTimerRunning = false;
+        // 타이머 종료 메서드
+        timer.stop();
+        minutes = 25;
+        seconds = 0;
+        isPaused = false;
+        updateTimerDisplay();
+    }
+
+    /**
+     * "시작/일시정지" 버튼 클릭 시 호출되는 메서드
+     * 타이머의 상태에 따라 시작 또는 일시정지 하고 버튼의 텍스트를 업데이트
+     */
+    @FXML
+    private void startPauseTimer() {
+        if (timer.getStatus().equals(Timeline.Status.RUNNING) && !isPaused) {
+            pauseTimer();
+            btn_start_pause.setText("시작");
+        } else {
+            startTimer();
+            btn_start_pause.setText("일시정지");
         }
     }
 }
