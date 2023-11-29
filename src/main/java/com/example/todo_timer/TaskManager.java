@@ -31,7 +31,10 @@ public class TaskManager {
     public void editTask(ListView<String> taskListView, int index, String updatedTask) {
         // 인덱스가 유효하고 업데이트된 작업이 비어있지 않은지 확인
         if (index >= 0 && index < taskListView.getItems().size() && !updatedTask.isEmpty()) {
+            // taskListView에서 현재 표시되고 있는 항목들을 가져와서 ObservableList에 저장
             ObservableList<String> tasks = taskListView.getItems();
+
+            // tasks 리스트에서 주어진 index 위치에 있는 항목을 수정
             tasks.set(index, updatedTask);
         }
     }
