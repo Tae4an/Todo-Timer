@@ -9,7 +9,7 @@
 
     <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="190.0" />
 
-    <Text fx:id="timerText" layoutX="88.0" layoutY="269.0" text="25:00" wrappingWidth="40.0">
+    <Text fx:id="timerText" layoutX="81.0" layoutY="266.0" text="25:00" wrappingWidth="56.0">
         <font>
             <Font name="Ami R" size="20" />
         </font>
