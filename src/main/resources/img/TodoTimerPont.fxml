@@ -3,9 +3,17 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="640.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="92.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="89.0" fitWidth="200.0" layoutX="80.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@todotime.png" />
+         </image></ImageView>
+      <ImageView fitHeight="233.0" fitWidth="312.0" layoutX="25.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@back-icon.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="64.0" layoutY="126.0" prefHeight="95.0" prefWidth="232.0" />
    </children>
 </AnchorPane>
