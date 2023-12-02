@@ -39,7 +39,7 @@ public class TodoTimerController implements Initializable {
 
     private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용됨
 
-    private int minutes = 1;  // 타이머의 초기 분 설정. 기본값은 25분
+    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
 
     private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
 
