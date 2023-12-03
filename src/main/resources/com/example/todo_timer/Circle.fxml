@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="468.0" prefWidth="297.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.CircleController">
+   <children>
+      <ImageView fitHeight="484.0" fitWidth="311.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/background.jpg" />
+         </image></ImageView>
+        <Circle fx:id="donutCircle" layoutX="149.0" layoutY="165.0" radius="115.0" stroke="white" strokeWidth="10">
+            <fill>
+            <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8">
+                     <color>
+                        <Color opacity="0.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color opacity="0.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+            </fill>
+        </Circle>
+         <ToggleButton layoutX="94.0" layoutY="311.0" onAction="#toggleAnimation" prefWidth="110.0" text="Toggle Animation" />
+      <Text layoutX="105.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="25:11">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+   </children>
+   <styleClass>
+      <String fx:value="root" />
+      <String fx:value="anchor-pane" />
+   </styleClass>
+</AnchorPane>
