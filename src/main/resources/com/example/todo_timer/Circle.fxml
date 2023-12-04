@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="632.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.CircleController">
+<AnchorPane fx:id="timer_layout" prefHeight="632.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.CircleController">
    <children>
       <ImageView fitHeight="669.0" fitWidth="396.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -63,7 +63,7 @@
             </LinearGradient>
          </stroke>
         </Circle>
-         <ToggleButton layoutX="126.0" layoutY="571.0" onAction="#toggleAnimation" prefHeight="45.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" text="START">
+         <ToggleButton layoutX="46.0" layoutY="563.0" onAction="#toggleAnimation" prefHeight="45.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" text="START">
          <styleClass>
             <String fx:value="button" />
             <String fx:value="root" />
@@ -81,6 +81,15 @@
          </font>
       </Text>
       <ChoiceBox layoutX="126.0" layoutY="23.0" prefHeight="22.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" />
+      <Button layoutX="212.0" layoutY="563.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" text="STOP">
+         <graphic>
+            <ImageView fitHeight="39.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/free-icon-pause-button-3567925.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
    <styleClass>
       <String fx:value="root" />
