@@ -16,7 +16,6 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -233,19 +232,5 @@ public class TodoTimerController implements Initializable {
             alert.setContentText(message);
             alert.showAndWait();
         });
-    }
-
-    // TodoTimerController 클래스에 추가하는 메서드
-    /**
-     * 작업 목록을 표시하는 ChoiceBox를 반환
-     *
-     * @return 작업 목록을 표시하는 ChoiceBox
-     */
-    public ChoiceBox<String> getTaskChoiceBox() {
-        if (taskChoiceBox == null) {
-            taskChoiceBox = new ChoiceBox<>();
-            // 다른 초기화 설정...
-        }
-        return taskChoiceBox;
     }
 }
