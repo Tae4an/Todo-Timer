@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -27,17 +26,18 @@ import java.util.ResourceBundle;
 public class TodoTimerController implements Initializable {
 
     @FXML
-    private Text timerText;  // 타이머 시간을 표시하는 Text. 타이머가 감소할 때마다 업데이트되며, 작업 시간을 나타냄
-
+    private Text timerText;  // 타이머 시간을 표시하는 Text
     @FXML
-    private Button btn_setting;  // 설정 버튼. 현재는 버튼의 동작이 구현되어 있지 않음
-
+    private Button btn_start_pause;  // 시작/일시정지 버튼. 레이블은 상태에 따라 동적으로 변경 됨
     @FXML
-    private Button btn_start_pause;  // 시작/일시정지 버튼. 타이머를 시작하거나 일시정지할 때 사용됩니다. 버튼의 레이블은 상태에 따라 동적으로 변경 됨
+    private Button tsk_btn;  // 작업 홈 버튼
+    @FXML
+    private AnchorPane timer_layout;   // 타이머 홈의 레이아웃
+    @FXML
+    private ChoiceBox<String> taskChoiceBox;   // 타이머 홈의 초이스 박스
 
 
-
-    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용됨
+    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용
 
     private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
 
@@ -47,23 +47,29 @@ public class TodoTimerController implements Initializable {
 
     private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그
 
-
-    @FXML
-    private Button tsk_btn;
-    @FXML
-    private AnchorPane timer_layout;
+    private final TodoTaskController todoTaskController;
 
 
 
+
+    /**
+     * 화면 초기화 시 호출되는 메서드
+     * 주요 컴포넌트들을 초기화하고 이벤트 핸들러를 등록
+     *
+     * @param location   FXML 파일의 위치
+     * @param resources  리소스 번들
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // "할 일 목록" 버튼에 대한 액션 설정
         tsk_btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                // 현재 Scene에서 루트 AnchorPane을 얻어와서 자식 노드를 모두 제거
                 AnchorPane root = (AnchorPane) tsk_btn.getScene().getRoot();
-                root.getChildren().clear();  // 현재 화면의 모든 자식 노드를 제거
-                // TodoTask.fxml을 불러와서 root에 추가
+                root.getChildren().clear();
                 try {
+                    // TodoTask.fxml을 로딩하여 Scene에 추가
                     Parent todoTask = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
                     root.getChildren().add(todoTask);
                 } catch (IOException e) {
@@ -71,14 +77,22 @@ public class TodoTimerController implements Initializable {
                 }
             }
         });
-    }
 
+        // 할 일 선택 상자에 할 일 목록을 설정합니다.
+        taskChoiceBox.setItems(todoTaskController.getTasks());
+        // 선택 상자의 기본 선택을 첫 번째 항목으로 설정
+        taskChoiceBox.getSelectionModel().selectFirst();
+
+        // 타이머 초기화
+        initializeTimer();
+    }
     /**
      * TodoTimerController의 생성자.
      */
     public TodoTimerController() {
-        // 타이머 초기화
-        initializeTimer();
+        // TodoTaskController 인스턴스를 얻어옴
+        this.todoTaskController = TodoTaskController.getInstance();
+        initializeTimer(); // 타이머 초기화
     }
 
     /**
@@ -132,7 +146,6 @@ public class TodoTimerController implements Initializable {
         }
     }
 
-
     /**
      * "시작" 버튼 클릭 시 호출되는 메서드
      * 타이머를 시작하고, 일시정지 상태를 해제
@@ -162,7 +175,7 @@ public class TodoTimerController implements Initializable {
     private void stopTimer() {
         // 타이머 종료 메서드
         timer.stop();
-        minutes = 1;
+        minutes = 25;
         seconds = 0;
         isPaused = false;
         updateTimerDisplay();
@@ -182,8 +195,6 @@ public class TodoTimerController implements Initializable {
             btn_start_pause.setText("일시정지");
         }
     }
-
-
 
     /**
      * 작업 타이머를 시작하는 메서드.
@@ -224,4 +235,17 @@ public class TodoTimerController implements Initializable {
         });
     }
 
+    // TodoTimerController 클래스에 추가하는 메서드
+    /**
+     * 작업 목록을 표시하는 ChoiceBox를 반환
+     *
+     * @return 작업 목록을 표시하는 ChoiceBox
+     */
+    public ChoiceBox<String> getTaskChoiceBox() {
+        if (taskChoiceBox == null) {
+            taskChoiceBox = new ChoiceBox<>();
+            // 다른 초기화 설정...
+        }
+        return taskChoiceBox;
+    }
 }
