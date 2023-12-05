@@ -2,21 +2,71 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="timer_layout" prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
-
-    <Text fx:id="timerText" layoutX="88.0" layoutY="269.0" text="25:00" wrappingWidth="40.0">
+<AnchorPane fx:id="timer_layout" prefHeight="594.0" prefWidth="337.0" styleClass="root_1" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+    <Circle fx:id="donutCircle" layoutX="169.0" layoutY="303.0" radius="97.0" strokeWidth="10">
+        <fill>
+            <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="0.8">
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="0.8">
+                        <color>
+                            <Color opacity="0.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color opacity="0.0" />
+                        </color>
+                    </Stop>
+                </stops>
+            </LinearGradient>
+        </fill>
+        <stroke>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color />
+                        </color>
+                    </Stop>
+                    <Stop offset="0.2145424280255741">
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color red="0.9210526347160339" green="0.9210526347160339" blue="0.9210526347160339" />
+                        </color>
+                    </Stop>
+                </stops>
+            </RadialGradient>
+        </stroke>
+    </Circle>
+    <Text fx:id="timerText" fill="#fffefe" layoutX="94.0" layoutY="319.0" text="25:00" wrappingWidth="156.0">
         <font>
-            <Font name="Ami R" size="20" />
+            <Font size="64.0" />
         </font>
     </Text>
 
-    <Button fx:id="btn_start_pause" layoutX="14.0" layoutY="222.0" mnemonicParsing="false" onAction="#startPauseTimer" text="작업 시작" />
-    <Button fx:id="btn_stop" layoutX="94.0" layoutY="222.0" mnemonicParsing="false" onAction="#stopTimer" text="작업 종료" />
+    <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="502.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="34.0" prefWidth="110.0" text="작업 시작" />
+    <Button fx:id="btn_stop" layoutX="114.0" layoutY="456.0" mnemonicParsing="false" onAction="#stopTimer" prefHeight="34.0" prefWidth="110.0" text="작업 종료" />
 
-    <Button fx:id="tsk_btn" layoutX="189.0" layoutY="3.0" mnemonicParsing="false" text="X"> </Button>
+    <Button fx:id="tsk_btn" layoutX="289.0" layoutY="25.0" mnemonicParsing="false" text="X"> </Button>
 
-    <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Timer Home" />
-    <ChoiceBox fx:id="taskChoiceBox" layoutX="19.0" layoutY="25.0" prefWidth="150.0" />
+    <Label layoutX="14.0" layoutY="29.0" prefHeight="14.0" prefWidth="67.0" text="Timer Home" />
+    <ChoiceBox fx:id="taskChoiceBox" layoutX="94.0" layoutY="25.0" prefWidth="150.0" />
 </AnchorPane>
