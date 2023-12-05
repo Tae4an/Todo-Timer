@@ -1,35 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="task_layout" prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
-    <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="190.0" />
-    <TextField fx:id="taskInput" layoutX="14.0" layoutY="220.0" prefHeight="22.0" prefWidth="148.0" promptText="Add a task..." />
-    <Button layoutX="165.0" layoutY="220.0" mnemonicParsing="false" onAction="#addTask" text="추가" />
+    <ListView fx:id="taskListView" layoutX="14.0" layoutY="102.0" prefHeight="167.0" prefWidth="190.0" />
+    <Button layoutX="14.0" layoutY="30.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
 
-    <Button layoutX="14.0" layoutY="250.0" mnemonicParsing="false" onAction="#editTask" text="작업 수정" />
-    <Button layoutX="95.0" layoutY="250.0" mnemonicParsing="false" onAction="#deleteTask" text="작업 삭제" />
-    <HBox fx:id="" layoutX="10.0" layoutY="280.0" prefHeight="32.0" prefWidth="198.0" style="-fx-background-color: #BDBDBD;">
-        <children>
-            <Button fx:id="tm_btn" mnemonicParsing="false" text=" 타이머 홈">
-            <HBox.margin>
-               <Insets left="5.0" />
-            </HBox.margin></Button>
-            <Button fx:id="tsk_btn" mnemonicParsing="false" text="작업 홈">
-                <HBox.margin>
-                    <Insets left="5.0" />
-                </HBox.margin></Button>
-         <Button fx:id="my_btn" mnemonicParsing="false" text="My 홈">
-            <HBox.margin>
-               <Insets left="5.0" />
-            </HBox.margin>
-         </Button>
-        </children>
-      <padding>
-         <Insets bottom="3.0" left="1.0" right="1.0" top="3.0" />
-      </padding>
-    </HBox>
-   <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
+    <Button fx:id="tm_btn" layoutX="72.0" layoutY="278.0" mnemonicParsing="false" text=" 타이머 홈"> </Button>
+
+    <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
+   <Button layoutX="92.0" layoutY="30.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
 </AnchorPane>
