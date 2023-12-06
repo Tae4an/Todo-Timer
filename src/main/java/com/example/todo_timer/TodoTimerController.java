@@ -1,6 +1,7 @@
 package com.example.todo_timer;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,7 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -61,19 +64,24 @@ public class TodoTimerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // "할 일 목록" 버튼에 대한 액션 설정
-        tsk_btn.setOnAction(new EventHandler<ActionEvent>() {
+        tsk_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-                // 현재 Scene에서 루트 AnchorPane을 얻어와서 자식 노드를 모두 제거
-                AnchorPane root = (AnchorPane) tsk_btn.getScene().getRoot();
-                root.getChildren().clear();
-                try {
-                    // TodoTask.fxml을 로딩하여 Scene에 추가
-                    Parent todoTask = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
-                    root.getChildren().add(todoTask);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            public void handle(MouseEvent event) {
+                StackPane stackPane = (StackPane) timer_layout.getScene().getRoot();
+                Parent sub = (Parent) stackPane.getChildren().get(1);
+
+                Timeline timeline = new Timeline();
+                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 400);
+                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        stackPane.getChildren().remove(1);
+                    }
+                }, keyValue);
+                timeline.getKeyFrames().add(keyFrame);
+                timeline.play();
+
+
             }
         });
 

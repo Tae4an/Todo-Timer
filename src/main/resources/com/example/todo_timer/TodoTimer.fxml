@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="timer_layout" prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+<AnchorPane fx:id="timer_layout" prefHeight="315.0" prefWidth="215.0" style="-fx-background-color: #CCFFFF;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
 
     <Text fx:id="timerText" layoutX="88.0" layoutY="269.0" text="25:00" wrappingWidth="40.0">
         <font>
@@ -17,6 +17,6 @@
 
     <Button fx:id="tsk_btn" layoutX="189.0" layoutY="3.0" mnemonicParsing="false" text="X"> </Button>
 
-    <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Timer Home" />
-    <ChoiceBox fx:id="taskChoiceBox" layoutX="19.0" layoutY="25.0" prefWidth="150.0" />
+    <Label layoutX="8.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Timer Home" />
+    <ChoiceBox fx:id="taskChoiceBox" layoutX="19.0" layoutY="25.0" prefHeight="22.0" prefWidth="162.0" />
 </AnchorPane>

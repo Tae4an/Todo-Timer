@@ -1,5 +1,8 @@
 package com.example.todo_timer;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +13,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,23 +66,28 @@ public class TodoTaskController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // "작업 관리" 버튼에 대한 액션 설정
-        tm_btn.setOnAction(new EventHandler<ActionEvent>() {
+        tm_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 try {
-                    // TodoTimer.fxml 파일을 로드하여 Parent 객체 생성
-                    Parent todoTimer = FXMLLoader.load(getClass().getResource("TodoTimer.fxml"));
+                    Parent sub = FXMLLoader.load(getClass().getResource("TodoTimer.fxml"));
+                    StackPane root = (StackPane) tm_btn.getScene().getRoot();
+                    root.getChildren().add(sub);
 
-                    // 현재 Scene의 Root를 얻어옴
-                    AnchorPane root = (AnchorPane) tm_btn.getScene().getRoot();
+                    sub.setTranslateY(400);
 
-                    // Root의 자식 노드들을 모두 제거
-                    root.getChildren().clear();
+                    Timeline timeline = new Timeline();
+                    KeyValue keyValue = new KeyValue(sub.translateYProperty(),0);
+                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
 
-                    // 새로운 TodoTimer.fxml을 Root에 추가하여 화면 교체
-                    root.getChildren().add(todoTimer);
+                        }
+                    }, keyValue);
+                    timeline.getKeyFrames().add(keyFrame);
+                    timeline.play();
+
                 } catch (IOException e) {
-                    // 예외 발생 시 런타임 예외로 처리
                     throw new RuntimeException(e);
                 }
             }
