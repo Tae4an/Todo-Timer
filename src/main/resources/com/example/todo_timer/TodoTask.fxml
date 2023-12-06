@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="task_layout" prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
-    <ListView fx:id="taskListView" layoutX="14.0" layoutY="102.0" prefHeight="167.0" prefWidth="190.0" />
-    <Button layoutX="14.0" layoutY="30.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
+<StackPane prefHeight="594.0" prefWidth="337.0" styleClass="root_2" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+    <AnchorPane prefHeight="594.0" prefWidth="337.0">
+        <children>
 
-    <Button fx:id="tm_btn" layoutX="72.0" layoutY="278.0" mnemonicParsing="false" text=" 타이머 홈"> </Button>
+            <Button fx:id="tm_btn" layoutX="131.0" layoutY="524.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="76.0">
+            <graphic>
+               <ImageView fitHeight="48.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../img/Timer-Icon.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+            <ListView fx:id="taskListView" layoutX="29.0" layoutY="157.0" prefHeight="236.0" prefWidth="280.0" stylesheets="@StylePont.css" />
+            <Button layoutX="69.0" layoutY="93.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
 
-    <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
-   <Button layoutX="92.0" layoutY="30.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
-</AnchorPane>
+            <Label layoutX="2.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
+            <Button layoutX="196.0" layoutY="93.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
+        </children>
+    </AnchorPane>
+</StackPane>

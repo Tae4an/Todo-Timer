@@ -62,8 +62,8 @@
         </font>
     </Text>
 
-    <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="502.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="34.0" prefWidth="110.0" text="작업 시작" />
-    <Button fx:id="btn_stop" layoutX="114.0" layoutY="456.0" mnemonicParsing="false" onAction="#stopTimer" prefHeight="34.0" prefWidth="110.0" text="작업 종료" />
+    <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="502.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="34.0" prefWidth="110.0" text="작업 시작" textFill="WHITE" />
+    <Button fx:id="btn_stop" layoutX="114.0" layoutY="456.0" mnemonicParsing="false" onAction="#stopTimer" prefHeight="34.0" prefWidth="110.0" text="작업 종료" textFill="#fff9f9" />
 
     <Button fx:id="tsk_btn" layoutX="289.0" layoutY="25.0" mnemonicParsing="false" text="X"> </Button>
 
