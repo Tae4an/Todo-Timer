@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Refactor: 최적화">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/________1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/리베이스_전에_커밋되지_않은_변경_내용_[변경]1/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTimerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTimerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Taesan" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ChoiTaeSan&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="a27e1545-aa36-4344-b5ec-dcb76512270f" />
+        <option name="url" value="https://github.com/ChoiTaeSan/Todo-Timer.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2Y41cEoG8ZRKnFLrFMT28C371So" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Taesan 병합 중",
+    "last_opened_file_path": "C:/Users/최태산/Desktop/2023-2 선문대/기초프로젝트ll/javaFX/ToDo_Timer(before)",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "build.tools",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.todo_timer" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\최태산\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="" />
+      <created>1699770117613</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699770117613</updated>
+      <workItem from="1701236790555" duration="10000" />
+      <workItem from="1701237547481" duration="1064000" />
+      <workItem from="1701242637214" duration="2217000" />
+      <workItem from="1701254771067" duration="2289000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat : First commit&#10;- ToDo 타이머 앱 빌드&#10;- 작업 추가, 삭제, 수정 기능 적용">
+      <option name="closed" value="true" />
+      <created>1699771721778</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699771721779</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat : First commit_2&#10;- 삭제 기능에서&#10;Index -1 out of bounds for length 0 에러 수정">
+      <option name="closed" value="true" />
+      <created>1699771974761</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699771974761</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat : First commit_3&#10;- 코드 설명 주석 추가">
+      <option name="closed" value="true" />
+      <created>1699773095461</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699773095461</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat : Second commit&#10;- 타이머 시작 및 중지 기능 적용">
+      <option name="closed" value="true" />
+      <created>1699850362627</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1699850362627</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat : Second commit&#10;- 타이머 시작 및 중지 기능 적용">
+      <option name="closed" value="true" />
+      <created>1700096339308</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700096339308</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Revert &quot;feat : Second commit - 타이머 시작 및 중지 기능 적용&quot;&#10;&#10;This reverts commit 311a475e">
+      <option name="closed" value="true" />
+      <created>1700096387419</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1700096387419</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat : Second commit_2&#10;- 작업 시작, 일시정지, 작업 종료 기능 빌드&#10;- 씬 화면에서 작업 시작 버튼을 클릭 했을 때 타이머 시간이 감소 하지 않는 문제가 있음">
+      <option name="closed" value="true" />
+      <created>1700492180905</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1700492180905</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat : 작업 시작, 종료 버튼 추가">
+      <option name="closed" value="true" />
+      <created>1700493461428</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700493461428</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Feat : Setting 버튼 추가">
+      <option name="closed" value="true" />
+      <created>1700700781472</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1700700781472</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Feat: 작업 홈 추가">
+      <option name="closed" value="true" />
+      <created>1701326742640</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701326742640</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Feat: 작업 홈 컨트롤러 추가">
+      <option name="closed" value="true" />
+      <created>1701326771582</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701326771582</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Refactor: 작업 관련 기능 제거">
+      <option name="closed" value="true" />
+      <created>1701326843108</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1701326843108</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Refactor: 파일 임시 제거">
+      <option name="closed" value="true" />
+      <created>1701326924347</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701326924347</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Refactor: 씬 화면 크기 조정">
+      <option name="closed" value="true" />
+      <created>1701326955475</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1701326955475</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Refactor: 작업 관련 기능 제거">
+      <option name="closed" value="true" />
+      <created>1701327025479</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701327025479</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Feat: First commit">
+      <option name="closed" value="true" />
+      <created>1701327043249</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1701327043249</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Feat: First commit">
+      <option name="closed" value="true" />
+      <created>1701443728480</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1701443728480</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Feat: 휴식 기능 추가">
+      <option name="closed" value="true" />
+      <created>1701501523734</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1701501523734</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Refactor: 디자인 변경">
+      <option name="closed" value="true" />
+      <created>1701783076000</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1701783076001</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Refactor: 최적화">
+      <option name="closed" value="true" />
+      <created>1701784126490</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1701784126490</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat : First commit&#10;- ToDo 타이머 앱 빌드&#10;- 작업 추가, 삭제, 수정 기능 적용" />
+    <MESSAGE value="feat : First commit_2&#10;- 삭제 기능에서&#10;Index -1 out of bounds for length 0 에러 수정" />
+    <MESSAGE value="feat : First commit_3&#10;- 코드 설명 주석 추가" />
+    <MESSAGE value="feat : Second commit&#10;- 타이머 시작 및 중지 기능 적용" />
+    <MESSAGE value="Revert &quot;feat : Second commit - 타이머 시작 및 중지 기능 적용&quot;&#10;&#10;This reverts commit 311a475e" />
+    <MESSAGE value="feat : Second commit_2&#10;- 작업 시작, 일시정지, 작업 종료 기능 빌드&#10;- 씬 화면에서 작업 시작 버튼을 클릭 했을 때 타이머 시간이 감소 하지 않는 문제가 있음" />
+    <MESSAGE value="feat : 작업 시작, 종료 버튼 추가" />
+    <MESSAGE value="Feat : Setting 버튼 추가" />
+    <MESSAGE value="Feat: 작업 홈 추가" />
+    <MESSAGE value="Feat: 작업 홈 컨트롤러 추가" />
+    <MESSAGE value="Refactor: 파일 임시 제거" />
+    <MESSAGE value="Refactor: 씬 화면 크기 조정" />
+    <MESSAGE value="Refactor: 작업 관련 기능 제거" />
+    <MESSAGE value="Feat: First commit" />
+    <MESSAGE value="Feat: 휴식 기능 추가" />
+    <MESSAGE value="Refactor: 디자인 변경" />
+    <MESSAGE value="Refactor: 최적화" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor: 최적화" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,6 +1,7 @@
 package com.example.todo_timer;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,12 +11,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -61,19 +65,24 @@ public class TodoTimerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // "할 일 목록" 버튼에 대한 액션 설정
-        tsk_btn.setOnAction(new EventHandler<ActionEvent>() {
+        tsk_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-                // 현재 Scene에서 루트 AnchorPane을 얻어와서 자식 노드를 모두 제거
-                AnchorPane root = (AnchorPane) tsk_btn.getScene().getRoot();
-                root.getChildren().clear();
-                try {
-                    // TodoTask.fxml을 로딩하여 Scene에 추가
-                    Parent todoTask = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
-                    root.getChildren().add(todoTask);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            public void handle(MouseEvent event) {
+                StackPane stackPane = (StackPane) timer_layout.getScene().getRoot();
+                Parent sub = (Parent) stackPane.getChildren().get(1);
+
+                Timeline timeline = new Timeline();
+                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 400);
+                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        stackPane.getChildren().remove(1);
+                    }
+                }, keyValue);
+                timeline.getKeyFrames().add(keyFrame);
+                timeline.play();
+
+
             }
         });
 
@@ -156,14 +165,54 @@ public class TodoTimerController implements Initializable {
         isPaused = false;
     }
 
+//    /**
+//     * "일시정지" 버튼 클릭 시 호출되는 메서드
+//     * 타이머를 일시정지 상태로 변경
+//     */
+//    @FXML
+//    private void pauseTimer() {
+//        // 타이머 일시정지 메서드
+//        isPaused = true;
+//    }
+
+
     /**
-     * "일시정지" 버튼 클릭 시 호출되는 메서드
-     * 타이머를 일시정지 상태로 변경
+     * "시작/일시정지" 버튼 클릭 시 호출되는 메서드
+     * 타이머의 상태에 따라 시작 또는 일시정지 하고 버튼의 텍스트를 업데이트
      */
+    @FXML
+    private void startPauseTimer() {
+        if (timer.getStatus().equals(Timeline.Status.RUNNING) && !isPaused) {
+            pauseTimer();
+        } else {
+            startTimer();
+            btn_start_pause.setText("일시정지");
+        }
+    }
+
     @FXML
     private void pauseTimer() {
         // 타이머 일시정지 메서드
         isPaused = true;
+
+        // 사용자에게 선택을 받는 다이얼로그 표시
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("일시정지");
+        alert.setHeaderText("일시정지 상태입니다.");
+        alert.setContentText("계속 작업을 진행하시겠습니까?");
+
+        ButtonType resumeButton = new ButtonType("계속");
+        ButtonType stopButton = new ButtonType("정지", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(resumeButton, stopButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == resumeButton) {
+            // "계속" 버튼이 선택된 경우
+            startTimer();  // 타이머 계속 진행
+        } else {
+            // "정지" 버튼이나 다이얼로그를 닫은 경우
+            stopTimer();  // 타이머 정지
+        }
     }
 
     /**
@@ -177,22 +226,8 @@ public class TodoTimerController implements Initializable {
         minutes = 25;
         seconds = 0;
         isPaused = false;
+        btn_start_pause.setText("작업 시작");
         updateTimerDisplay();
-    }
-
-    /**
-     * "시작/일시정지" 버튼 클릭 시 호출되는 메서드
-     * 타이머의 상태에 따라 시작 또는 일시정지 하고 버튼의 텍스트를 업데이트
-     */
-    @FXML
-    private void startPauseTimer() {
-        if (timer.getStatus().equals(Timeline.Status.RUNNING) && !isPaused) {
-            pauseTimer();
-            btn_start_pause.setText("작업 시작");
-        } else {
-            startTimer();
-            btn_start_pause.setText("일시정지");
-        }
     }
 
     /**
