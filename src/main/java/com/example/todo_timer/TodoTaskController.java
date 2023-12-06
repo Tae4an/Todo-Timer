@@ -78,12 +78,7 @@ public class TodoTaskController implements Initializable {
 
                     Timeline timeline = new Timeline();
                     KeyValue keyValue = new KeyValue(sub.translateYProperty(),0);
-                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-
-                        }
-                    }, keyValue);
+                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
                     timeline.getKeyFrames().add(keyFrame);
                     timeline.play();
 
