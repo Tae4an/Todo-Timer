@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/________1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/________1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +79,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "Taesan",
-    "last_opened_file_path": "C:/Users/신창영/OneDrive/바탕 화면/javaFX/Todo-Timer",
+    "last_opened_file_path": "C:/Users/신창영/OneDrive/바탕 화면/javaFX/Todo-Timer/src/main/resources/com/example/todo_timer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -294,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701784126490</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지">
+      <option name="closed" value="true" />
+      <created>1701861353580</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1701861353580</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,7 +344,8 @@
     <MESSAGE value="Refactor: 디자인 변경" />
     <MESSAGE value="Refactor: 최적화" />
     <MESSAGE value="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드" />
+    <MESSAGE value="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
