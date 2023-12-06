@@ -95,6 +95,9 @@
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.todo_timer" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\신창영\OneDrive\바탕 화면\javaFX\Todo-Timer\src\main\resources\com\example\todo_timer" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="TodoTimerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
