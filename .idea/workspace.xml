@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Refactor: 최적화">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/________1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/리베이스_전에_커밋되지_않은_변경_내용_[변경]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTimerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTimerController.java" afterDir="false" />
+    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/________1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/________1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" afterDir="false" />
     </list>
@@ -87,8 +84,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Taesan 병합 중",
-    "last_opened_file_path": "C:/Users/최태산/Desktop/2023-2 선문대/기초프로젝트ll/javaFX/ToDo_Timer(before)",
+    "git-widget-placeholder": "Taesan",
+    "last_opened_file_path": "C:/Users/신창영/OneDrive/바탕 화면/javaFX/Todo-Timer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -104,6 +101,22 @@
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.todo_timer" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="TodoTimerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.todo_timer.TodoTimerApplication" />
+      <module name="ToDo_Timer.main" />
+      <option name="VM_PARAMETERS" value="--module-path C:\javafx-sdk-21.0.1/lib --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.todo_timer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -328,7 +341,8 @@
     <MESSAGE value="Feat: 휴식 기능 추가" />
     <MESSAGE value="Refactor: 디자인 변경" />
     <MESSAGE value="Refactor: 최적화" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: 최적화" />
+    <MESSAGE value="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
