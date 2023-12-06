@@ -57,6 +57,7 @@
         </stroke>
     </Circle>
     <Text fx:id="timerText" fill="WHITE" layoutX="94.0" layoutY="319.0" text="25:00" wrappingWidth="150.0">
+
         <font>
             <Font size="64.0" />
         </font>

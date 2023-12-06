@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="timer_layout" prefHeight="632.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.CircleController">
+   <children>
+      <ImageView fitHeight="669.0" fitWidth="396.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/Backimg.jpg" />
+         </image></ImageView>
+        <Circle fx:id="donutCircle" layoutX="198.0" layoutY="407.0" radius="140.0" strokeWidth="10">
+         <fill>
+            <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8">
+                     <color>
+                        <Color opacity="0.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color opacity="0.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.05723905723905724">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </stroke>
+        </Circle>
+         <ToggleButton layoutX="46.0" layoutY="563.0" onAction="#toggleAnimation" prefHeight="45.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" text="START">
+         <styleClass>
+            <String fx:value="button" />
+            <String fx:value="root" />
+         </styleClass>
+         <graphic>
+            <ImageView fitHeight="45.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/free-icon-play-button-3567937.png" />
+               </image>
+            </ImageView>
+         </graphic></ToggleButton>
+      <Text fill="WHITE" layoutX="100.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="25:00" textAlignment="CENTER" wrappingWidth="195.40625">
+         <font>
+            <Font size="72.0" />
+         </font>
+      </Text>
+      <ChoiceBox layoutX="126.0" layoutY="23.0" prefHeight="22.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" />
+      <Button layoutX="212.0" layoutY="563.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="144.0" stylesheets="@../../../img/StylePont.css" text="STOP">
+         <graphic>
+            <ImageView fitHeight="39.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/free-icon-pause-button-3567925.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+   <styleClass>
+      <String fx:value="root" />
+      <String fx:value="anchor-pane" />
+   </styleClass>
+</AnchorPane>

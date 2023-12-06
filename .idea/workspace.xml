@@ -4,8 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+    <list default="true" id="2d5bbaa5-1602-4e2a-bfaf-c20cf0299ea7" name="변경" comment="Feat: First commit">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/free-icon-eco-home-6781909.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/free-icon-timer-1407089.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/free-icon-worker-4222823.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" afterDir="false" />
+>>>>>>> changyoung
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,9 +30,12 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+<<<<<<< HEAD
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
+=======
+>>>>>>> changyoung
         <projects_view>
           <tree_state>
             <expand />
@@ -32,6 +45,7 @@
       </state>
     </system>
   </component>
+<<<<<<< HEAD
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -45,10 +59,17 @@
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Taesan" />
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Main" />
+>>>>>>> changyoung
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
@@ -101,6 +122,15 @@
       <recent name="C:\Users\신창영\OneDrive\바탕 화면\javaFX\Todo-Timer\src\main\resources\com\example\todo_timer" />
     </key>
   </component>
+=======
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "changyoung",
+    "last_opened_file_path": "C:/Users/신창영/OneDrive/바탕 화면/javaFX/Todo-Timer"
+  }
+}]]></component>
+>>>>>>> changyoung
   <component name="RunManager">
     <configuration name="TodoTimerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.todo_timer.TodoTimerApplication" />
@@ -122,6 +152,7 @@
       </list>
     </recent_temporary>
   </component>
+<<<<<<< HEAD
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\최태산\AppData\Roaming\Subversion</configuration>
@@ -320,6 +351,11 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+=======
+  <component name="TaskManager">
+    <servers />
+  </component>
+>>>>>>> changyoung
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -331,7 +367,11 @@
                   <entry key="branch">
                     <value>
                       <list>
+<<<<<<< HEAD
                         <option value="HEAD" />
+=======
+                        <option value="changyoung" />
+>>>>>>> changyoung
                       </list>
                     </value>
                   </entry>
@@ -343,6 +383,7 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat : First commit&#10;- ToDo 타이머 앱 빌드&#10;- 작업 추가, 삭제, 수정 기능 적용" />
     <MESSAGE value="feat : First commit_2&#10;- 삭제 기능에서&#10;Index -1 out of bounds for length 0 에러 수정" />
@@ -369,4 +410,6 @@
     <expand />
     <select />
   </component>
+=======
+>>>>>>> changyoung
 </project>
