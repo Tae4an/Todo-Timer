@@ -1,0 +1,378 @@
+Index: src/main/java/com/example/todo_timer/TimerManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.animation.KeyFrame;\r\nimport javafx.animation.Timeline;\r\nimport javafx.scene.text.Text;\r\nimport javafx.util.Duration;\r\n\r\nimport java.util.function.Consumer;\r\n\r\nimport static com.example.todo_timer.TodoTimerController.updateRemainingTimerText;\r\n\r\npublic class TimerManager {\r\n\r\n    private Timeline timeline; //JavaFX Timeline 객체, 초를 업데이트 하는데 사용\r\n    private int seconds; //초를 저장하는 필드\r\n    private TimerType timerType; // 타이머 종류를 나타내는 필드\r\n    private Consumer<String> onTimerFinishedCallback;\r\n    private Runnable onBreakTimerFinishedCallback;\r\n\r\n    private Duration remainingTime; // 남은 시간을 저장하는 필드\r\n\r\n\r\n    /**\r\n     * TimerManager 클래스의 생성자\r\n     * 타이머를 초기화하고 무한 반복을 설정\r\n     */\r\n    public TimerManager() {\r\n        // 초를 업데이트하는 KeyFrame이 포함된 Timeline을 생성\r\n        // Duration.seconds(1)은 1초마다 updateTimer() 메서드를 호출\r\n        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer()));\r\n        // 무한 반복을 설정\r\n        this.timeline.setCycleCount(Timeline.INDEFINITE);\r\n        // 초를 초기화\r\n        this.seconds = 0;\r\n        // remainingTime 초기화\r\n        this.remainingTime = Duration.ZERO;\r\n\r\n    }\r\n\r\n    /**\r\n     * 타이머를 시작하는 메서드\r\n     * 기존 타이머가 실행 중이면 먼저 정지시킨 후, 새로운 타이머를 시작\r\n     *\r\n     * @param timerText 타이머 텍스트를 표시하는 JavaFX Text 객체\r\n     */\r\n    public void startTimer(Text timerText) {\r\n        // 기존 타이머가 실행 중이면 정지\r\n        stopTimer();\r\n        this.timerType = TimerType.WORK;\r\n        updateRemainingTimerText(new Text(timerText.getText())); // 초기 시간 표시\r\n        // 타이머를 시작합니다.\r\n        timeline.play();\r\n    }\r\n\r\n    /**\r\n     * 타이머를 정지하는 메서드\r\n     * 타이머를 정지하고, 타이머의 경과 시간을 초기화\r\n     */\r\n    public void stopTimer() {\r\n        // 타이머를 정지\r\n        timeline.stop();\r\n        // 타이머의 경과 시간을 초기화\r\n        seconds = 0;\r\n    }\r\n\r\n    /**\r\n     * 타이머를 업데이트하는 메서드\r\n     * 타이머의 경과 시간을 초 단위로 증가시키고, 분과 초로 변환하여 시간을 텍스트로 표시\r\n     * (예: 25:03)\r\n     */\r\n    private void updateTimer() {\r\n        // 타이머의 경과 시간을 1초씩 증가\r\n        seconds++;\r\n\r\n        // 경과 시간을 분과 초로 변환\r\n        int minutes = seconds / 60;\r\n        int remainingSeconds = seconds % 60;\r\n\r\n        // 시간을 텍스트로 표시합니다.\r\n        // (예: 25:03)\r\n        String time = String.format(\"%02d:%02d\", minutes, remainingSeconds);\r\n\r\n        //임시로 시간 정보를 확인하기 위한 방법 중 하나일 뿐이며, 실제 GUI 애플리케이션에서는 이 정보를 화면에 표시하는 방식으로 변경되어야 함\r\n        // 실제로는 GUI의 Text 엘리먼트에 설정해야함\r\n        System.out.println(time);\r\n    }\r\n\r\n    public void startWorkTimer(String timerText) {\r\n        stopTimer(); // 기존 타이머가 실행 중이면 정지\r\n\r\n        this.timerType = TimerType.WORK;\r\n        updateTimerText(timerText));// 초기 시간 표시\r\n\r\n        timeline.play(); // 타이머 시작\r\n    }\r\n\r\n    public static double convertToDuration(String timerText) {\r\n        // timerText를 \"mm:ss\" 형식으로 분리\r\n        String[] timeParts = timerText.split(\":\");\r\n\r\n        // 시간과 분을 정수로 변환\r\n        int minutes = Integer.parseInt(timeParts[0]);\r\n        int seconds = Integer.parseInt(timeParts[1]);\r\n\r\n        // 분과 초로 Duration 객체 생성\r\n        return Duration.minutes(minutes).toSeconds();\r\n    }\r\n\r\n    public void startBreakTimer(Text timerText) {\r\n        stopTimer(); // 기존 타이머가 실행 중이면 정지\r\n\r\n        this.timerType = TimerType.BREAK;\r\n        updateTimerText(); // 초기 시간 표시\r\n\r\n        timeline.play(); // 타이머 시작\r\n    }\r\n    /**\r\n     * 타이머 종류에 따라 텍스트를 업데이트하는 메서드\r\n     *\r\n     * @param timerText 타이머 텍스트를 표시하는 JavaFX Text 객체\r\n     */\r\n    private void updateTimerText() {\r\n        // 타이머 종류에 따라 텍스트를 업데이트\r\n        switch (timerType) {\r\n            case WORK:\r\n                // 작업 타이머일 때의 처리\r\n                // 예: \"작업 시간: 25:00\"\r\n                // updateTimerText 메서드를 호출하여 UI 업데이트\r\n                updateRemainingTimerText(calculateRemainingTime());\r\n                break;\r\n            case BREAK:\r\n                // 휴식 타이머일 때의 처리\r\n                // 예: \"휴식 시간: 05:00\"\r\n                // updateTimerText 메서드를 호출하여 UI 업데이트\r\n                updateRemainingTimerText(calculateRemainingTime());\r\n                break;\r\n            default:\r\n                break;\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * 시간을 형식화하는 메서드\r\n     *\r\n     * @param duration 형식화할 Duration 객체\r\n     * @return 형식화된 문자열\r\n     */\r\n    private String formatTime(Duration duration) {\r\n        long seconds = (long) duration.toSeconds();\r\n        long absSeconds = Math.abs(seconds);\r\n        long minutes = absSeconds / 60;\r\n        long remainingSeconds = absSeconds % 60;\r\n\r\n        return String.format(\"%02d:%02d\", minutes * (seconds < 0 ? -1 : 1), remainingSeconds);\r\n    }\r\n\r\n    // 다양한 이벤트 핸들링 등을 위해 각 타이머에 대한 추가 메서드들을 구현할 수 있음\r\n\r\n    public void setOnTimerFinished(Consumer<String> callback) {\r\n        this.onTimerFinishedCallback = callback;\r\n    }\r\n\r\n    public void setOnBreakTimerFinished(Runnable callback) {\r\n        this.onBreakTimerFinishedCallback = callback;\r\n    }\r\n\r\n    /**\r\n     * 남은 시간을 업데이트하는 메서드\r\n     */\r\n    private void updateRemainingTime() {\r\n        remainingTime = calculateRemainingTime();\r\n    }\r\n\r\n    /**\r\n     * 남은 시간을 계산하는 메서드\r\n     *\r\n     * @return Duration 객체로 표현된 남은 시간\r\n     */\r\n    private Duration calculateRemainingTime() {\r\n        int totalSeconds = (int) (getTimerDuration().toSeconds() - seconds);\r\n        return Duration.seconds(totalSeconds);\r\n    }\r\n\r\n    /**\r\n     * 타이머 종류에 따른 기본 작업 시간을 반환하는 메서드\r\n     *\r\n     * @return Duration 객체로 표현된 기본 작업 시간\r\n     */\r\n    private Duration getTimerDuration() {\r\n        return (timerType == TimerType.WORK) ? Duration.minutes(25) : Duration.minutes(5);\r\n    }\r\n\r\n    /**\r\n     * 남은 시간을 반환하는 메서드\r\n     *\r\n     * @return Duration 객체로 표현된 남은 시간\r\n     */\r\n    public String getRemainingTime() {\r\n        updateRemainingTime();\r\n        return remainingTime;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TimerManager.java b/src/main/java/com/example/todo_timer/TimerManager.java
+--- a/src/main/java/com/example/todo_timer/TimerManager.java	
++++ b/src/main/java/com/example/todo_timer/TimerManager.java	
+@@ -5,20 +5,10 @@
+ import javafx.scene.text.Text;
+ import javafx.util.Duration;
+ 
+-import java.util.function.Consumer;
+-
+-import static com.example.todo_timer.TodoTimerController.updateRemainingTimerText;
+-
+ public class TimerManager {
+ 
+     private Timeline timeline; //JavaFX Timeline 객체, 초를 업데이트 하는데 사용
+     private int seconds; //초를 저장하는 필드
+-    private TimerType timerType; // 타이머 종류를 나타내는 필드
+-    private Consumer<String> onTimerFinishedCallback;
+-    private Runnable onBreakTimerFinishedCallback;
+-
+-    private Duration remainingTime; // 남은 시간을 저장하는 필드
+-
+ 
+     /**
+      * TimerManager 클래스의 생성자
+@@ -32,9 +22,6 @@
+         this.timeline.setCycleCount(Timeline.INDEFINITE);
+         // 초를 초기화
+         this.seconds = 0;
+-        // remainingTime 초기화
+-        this.remainingTime = Duration.ZERO;
+-
+     }
+ 
+     /**
+@@ -46,8 +33,6 @@
+     public void startTimer(Text timerText) {
+         // 기존 타이머가 실행 중이면 정지
+         stopTimer();
+-        this.timerType = TimerType.WORK;
+-        updateRemainingTimerText(new Text(timerText.getText())); // 초기 시간 표시
+         // 타이머를 시작합니다.
+         timeline.play();
+     }
+@@ -85,120 +70,4 @@
+         System.out.println(time);
+     }
+ 
+-    public void startWorkTimer(String timerText) {
+-        stopTimer(); // 기존 타이머가 실행 중이면 정지
+-
+-        this.timerType = TimerType.WORK;
+-        updateTimerText(timerText));// 초기 시간 표시
+-
+-        timeline.play(); // 타이머 시작
+-    }
+-
+-    public static double convertToDuration(String timerText) {
+-        // timerText를 "mm:ss" 형식으로 분리
+-        String[] timeParts = timerText.split(":");
+-
+-        // 시간과 분을 정수로 변환
+-        int minutes = Integer.parseInt(timeParts[0]);
+-        int seconds = Integer.parseInt(timeParts[1]);
+-
+-        // 분과 초로 Duration 객체 생성
+-        return Duration.minutes(minutes).toSeconds();
+-    }
+-
+-    public void startBreakTimer(Text timerText) {
+-        stopTimer(); // 기존 타이머가 실행 중이면 정지
+-
+-        this.timerType = TimerType.BREAK;
+-        updateTimerText(); // 초기 시간 표시
+-
+-        timeline.play(); // 타이머 시작
+-    }
+-    /**
+-     * 타이머 종류에 따라 텍스트를 업데이트하는 메서드
+-     *
+-     * @param timerText 타이머 텍스트를 표시하는 JavaFX Text 객체
+-     */
+-    private void updateTimerText() {
+-        // 타이머 종류에 따라 텍스트를 업데이트
+-        switch (timerType) {
+-            case WORK:
+-                // 작업 타이머일 때의 처리
+-                // 예: "작업 시간: 25:00"
+-                // updateTimerText 메서드를 호출하여 UI 업데이트
+-                updateRemainingTimerText(calculateRemainingTime());
+-                break;
+-            case BREAK:
+-                // 휴식 타이머일 때의 처리
+-                // 예: "휴식 시간: 05:00"
+-                // updateTimerText 메서드를 호출하여 UI 업데이트
+-                updateRemainingTimerText(calculateRemainingTime());
+-                break;
+-            default:
+-                break;
+-        }
+-    }
+-
+-
+-    /**
+-     * 시간을 형식화하는 메서드
+-     *
+-     * @param duration 형식화할 Duration 객체
+-     * @return 형식화된 문자열
+-     */
+-    private String formatTime(Duration duration) {
+-        long seconds = (long) duration.toSeconds();
+-        long absSeconds = Math.abs(seconds);
+-        long minutes = absSeconds / 60;
+-        long remainingSeconds = absSeconds % 60;
+-
+-        return String.format("%02d:%02d", minutes * (seconds < 0 ? -1 : 1), remainingSeconds);
+-    }
+-
+-    // 다양한 이벤트 핸들링 등을 위해 각 타이머에 대한 추가 메서드들을 구현할 수 있음
+-
+-    public void setOnTimerFinished(Consumer<String> callback) {
+-        this.onTimerFinishedCallback = callback;
+-    }
+-
+-    public void setOnBreakTimerFinished(Runnable callback) {
+-        this.onBreakTimerFinishedCallback = callback;
+-    }
+-
+-    /**
+-     * 남은 시간을 업데이트하는 메서드
+-     */
+-    private void updateRemainingTime() {
+-        remainingTime = calculateRemainingTime();
+-    }
+-
+-    /**
+-     * 남은 시간을 계산하는 메서드
+-     *
+-     * @return Duration 객체로 표현된 남은 시간
+-     */
+-    private Duration calculateRemainingTime() {
+-        int totalSeconds = (int) (getTimerDuration().toSeconds() - seconds);
+-        return Duration.seconds(totalSeconds);
+-    }
+-
+-    /**
+-     * 타이머 종류에 따른 기본 작업 시간을 반환하는 메서드
+-     *
+-     * @return Duration 객체로 표현된 기본 작업 시간
+-     */
+-    private Duration getTimerDuration() {
+-        return (timerType == TimerType.WORK) ? Duration.minutes(25) : Duration.minutes(5);
+-    }
+-
+-    /**
+-     * 남은 시간을 반환하는 메서드
+-     *
+-     * @return Duration 객체로 표현된 남은 시간
+-     */
+-    public String getRemainingTime() {
+-        updateRemainingTime();
+-        return remainingTime;
+-    }
+-
+-}
++}
+\ No newline at end of file
+Index: src/main/java/com/example/todo_timer/TaskManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.collections.ObservableList;\r\nimport javafx.scene.control.ListView;\r\n\r\n/**\r\n * TaskManager 클래스는 ListView에서 작업을 관리\r\n */\r\npublic class TaskManager {\r\n\r\n    /**\r\n     * 작업을 ListView에 추가\r\n     *\r\n     * @param taskListView 작업이 추가될 ListView\r\n     * @param task         추가할 작업\r\n     */\r\n    public void addTask(ListView<String> taskListView, String task) {\r\n        // 작업이 비어있지 않은지 확인한 후 추가\r\n        if (!task.isEmpty()) {\r\n            taskListView.getItems().add(task);\r\n        }\r\n    }\r\n\r\n    /**\r\n     * ListView에서 기존 작업을 수정\r\n     *\r\n     * @param taskListView 수정할 작업이 있는 ListView\r\n     * @param index        수정할 작업의 인덱스\r\n     * @param updatedTask  업데이트된 작업 내용\r\n     */\r\n    public void editTask(ListView<String> taskListView, int index, String updatedTask) {\r\n        // 인덱스가 유효하고 업데이트된 작업이 비어있지 않은지 확인\r\n        if (index >= 0 && index < taskListView.getItems().size() && !updatedTask.isEmpty()) {\r\n            ObservableList<String> tasks = taskListView.getItems();\r\n            tasks.set(index, updatedTask);\r\n        }\r\n    }\r\n\r\n    /**\r\n     * ListView에서 기존 작업을 삭제\r\n     *\r\n     * @param taskListView 삭제할 작업이 있는 ListView\r\n     * @param index        삭제할 작업의 인덱스\r\n     */\r\n    public void deleteTask(ListView<String> taskListView, int index) {\r\n        // 인덱스가 유효한지 확인한 후 작업을 삭제\r\n        if (index >= 0 && index < taskListView.getItems().size()) {\r\n            taskListView.getItems().remove(index);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TaskManager.java b/src/main/java/com/example/todo_timer/TaskManager.java
+--- a/src/main/java/com/example/todo_timer/TaskManager.java	
++++ b/src/main/java/com/example/todo_timer/TaskManager.java	
+@@ -48,4 +48,4 @@
+             taskListView.getItems().remove(index);
+         }
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/com/example/todo_timer/TodoTimerController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.animation.KeyFrame;\r\nimport javafx.animation.Timeline;\r\nimport javafx.application.Platform;\r\nimport javafx.fxml.FXML;\r\nimport javafx.scene.control.ListView;\r\nimport javafx.scene.control.TextField;\r\nimport javafx.scene.control.TextInputDialog;\r\nimport javafx.scene.text.Text;\r\nimport javafx.util.Duration;  // 이 부분을 수정\r\n\r\nimport java.util.Optional;\r\n\r\nimport static com.example.todo_timer.TimerManager.convertToDuration;\r\n\r\n/**\r\n * ToDo 타이머 애플리케이션의 컨트롤러 클래스\r\n */\r\npublic class TodoTimerController {\r\n\r\n    @FXML\r\n    private ListView<String> taskListView;\r\n\r\n    @FXML\r\n    private TextField taskInput;\r\n\r\n    @FXML\r\n    private Text timerText;\r\n\r\n    // 작업 관리자(TaskManager) 및 타이머 관리자(TimerManager) 인스턴스\r\n    private final TaskManager taskManager;\r\n    private final TimerManager timerManager;\r\n\r\n    // JavaFX에서 제공하는 타이머 객체\r\n    private Timeline timer;\r\n\r\n    // 경과 시간을 나타내는 Duration 객체\r\n    private Duration timeElapsed = Duration.ZERO;\r\n\r\n    // 타이머 실행 여부를 나타내는 플래그\r\n    private boolean isTimerRunning;\r\n    @FXML\r\n    private static Text remainingTimeText;\r\n\r\n    /**\r\n     * TodoTimerController의 생성자\r\n     * TaskManager와 TimerManager 인스턴스를 초기화하고,\r\n     * 타이머를 설정\r\n     */\r\n    public TodoTimerController() {\r\n        // TaskManager 초기화\r\n        this.taskManager = new TaskManager();\r\n\r\n        // TimerManager 초기화\r\n        this.timerManager = new TimerManager();\r\n\r\n        // 타이머 설정\r\n        // 초당 한 번씩 이벤트를 발생시키는 KeyFrame을 가지는 Timeline을 생성\r\n        // 해당 이벤트는 updateTimerText() 메서드를 호출하여 타이머 텍스트를 업데이트\r\n        this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateRemainingTimerText(String.valueOf(Duration.valueOf(timerText.getText())))));\r\n\r\n        // 타이머가 현재 실행 중인지 나타내는 플래그를 초기화\r\n        this.isTimerRunning = false;\r\n\r\n        // 경과 시간을 나타내는 Duration을 초기화\r\n        this.timeElapsed = Duration.ZERO;\r\n    }\r\n\r\n\r\n    /**\r\n     * \"추가\" 버튼 클릭 시 호출되는 메서드\r\n     * 입력된 작업을 작업 목록에 추가하고, 입력 필드를 비움\r\n     */\r\n    @FXML\r\n    private void addTask() {\r\n        // TaskManager를 사용하여 작업 목록에 새로운 작업을 추가\r\n        taskManager.addTask(taskListView, taskInput.getText());\r\n        // 작업 추가 후, 입력 필드를 비워 사용자에게 새 작업을 입력할 수 있도록 함\r\n        taskInput.clear();\r\n    }\r\n\r\n    /**\r\n     * \"수정\" 버튼 클릭 시 호출되는 메서드\r\n     * 선택된 작업을 수정하도록 다이얼로그를 표시하고,\r\n     * 수정된 작업을 TaskManager를 통해 업데이트\r\n     */\r\n    @FXML\r\n    private void editTask() {\r\n        // 선택된 작업의 인덱스를 가져옴\r\n        int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();\r\n\r\n        // 선택된 작업이 있는 경우에만 수정 다이얼로그를 표시\r\n        if (selectedIndex >= 0) {\r\n            // 선택된 작업의 현재 내용을 가져옴\r\n            String currentTask = taskListView.getItems().get(selectedIndex);\r\n\r\n            // 수정 다이얼로그를 표시하고, 사용자가 입력한 내용을 받음\r\n            Optional<String> result = showEditDialog(currentTask);\r\n\r\n            // 사용자가 내용을 입력한 경우에만 TaskManager를 통해 작업을 수정\r\n            result.ifPresent(updatedTask -> taskManager.editTask(taskListView, selectedIndex, updatedTask));\r\n        }\r\n    }\r\n\r\n    /**\r\n     * \"삭제\" 버튼 클릭 시 호출되는 메서드\r\n     * 선택된 작업을 TaskManager를 통해 삭제\r\n     */\r\n    @FXML\r\n    private void deleteTask() {\r\n        // 선택된 작업의 인덱스를 가져옴\r\n        int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();\r\n\r\n        // 선택된 작업이 있는 경우에만 TaskManager를 통해 해당 작업을 삭제\r\n        if (selectedIndex >= 0) {\r\n            taskManager.deleteTask(taskListView, selectedIndex);\r\n        }\r\n    }\r\n\r\n    /**\r\n     * 작업을 수정하기 위한 다이얼로그를 표시하는 메서드\r\n     *\r\n     * @param currentTask 수정할 작업의 현재 내용\r\n     * @return 사용자가 입력한 새로운 작업 내용(Optional).\r\n     */\r\n    private Optional<String> showEditDialog(String currentTask) {\r\n        TextInputDialog dialog = new TextInputDialog(currentTask);\r\n        dialog.setTitle(\"작업 수정\");\r\n        dialog.setHeaderText(\"수정할 작업\");\r\n        dialog.setContentText(\"새로운 작업:\");\r\n\r\n        return dialog.showAndWait();\r\n    }\r\n\r\n    /**\r\n     * 주어진 Duration을 형식화하는 메서드\r\n     * Duration을 분과 초로 변환하여 문자열로 반환\r\n     *\r\n     * @param duration 형식화할 Duration 객체\r\n     * @return 형식화된 시간 문자열 (mm:ss)\r\n     */\r\n    private static String formatTime(Duration duration) {\r\n        // Duration을 초로 변환\r\n        long seconds = (long) duration.toSeconds();\r\n        // 초를 절댓값으로 변환\r\n        long absSeconds = Math.abs(seconds);\r\n        // 분을 계산\r\n        long minutes = absSeconds / 60;\r\n        // 남은 초를 계산\r\n        long remainingSeconds = absSeconds % 60;\r\n        // 시간을 음수로 표현할 경우에는 음수 부호를 붙임\r\n        return String.format(\"%02d:%02d\", minutes * (seconds < 0 ? -1 : 1), remainingSeconds);\r\n    }\r\n\r\n\r\n    @FXML\r\n    private void startTimer() {\r\n        if (!isTimerRunning) {\r\n            int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();\r\n\r\n            if (selectedIndex >= 0) {\r\n                String selectedTask = taskListView.getItems().get(selectedIndex);\r\n\r\n                // 여기서 TimerManager의 startWorkTimer를 호출\r\n                timerManager.startWorkTimer(selectedTask);\r\n\r\n                // 여기서 TimerManager의 setOnTimerFinished를 설정\r\n                timerManager.setOnTimerFinished(this::handleTimerFinished);\r\n\r\n                // 타이머 시작 시 남은 시간을 표시\r\n                updateRemainingTimerText(timerManager.getRemainingTime());\r\n\r\n                isTimerRunning = true;\r\n            } else {\r\n                System.out.println(\"작업을 선택해주세요.\");\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * 타이머를 업데이트하는 메서드\r\n     * 1초마다 호출되며, 경과 시간을 1초씩 더하고 형식화하여 타이머 화면에 표시\r\n     */\r\n    public static void updateRemainingTimerText(String timerText) {\r\n        // Platform.runLater를 사용하여 JavaFX Application Thread에서 UI 업데이트\r\n        Duration remainingDuration = Duration.millis(convertToDuration(timerText));\r\n        Platform.runLater(() -> {\r\n            // 형식화된 시간 문자열을 타이머 화면에 표시\r\n            remainingTimeText.setText(formatTime(Duration.valueOf(timerText)));\r\n        });\r\n    }\r\n\r\n\r\n    /**\r\n     * 타이머가 종료됐을 때 호출되는 메서드\r\n     *\r\n     * @param completedTask 완료된 작업\r\n     */\r\n    private void handleTimerFinished(String completedTask) {\r\n        // 남은 시간을 업데이트\r\n        updateRemainingTimerText(String.valueOf(Duration.ZERO));\r\n\r\n        // 작업이 종료되었을 때의 처리 로직 추가\r\n        System.out.println(\"작업이 완료되었습니다: \" + completedTask);\r\n\r\n        // 휴식 타이머 시작\r\n        timerManager.startBreakTimer(timerText);\r\n\r\n        // 타이머가 종료되었을 때의 이벤트 핸들러 제거\r\n        timerManager.setOnTimerFinished(null);\r\n\r\n        // 휴식 타이머 종료 후 작업 종료\r\n        timerManager.setOnBreakTimerFinished(() -> {\r\n            stopTimer();\r\n            System.out.println(\"휴식이 종료되었습니다.\");\r\n        });\r\n    }\r\n    /**\r\n     * \"정지\" 버튼 클릭 시 호출되는 메서드\r\n     * 타이머가 실행 중인 경우에만 타이머를 일시 정지시키고, 상태를 갱신\r\n     */\r\n    @FXML\r\n    private void stopTimer() {\r\n        // 타이머가 현재 실행 중인지 확인합니다.\r\n        if (isTimerRunning) {\r\n            // 타이머를 일시 정지\r\n            timer.pause();\r\n            // 타이머가 정지 되었음을 상태 변수에 반영\r\n            isTimerRunning = false;\r\n        }\r\n    }\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TodoTimerController.java b/src/main/java/com/example/todo_timer/TodoTimerController.java
+--- a/src/main/java/com/example/todo_timer/TodoTimerController.java	
++++ b/src/main/java/com/example/todo_timer/TodoTimerController.java	
+@@ -2,7 +2,6 @@
+ 
+ import javafx.animation.KeyFrame;
+ import javafx.animation.Timeline;
+-import javafx.application.Platform;
+ import javafx.fxml.FXML;
+ import javafx.scene.control.ListView;
+ import javafx.scene.control.TextField;
+@@ -12,8 +11,6 @@
+ 
+ import java.util.Optional;
+ 
+-import static com.example.todo_timer.TimerManager.convertToDuration;
+-
+ /**
+  * ToDo 타이머 애플리케이션의 컨트롤러 클래스
+  */
+@@ -40,8 +37,6 @@
+ 
+     // 타이머 실행 여부를 나타내는 플래그
+     private boolean isTimerRunning;
+-    @FXML
+-    private static Text remainingTimeText;
+ 
+     /**
+      * TodoTimerController의 생성자
+@@ -58,7 +53,7 @@
+         // 타이머 설정
+         // 초당 한 번씩 이벤트를 발생시키는 KeyFrame을 가지는 Timeline을 생성
+         // 해당 이벤트는 updateTimerText() 메서드를 호출하여 타이머 텍스트를 업데이트
+-        this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateRemainingTimerText(String.valueOf(Duration.valueOf(timerText.getText())))));
++        this.timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimerText()));
+ 
+         // 타이머가 현재 실행 중인지 나타내는 플래그를 초기화
+         this.isTimerRunning = false;
+@@ -133,6 +128,17 @@
+         return dialog.showAndWait();
+     }
+ 
++    /**
++     * 타이머를 업데이트하는 메서드
++     * 1초마다 호출되며, 경과 시간을 1초씩 더하고 형식화하여 타이머 화면에 표시
++     */
++    private void updateTimerText() {
++        // 경과 시간에 1초를 더함
++        timeElapsed = timeElapsed.add(Duration.seconds(1));
++        // 형식화된 시간 문자열을 타이머 화면에 표시
++        timerText.setText(formatTime(timeElapsed));
++    }
++
+     /**
+      * 주어진 Duration을 형식화하는 메서드
+      * Duration을 분과 초로 변환하여 문자열로 반환
+@@ -140,7 +146,7 @@
+      * @param duration 형식화할 Duration 객체
+      * @return 형식화된 시간 문자열 (mm:ss)
+      */
+-    private static String formatTime(Duration duration) {
++    private String formatTime(Duration duration) {
+         // Duration을 초로 변환
+         long seconds = (long) duration.toSeconds();
+         // 초를 절댓값으로 변환
+@@ -153,70 +159,22 @@
+         return String.format("%02d:%02d", minutes * (seconds < 0 ? -1 : 1), remainingSeconds);
+     }
+ 
+-
++    /**
++     * 시작 버튼이 클릭 되었을 때 호출되는 메서드
++     * 타이머가 실행 중이지 않은 경우에만 타이머를 시작
++     */
+     @FXML
+     private void startTimer() {
++        // 타이머가 실행 중이 아닌 경우에만 시작
+         if (!isTimerRunning) {
+-            int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();
+-
+-            if (selectedIndex >= 0) {
+-                String selectedTask = taskListView.getItems().get(selectedIndex);
+-
+-                // 여기서 TimerManager의 startWorkTimer를 호출
+-                timerManager.startWorkTimer(selectedTask);
+-
+-                // 여기서 TimerManager의 setOnTimerFinished를 설정
+-                timerManager.setOnTimerFinished(this::handleTimerFinished);
+-
+-                // 타이머 시작 시 남은 시간을 표시
+-                updateRemainingTimerText(timerManager.getRemainingTime());
+-
+-                isTimerRunning = true;
+-            } else {
+-                System.out.println("작업을 선택해주세요.");
+-            }
++            // 타이머를 무한 반복으로 설정하고 실행
++            timer.setCycleCount(Timeline.INDEFINITE);
++            timer.play();
++            // 타이머 실행 상태를 갱신
++            isTimerRunning = true;
+         }
+     }
+ 
+-
+-    /**
+-     * 타이머를 업데이트하는 메서드
+-     * 1초마다 호출되며, 경과 시간을 1초씩 더하고 형식화하여 타이머 화면에 표시
+-     */
+-    public static void updateRemainingTimerText(String timerText) {
+-        // Platform.runLater를 사용하여 JavaFX Application Thread에서 UI 업데이트
+-        Duration remainingDuration = Duration.millis(convertToDuration(timerText));
+-        Platform.runLater(() -> {
+-            // 형식화된 시간 문자열을 타이머 화면에 표시
+-            remainingTimeText.setText(formatTime(Duration.valueOf(timerText)));
+-        });
+-    }
+-
+-
+-    /**
+-     * 타이머가 종료됐을 때 호출되는 메서드
+-     *
+-     * @param completedTask 완료된 작업
+-     */
+-    private void handleTimerFinished(String completedTask) {
+-        // 남은 시간을 업데이트
+-        updateRemainingTimerText(String.valueOf(Duration.ZERO));
+-
+-        // 작업이 종료되었을 때의 처리 로직 추가
+-        System.out.println("작업이 완료되었습니다: " + completedTask);
+-
+-        // 휴식 타이머 시작
+-        timerManager.startBreakTimer(timerText);
+-
+-        // 타이머가 종료되었을 때의 이벤트 핸들러 제거
+-        timerManager.setOnTimerFinished(null);
+-
+-        // 휴식 타이머 종료 후 작업 종료
+-        timerManager.setOnBreakTimerFinished(() -> {
+-            stopTimer();
+-            System.out.println("휴식이 종료되었습니다.");
+-        });
+-    }
+     /**
+      * "정지" 버튼 클릭 시 호출되는 메서드
+      * 타이머가 실행 중인 경우에만 타이머를 일시 정지시키고, 상태를 갱신
+@@ -231,6 +189,4 @@
+             isTimerRunning = false;
+         }
+     }
+-
+-}
+-
++}
+\ No newline at end of file
+Index: src/main/resources/com/example/todo_timer/TodoTimer.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<AnchorPane prefHeight=\"382.0\" prefWidth=\"314.0\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTimerController\">\r\n\r\n    <ListView fx:id=\"taskListView\" layoutX=\"14.0\" layoutY=\"14.0\" prefHeight=\"200.0\" prefWidth=\"200.0\" />\r\n    <TextField fx:id=\"taskInput\" layoutX=\"14.0\" layoutY=\"228.0\" promptText=\"Add a task...\" />\r\n    <Button layoutX=\"178.0\" layoutY=\"227.0\" mnemonicParsing=\"false\" onAction=\"#addTask\" text=\"추가\" />\r\n\r\n    <Button layoutX=\"14.0\" layoutY=\"286.0\" mnemonicParsing=\"false\" onAction=\"#startTimer\" text=\"타이머 시작\" />\r\n    <Button layoutX=\"100.0\" layoutY=\"286.0\" mnemonicParsing=\"false\" onAction=\"#stopTimer\" text=\"타이머 중지\" />\r\n\r\n    <Button layoutX=\"14.0\" layoutY=\"259.0\" mnemonicParsing=\"false\" onAction=\"#editTask\" text=\"작업 수정\" />\r\n    <Button layoutX=\"100.0\" layoutY=\"260.0\" mnemonicParsing=\"false\" onAction=\"#deleteTask\" text=\"작업 삭제\" />\r\n\r\n    <Text fx:id=\"remainingTimeText\" layoutX=\"14.0\" layoutY=\"324.0\" wrappingWidth=\"79.19999999999993\" />\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTimer.fxml b/src/main/resources/com/example/todo_timer/TodoTimer.fxml
+--- a/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
++++ b/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
+@@ -4,7 +4,7 @@
+ <?import javafx.scene.layout.*?>
+ <?import javafx.scene.text.*?>
+ 
+-<AnchorPane prefHeight="382.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
++<AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+ 
+     <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" />
+     <TextField fx:id="taskInput" layoutX="14.0" layoutY="228.0" promptText="Add a task..." />
+@@ -16,5 +16,5 @@
+     <Button layoutX="14.0" layoutY="259.0" mnemonicParsing="false" onAction="#editTask" text="작업 수정" />
+     <Button layoutX="100.0" layoutY="260.0" mnemonicParsing="false" onAction="#deleteTask" text="작업 삭제" />
+ 
+-    <Text fx:id="remainingTimeText" layoutX="14.0" layoutY="324.0" wrappingWidth="79.19999999999993" />
++    <Text fx:id="timerText" layoutX="14.0" layoutY="320.0" />
+ </AnchorPane>

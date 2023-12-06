@@ -3,12 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="task_layout" prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
-    <ListView fx:id="taskListView" layoutX="14.0" layoutY="102.0" prefHeight="167.0" prefWidth="190.0" />
-    <Button layoutX="14.0" layoutY="30.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
-
-    <Button fx:id="tm_btn" layoutX="72.0" layoutY="278.0" mnemonicParsing="false" text=" 타이머 홈"> </Button>
-
-    <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
-   <Button layoutX="92.0" layoutY="30.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
-</AnchorPane>
+<StackPane prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+   <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <children>
+      
+          <Button fx:id="tm_btn" layoutX="72.0" layoutY="286.0" mnemonicParsing="false" text=" 타이머 홈"> </Button>
+          <ListView fx:id="taskListView" layoutX="12.0" layoutY="107.0" prefHeight="167.0" prefWidth="190.0" />
+          <Button layoutX="23.0" layoutY="38.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
+      
+          <Label layoutX="2.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
+         <Button layoutX="126.0" layoutY="38.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
+      </children>
+   </AnchorPane>
+</StackPane>
