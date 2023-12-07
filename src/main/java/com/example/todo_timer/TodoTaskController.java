@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 
 public class TodoTaskController implements Initializable {
     @FXML
+    private ChoiceBox<String> taskChoiceBox;  // 작업을 선택할 ChoiceBox
+    @FXML
     private ListView<String> taskListView;  // 작업 리스트 뷰
 
     @FXML
@@ -74,7 +76,7 @@ public class TodoTaskController implements Initializable {
                     StackPane root = (StackPane) tm_btn.getScene().getRoot();
                     root.getChildren().add(sub);
 
-                    sub.setTranslateY(400);
+                    sub.setTranslateY(500);
 
                     Timeline timeline = new Timeline();
                     KeyValue keyValue = new KeyValue(sub.translateYProperty(),0);
@@ -88,7 +90,8 @@ public class TodoTaskController implements Initializable {
             }
         });
         // 작업 목록 업데이트
-        updateTaskList();
+//        updateTaskList();
+        updateChoiceBox();
     }
 
     /**
@@ -101,30 +104,30 @@ public class TodoTaskController implements Initializable {
         dialog.setHeaderText("새로운 작업을 추가하세요");
         dialog.setContentText("작업 이름:");
 
-        // TextInputDialog를 화면에 표시하고, 사용자가 입력한 값을 기다림
         Optional<String> result = dialog.showAndWait();
 
-        // Optional 객체에 값이 존재할 경우, 즉 사용자가 입력한 작업 이름이 비어 있지 않은 경우에 대한 처리
         result.ifPresent(taskName -> {
-            // 작업 이름이 비어있지 않은 경우에만 실행
             if (!taskName.isEmpty()) {
-                // tasks 리스트에 새로운 작업을 추가
                 tasks.add(taskName);
-                // 작업이 추가된 tasks 리스트를 ListView에 반영하여 화면을 업데이트
-                taskListView.setItems(tasks);
+                updateTaskList();  // ListView 업데이트
+                updateChoiceBox();  // ChoiceBox 업데이트
             }
         });
     }
 
     /**
+     * 작업 목록을 ChoiceBox에 업데이트하는 메서드
+     */
+    private void updateChoiceBox() {
+        taskChoiceBox.setItems(tasks);
+    }
+
+    /**
      * 선택한 작업을 삭제하기 위한 메서드
      *
-     * @param selectedIndex 삭제할 작업의 인덱스
+     * @param selectedTask 삭제할 작업
      */
-    private void deleteTask(int selectedIndex) {
-        // 선택한 작업의 이름을 얻어옴
-        String selectedTask = tasks.get(selectedIndex);
-
+    private void deleteTask(String selectedTask) {
         // 확인 다이얼로그를 생성
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("삭제 확인");
@@ -135,11 +138,10 @@ public class TodoTaskController implements Initializable {
 
         // 사용자가 확인을 선택한 경우에만 작업을 삭제
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            tasks.remove(selectedIndex);
-            taskListView.setItems(tasks);
+            tasks.remove(selectedTask);
+            updateChoiceBox();  // ChoiceBox 업데이트
         }
     }
-
 
     /**
      * 선택한 작업을 관리하기 위한 메서드
@@ -148,14 +150,11 @@ public class TodoTaskController implements Initializable {
      */
     @FXML
     private void managementTask() {
-        // 선택한 작업의 인덱스를 얻어옴
-        int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();
+        // 선택한 작업을 얻어옴
+        String selectedTask = taskChoiceBox.getValue();
 
-        // 유효한 인덱스인 경우에만 다이얼로그를 표시
-        if (selectedIndex >= 0) {
-            // 선택한 작업의 이름을 얻어옴
-            String selectedTask = tasks.get(selectedIndex);
-
+        // 선택한 작업이 있는 경우에만 다이얼로그를 표시
+        if (selectedTask != null && !selectedTask.isEmpty()) {
             // 작업 관리 다이얼로그를 생성
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("작업 관리");
@@ -175,12 +174,13 @@ public class TodoTaskController implements Initializable {
                 if (result.get() == editButton) {
                     // 수정 버튼을 선택한 경우
                     showEditDialog(selectedTask).ifPresent(updatedTask -> {
-                        tasks.set(selectedIndex, updatedTask);
-                        taskListView.getItems().set(selectedIndex, updatedTask);
+                        tasks.remove(selectedTask);
+                        tasks.add(updatedTask);
+                        updateChoiceBox();  // ChoiceBox 업데이트
                     });
                 } else if (result.get() == deleteButton) {
                     // 삭제 버튼을 선택한 경우
-                    deleteTask(selectedIndex);
+                    deleteTask(selectedTask);
                 }
             }
         } else {
@@ -188,6 +188,7 @@ public class TodoTaskController implements Initializable {
             showPopup("Error", "작업을 선택하세요..!");
         }
     }
+
 
 
 
