@@ -7,12 +7,10 @@
     <AnchorPane prefHeight="594.0" prefWidth="337.0" styleClass="root_2" stylesheets="@StylePont.css">
         <children>
 
-            <Button fx:id="tm_btn" layoutX="134.0" layoutY="426.0" mnemonicParsing="false" text=" 타이머 홈"> </Button>
+            <Button fx:id="tm_btn" layoutX="93.0" layoutY="432.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="138.0" text=" 타이머 홈"> </Button>
             <ListView fx:id="taskListView" layoutX="74.0" layoutY="172.0" prefHeight="167.0" prefWidth="190.0" />
-            <Button layoutX="77.0" layoutY="111.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
-
-            <Label layoutX="2.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
-            <Button layoutX="187.0" layoutY="111.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
+            <Button layoutX="36.0" layoutY="111.0" mnemonicParsing="false" onAction="#addTask" prefHeight="48.0" prefWidth="120.0" text="작업 추가" />
+            <Button layoutX="177.0" layoutY="111.0" mnemonicParsing="false" onAction="#managementTask" prefHeight="48.0" prefWidth="120.0" text="작업 관리" />
         </children>
     </AnchorPane>
 </StackPane>
