@@ -156,6 +156,16 @@ public class TodoTaskController implements Initializable {
     }
 
     /**
+     * 선택한 작업을 삭제하기 위한 메서드
+     *
+     * @param selectedTask 삭제할 작업
+     */
+    public void deleteTask(String selectedTask) {
+         tasks.remove(selectedTask);
+         updateTaskList();
+    }
+
+    /**
      * 작업을 업데이트하는 메서드
      * @param oldTask 이전 작업 이름
      * @param newTask 새로운 작업 이름

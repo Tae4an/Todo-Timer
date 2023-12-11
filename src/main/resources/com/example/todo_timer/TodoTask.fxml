@@ -7,7 +7,7 @@
     <AnchorPane prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFFFFF;">
         <children>
 
-            <Button fx:id="tm_btn" layoutX="134.0" layoutY="526.0" mnemonicParsing="false" text=" 타이머 홈"> </Button>
+            <Button fx:id="tm_btn" layoutX="134.0" layoutY="526.0" mnemonicParsing="false" style="-fx-background-color: #FAE0D4;" text=" 타이머 홈"> </Button>
             <Button layoutX="9.0" layoutY="43.0" mnemonicParsing="false" onAction="#addTask" prefHeight="22.0" prefWidth="308.0" style="-fx-background-color: #FAE0D4;" text=" 할 일 추가＋                                                                          " />
 
             <Label layoutX="2.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />

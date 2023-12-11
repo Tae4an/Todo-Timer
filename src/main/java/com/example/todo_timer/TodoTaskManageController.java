@@ -9,16 +9,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TodoTaskManageController implements Initializable {
@@ -30,9 +28,12 @@ public class TodoTaskManageController implements Initializable {
     private Button tsk_btn;
     @FXML
     private Button save_btn;
+    @FXML
+    private Button delete_btn;
 
     @FXML
     private AnchorPane tskManage_layout;
+    private TodoTaskController todoTaskController;
 
     private static TodoTaskManageController instance;
     private static String task;
@@ -55,23 +56,20 @@ public class TodoTaskManageController implements Initializable {
         save_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
-                // tskName에서 작업 이름을 가져오고, tasks 목록을 업데이트합니다.
-                String updatedTask = tskName.getText();
-                if (updatedTask != null && !updatedTask.isEmpty() && !updatedTask.equals(task)) {
-                    TodoTaskController.getInstance().updateTask(task, updatedTask);
-                    showPopup("저장","저장 되었습니다..!");
-                    loadTodoTask();
-                    // 필요에 따라 다른 UI 업데이트 또는 작업 수행
-                }
-
+                saveTask();
             }
-
+        });
+        delete_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                deleteTask(task);
+            }
         });
         tskName.setText(task);
     }
 
     public TodoTaskManageController() {
+        this.todoTaskController = new TodoTaskController();
     }
 
     public void setSelectTask(String task) {
@@ -95,6 +93,41 @@ public class TodoTaskManageController implements Initializable {
         }, keyValue);
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
+    }
+
+
+    public void deleteTask(String selectedTask) {
+        // 확인 다이얼로그를 생성
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("삭제 확인");
+        alert.setHeaderText("다음 작업을 삭제하시겠습니까?\n\n" + selectedTask);
+
+        // 사용자의 선택 결과를 얻어옴
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // 사용자가 확인을 선택한 경우에만 작업을 삭제
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            todoTaskController.deleteTask(task);
+            showPopup("삭제","삭제 되었습니다..!");
+            loadTodoTask();
+        }
+    }
+
+    private void saveTask() {
+        // tskName에서 작업 이름을 가져옵니다.
+        String updatedTask = tskName.getText();
+
+        // 작업 이름이 변경되었는지 확인합니다.
+        if (updatedTask != null && !updatedTask.isEmpty() && !updatedTask.equals(task)) {
+            // 작업 이름이 변경되었을 때만 tasks 목록을 업데이트합니다.
+            TodoTaskController.getInstance().updateTask(task, updatedTask);
+            showPopup("저장", "저장 되었습니다..!");
+
+            // loadTodoTask 메서드 호출
+            loadTodoTask();
+        }
+
+        // 이후에 수행할 다른 동작들을 추가할 수 있습니다.
     }
 
     /**
