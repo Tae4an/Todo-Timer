@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="timer_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todotimercopy.TodoTimerController">
+<AnchorPane fx:id="timer_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
     <Circle fx:id="donutCircle" layoutX="169.0" layoutY="309.0" radius="113.0" strokeWidth="10">
         <fill>
             <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
