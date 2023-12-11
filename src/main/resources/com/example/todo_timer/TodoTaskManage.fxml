@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="tskManage_layout" prefHeight="600.0" prefWidth="340.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskManageController">
+   <children>
+      <TextArea fx:id="tskMemo" layoutX="11.0" layoutY="104.0" prefHeight="272.0" prefWidth="318.0" />
+      <Button fx:id="tsk_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" text="←" />
+      <TextField fx:id="tskName" layoutX="14.0" layoutY="25.0" prefHeight="22.0" prefWidth="261.0" />
+      <DatePicker layoutX="14.0" layoutY="61.0" prefHeight="22.0" prefWidth="190.0" />
+      <Button layoutX="272.0" layoutY="544.0" mnemonicParsing="false" text="저장" />
+      <Button layoutX="201.0" layoutY="544.0" mnemonicParsing="false" style="-fx-background-color: #FF6666;" text="삭제" />
+   </children>
+</AnchorPane>

@@ -26,12 +26,15 @@ import java.util.ResourceBundle;
 public class TodoTaskController implements Initializable {
     @FXML
     private ChoiceBox<String> taskChoiceBox;  // 작업을 선택할 ChoiceBox
+
     @FXML
-    private ListView<String> taskListView;  // 작업 리스트 뷰
+    private ListView<String> taskListView;  // 작업 목록을 나타내는 ListView. 사용자가 작업을 추가, 수정, 삭제할 때 업데이트 됨
 
     @FXML
     private Button tm_btn;  //타이머 홈 버튼
-    public AnchorPane task_layout;  // 작업 홈의 레이아웃
+
+    @FXML
+    private Button tskmanage_btn;  //작업관리 홈 홈 버튼
 
     // 데이터의 변경 사항을 감지하고 자동으로 UI에 반영할 수 있도록 도와주는 컬렉션
     private static final ObservableList<String> tasks = FXCollections.observableArrayList();
@@ -76,10 +79,10 @@ public class TodoTaskController implements Initializable {
                     StackPane root = (StackPane) tm_btn.getScene().getRoot();
                     root.getChildren().add(sub);
 
-                    sub.setTranslateY(500);
+                    sub.setTranslateY(600);
 
                     Timeline timeline = new Timeline();
-                    KeyValue keyValue = new KeyValue(sub.translateYProperty(),0);
+                    KeyValue keyValue = new KeyValue(sub.translateYProperty(), 0);
                     KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
                     timeline.getKeyFrames().add(keyFrame);
                     timeline.play();
@@ -89,9 +92,28 @@ public class TodoTaskController implements Initializable {
                 }
             }
         });
-        // 작업 목록 업데이트
-//        updateTaskList();
-        updateChoiceBox();
+        tskmanage_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    Parent sub = FXMLLoader.load(getClass().getResource("TodoTaskManage.fxml"));
+                    StackPane root = (StackPane) tskmanage_btn.getScene().getRoot();
+                    root.getChildren().add(sub);
+
+                    sub.setTranslateX(500);
+
+                    Timeline timeline = new Timeline();
+                    KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
+                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+                    timeline.getKeyFrames().add(keyFrame);
+                    timeline.play();
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        updateTaskList();
     }
 
     /**
@@ -110,16 +132,8 @@ public class TodoTaskController implements Initializable {
             if (!taskName.isEmpty()) {
                 tasks.add(taskName);
                 updateTaskList();  // ListView 업데이트
-                updateChoiceBox();  // ChoiceBox 업데이트
             }
         });
-    }
-
-    /**
-     * 작업 목록을 ChoiceBox에 업데이트하는 메서드
-     */
-    private void updateChoiceBox() {
-        taskChoiceBox.setItems(tasks);
     }
 
     /**
@@ -139,7 +153,7 @@ public class TodoTaskController implements Initializable {
         // 사용자가 확인을 선택한 경우에만 작업을 삭제
         if (result.isPresent() && result.get() == ButtonType.OK) {
             tasks.remove(selectedTask);
-            updateChoiceBox();  // ChoiceBox 업데이트
+            updateTaskList();
         }
     }
 
@@ -176,7 +190,7 @@ public class TodoTaskController implements Initializable {
                     showEditDialog(selectedTask).ifPresent(updatedTask -> {
                         tasks.remove(selectedTask);
                         tasks.add(updatedTask);
-                        updateChoiceBox();  // ChoiceBox 업데이트
+                        updateTaskList();
                     });
                 } else if (result.get() == deleteButton) {
                     // 삭제 버튼을 선택한 경우
@@ -188,8 +202,6 @@ public class TodoTaskController implements Initializable {
             showPopup("Error", "작업을 선택하세요..!");
         }
     }
-
-
 
 
     /**
@@ -233,12 +245,16 @@ public class TodoTaskController implements Initializable {
      * 작업 목록이 비어 있고 실제 작업이 존재하는 경우에만 목록을 업데이트
      */
     private void updateTaskList() {
+        // taskListView가 null이면 초기화
+        if (taskListView == null) {
+            taskListView = new ListView<>();
+        }
+
         // 작업 목록이 비어 있고, 실제 작업이 존재하는 경우에만 목록을 업데이트
         if (taskListView.getItems().isEmpty() && !tasks.isEmpty()) {
             taskListView.setItems(tasks);
         }
     }
-
     /**
      * 작업 목록을 반환
      *

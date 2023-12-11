@@ -6,57 +6,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="timer_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #CCFFFF;" styleClass="root_1" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
-    <Circle fx:id="donutCircle" layoutX="169.0" layoutY="303.0" radius="95.0" strokeWidth="10">
-        <fill>
-            <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
-                <stops>
-                    <Stop>
-                        <color>
-                            <Color red="1.0" green="1.0" blue="1.0" fx:id="startColor" />
-                        </color>
-                    </Stop>
-                    <Stop offset="0.8">
-                        <color>
-                            <Color red="1.0" green="1.0" blue="1.0" />
-                        </color>
-                    </Stop>
-                    <Stop offset="0.8">
-                        <color>
-                            <Color opacity="0.0" />
-                        </color>
-                    </Stop>
-                    <Stop offset="1.0">
-                        <color>
-                            <Color opacity="0.0" />
-                        </color>
-                    </Stop>
-                </stops>
-            </LinearGradient>
-        </fill>
-        <stroke>
-            <LinearGradient endX="1.0" endY="1.0">
-                <stops>
-                    <Stop>
-                        <color>
-                            <Color />
-                        </color>
-                    </Stop>
-                    <Stop offset="0.00749063670411985">
-                        <color>
-                            <Color red="1.0" green="1.0" blue="1.0" />
-                        </color>
-                    </Stop>
-                    <Stop offset="1.0">
-                        <color>
-                            <Color red="1.0" green="1.0" blue="1.0" />
-                        </color>
-                    </Stop>
-                </stops>
-            </LinearGradient>
-        </stroke>
-    </Circle>
-    <Text fx:id="timerText" fill="WHITE" layoutX="94.0" layoutY="319.0" text="25:00" wrappingWidth="150.0">
+<AnchorPane fx:id="timer_layout" prefHeight="600.0" prefWidth="340.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+
+    <Text fx:id="timerText" layoutX="94.0" layoutY="319.0" text="25:00" wrappingWidth="150.0">
 
         <font>
             <Font size="64.0" />
