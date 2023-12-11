@@ -39,6 +39,9 @@ public class TodoTaskController implements Initializable {
     // 데이터의 변경 사항을 감지하고 자동으로 UI에 반영할 수 있도록 도와주는 컬렉션
     private static final ObservableList<String> tasks = FXCollections.observableArrayList();
 
+    private TodoTaskManageController manageController;  // 이 부분을 추가
+
+
     // TodoTaskController 클래스의 인스턴스를 싱글톤 패턴으로 관리하기 위한 변수
     private static TodoTaskController instance;
 
@@ -93,23 +96,39 @@ public class TodoTaskController implements Initializable {
             }
         });
         tskmanage_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
             @Override
             public void handle(MouseEvent event) {
-                try {
-                    Parent sub = FXMLLoader.load(getClass().getResource("TodoTaskManage.fxml"));
-                    StackPane root = (StackPane) tskmanage_btn.getScene().getRoot();
-                    root.getChildren().add(sub);
+                // 선택한 작업을 얻어옴
+                String selectedTask = taskListView.getSelectionModel().getSelectedItem();
 
-                    sub.setTranslateX(500);
+                if (taskListView.getItems().isEmpty()) {
+                    showPopup("Error","작업이 없습니다..!");
+                }
+                else if (selectedTask == null){
+                    showPopup("Error","작업을 선택하세요..!");
+                }
 
-                    Timeline timeline = new Timeline();
-                    KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
-                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                    timeline.getKeyFrames().add(keyFrame);
-                    timeline.play();
+                else {
+                    manageController = TodoTaskManageController.getInstance();
+                    manageController.setSelectTask(selectedTask);
+                    try {
+                        Parent sub = FXMLLoader.load(getClass().getResource("TodoTaskManage.fxml"));
+                        StackPane root = (StackPane) tskmanage_btn.getScene().getRoot();
+                        root.getChildren().add(sub);
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                        sub.setTranslateX(500);
+
+                        Timeline timeline = new Timeline();
+                        KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
+                        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+                        timeline.getKeyFrames().add(keyFrame);
+                        timeline.play();
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }
         });
@@ -137,72 +156,15 @@ public class TodoTaskController implements Initializable {
     }
 
     /**
-     * 선택한 작업을 삭제하기 위한 메서드
-     *
-     * @param selectedTask 삭제할 작업
+     * 작업을 업데이트하는 메서드
+     * @param oldTask 이전 작업 이름
+     * @param newTask 새로운 작업 이름
      */
-    private void deleteTask(String selectedTask) {
-        // 확인 다이얼로그를 생성
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("삭제 확인");
-        alert.setHeaderText("다음 작업을 삭제하시겠습니까?\n\n" + selectedTask);
-
-        // 사용자의 선택 결과를 얻어옴
-        Optional<ButtonType> result = alert.showAndWait();
-
-        // 사용자가 확인을 선택한 경우에만 작업을 삭제
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            tasks.remove(selectedTask);
-            updateTaskList();
-        }
+    public void updateTask(String oldTask, String newTask) {
+        tasks.remove(oldTask);
+        tasks.add(newTask);
+        updateTaskList();
     }
-
-    /**
-     * 선택한 작업을 관리하기 위한 메서드
-     * 선택한 작업에 대한 다이얼로그를 표시하고, 사용자가 선택한 작업을 수정하거나 삭제할 수 있는 기능을 제공
-     * 수정 또는 삭제 작업은 사용자가 확인을 선택한 경우에만 수행
-     */
-    @FXML
-    private void managementTask() {
-        // 선택한 작업을 얻어옴
-        String selectedTask = taskChoiceBox.getValue();
-
-        // 선택한 작업이 있는 경우에만 다이얼로그를 표시
-        if (selectedTask != null && !selectedTask.isEmpty()) {
-            // 작업 관리 다이얼로그를 생성
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("작업 관리");
-            alert.setHeaderText("다음 작업을 어떻게 관리하시겠습니까?\n\n" + selectedTask);
-
-            // 다이얼로그에 수정, 삭제, 취소 버튼을 추가하고, 각 버튼의 동작을 정의
-            ButtonType editButton = new ButtonType("수정");
-            ButtonType deleteButton = new ButtonType("삭제");
-            ButtonType cancelButton = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
-            alert.getButtonTypes().setAll(editButton, deleteButton, cancelButton);
-
-            // 사용자의 선택 결과를 얻어옴
-            Optional<ButtonType> result = alert.showAndWait();
-
-            // 사용자가 선택한 작업을 수정 또는 삭제
-            if (result.isPresent()) {
-                if (result.get() == editButton) {
-                    // 수정 버튼을 선택한 경우
-                    showEditDialog(selectedTask).ifPresent(updatedTask -> {
-                        tasks.remove(selectedTask);
-                        tasks.add(updatedTask);
-                        updateTaskList();
-                    });
-                } else if (result.get() == deleteButton) {
-                    // 삭제 버튼을 선택한 경우
-                    deleteTask(selectedTask);
-                }
-            }
-        } else {
-            // 선택한 작업이 없을 경우
-            showPopup("Error", "작업을 선택하세요..!");
-        }
-    }
-
 
     /**
      * 팝업 창을 표시하는 메서드.
