@@ -9,21 +9,28 @@
     <AnchorPane prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF;">
         <children>
 
-            <Button fx:id="tm_btn" layoutX="144.0" layoutY="522.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="55.0" style="-fx-background-color: #FAE0D4; -fx-background-radius: 50;"> </Button>
-            <Button layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404" />
+            <Button fx:id="tm_btn" layoutX="143.0" layoutY="526.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="55.0" style="-fx-background-color: #FAE0D4; -fx-background-radius: 50;">
+            <graphic>
+               <ImageView fitHeight="36.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@TimerImage.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+            <Button layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404" />
 
-            <Label layoutX="96.0" layoutY="14.0" prefHeight="29.0" prefWidth="148.0" stylesheets="@style.css" text="Task Home" textFill="#c98888">
+            <Label layoutX="87.0" layoutY="14.0" prefHeight="40.0" prefWidth="168.0" stylesheets="@style.css" text="Task Home" textFill="#c98888">
             <font>
-               <Font name="Arial Black" size="23.0" />
+               <Font name="Arial Black" size="27.0" />
             </font></Label>
-            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="106.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="작업관리" textAlignment="CENTER" textFill="#6b0404" />
-            <ListView fx:id="taskListView" layoutX="10.0" layoutY="163.0" prefHeight="320.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6;" stylesheets="@style.css" />
-         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="작업관리" textAlignment="CENTER" textFill="#6b0404" />
+            <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="320.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 5; -fx-border-color: #CC9966; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@style.css" />
+         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@ListAddImage.png" />
             </image>
          </ImageView>
-         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@FileImage.png" />
             </image>

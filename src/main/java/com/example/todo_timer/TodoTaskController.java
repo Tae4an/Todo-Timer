@@ -143,8 +143,11 @@ public class TodoTaskController implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
         dialog.setHeaderText("새로운 작업을 추가하세요");
-        dialog.setContentText("작업 이름:");
+        String cssPath = getClass().getResource("style.css").toExternalForm();
+        dialog.getDialogPane().getStylesheets().add(cssPath);
 
+        dialog.setContentText("작업 이름:");
+        dialog.getDialogPane().setStyle("-fx-background-color: #ffb66e;");
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(taskName -> {

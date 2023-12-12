@@ -1,14 +1,15 @@
 
 /* ListView의 칸 사이의 색상을 변경 */
 .list-cell {
-    -fx-background-color: lightblue;
-    -fx-border-color: #0077cc; /* 테두리 색상 지정 */
+    -fx-background-color: #FFF2E6;
+    -fx-border-color:  #CC9966; /* 테두리 색상 지정 */
     -fx-border-width: 0 0 1 0; /* 테두리 두께 지정 (top, right, bottom, left) */
 }
 
 /* 마우스를 갖다 대었을 때의 효과 */
 .list-cell:hover {
     -fx-background-color: #add8e6; /* 마우스 호버시 배경색 변경 */
+    -fx-text-fill: black; /* 마우스 호버 시 글자색 변경 */
 }
 
 name-text {
@@ -19,6 +20,24 @@ name-text {
 
    -fx-font-weight: bold;
 
-   -fx-text-fill: linear-gradient(to bottom, blue, white);
+   -fx-text-fill: linear-gradient(to bottom, blue, #6b0404);
 
+}
+
+
+// 전체 컨텍스트 메뉴의 배경색
+.choice-box .context-menu { -fx-background-color:  #FFF2E6; }
+// 목록에서 선택된 항목의 배경색
+.choice-box .menu-item:focused { -fx-background-color:  #c98888; }
+// 목록에서 선택되지 않은 항목의 텍스트 색상
+.choice-box .menu-item > .label { -fx-text-fill: black; }
+// 목록에서 선택된 항목의 텍스트 색상
+.choice-box .menu-item:focused > .label { -fx-text-fill: white; }
+
+.dialog-pane .header-panel {
+    -fx-background-color: #FFCC99;
+}
+
+.text-area {
+    -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
 }
