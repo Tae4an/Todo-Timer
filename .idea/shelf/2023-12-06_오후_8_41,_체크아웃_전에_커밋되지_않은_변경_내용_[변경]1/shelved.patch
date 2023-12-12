@@ -1,0 +1,19 @@
+Index: src/main/java/com/example/todo_timer/TodoTimerApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.application.Application;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Parent;\r\nimport javafx.scene.Scene;\r\nimport javafx.stage.Stage;\r\n\r\nimport java.util.Objects;\r\n\r\n/**\r\n * ToDo 타이머 애플리케이션의 진입점인 메인 애플리케이션 클래스\r\n */\r\npublic class TodoTimerApplication extends Application {\r\n\r\n    @Override\r\n    public void start(Stage primaryStage) throws Exception {\r\n        //Objects.requireNonNull은 getResource(\"TodoTimer.fxml\")의 반환값이 null이면 예외를 발생시키므로, 리소스가 없는 경우에는 예외가 발생\r\n        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(\"TodoTask.fxml\")));\r\n        primaryStage.setTitle(\"ToDo 타이머\");\r\n        primaryStage.setScene(new Scene(root, 220, 320));\r\n        primaryStage.show();\r\n    }\r\n    public static void main(String[] args) {\r\n        launch(args);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TodoTimerApplication.java b/src/main/java/com/example/todo_timer/TodoTimerApplication.java
+--- a/src/main/java/com/example/todo_timer/TodoTimerApplication.java	
++++ b/src/main/java/com/example/todo_timer/TodoTimerApplication.java	
+@@ -18,7 +18,7 @@
+         //Objects.requireNonNull은 getResource("TodoTimer.fxml")의 반환값이 null이면 예외를 발생시키므로, 리소스가 없는 경우에는 예외가 발생
+         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("TodoTask.fxml")));
+         primaryStage.setTitle("ToDo 타이머");
+-        primaryStage.setScene(new Scene(root, 220, 320));
++        primaryStage.setScene(new Scene(root, 540, 500));
+         primaryStage.show();
+     }
+     public static void main(String[] args) {

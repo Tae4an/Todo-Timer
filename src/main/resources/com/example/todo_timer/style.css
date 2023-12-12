@@ -1,0 +1,24 @@
+
+/* ListView의 칸 사이의 색상을 변경 */
+.list-cell {
+    -fx-background-color: lightblue;
+    -fx-border-color: #0077cc; /* 테두리 색상 지정 */
+    -fx-border-width: 0 0 1 0; /* 테두리 두께 지정 (top, right, bottom, left) */
+}
+
+/* 마우스를 갖다 대었을 때의 효과 */
+.list-cell:hover {
+    -fx-background-color: #add8e6; /* 마우스 호버시 배경색 변경 */
+}
+
+name-text {
+
+   -fx-font-size: 23;
+
+   -fx-font-family: "Arial Black";
+
+   -fx-font-weight: bold;
+
+   -fx-text-fill: linear-gradient(to bottom, blue, white);
+
+}

@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane prefHeight="594.0" prefWidth="337.0" styleClass="root_1" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
-    <AnchorPane prefHeight="594.0" prefWidth="301.0">
+<StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+    <AnchorPane prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF;">
         <children>
 
-            <Button fx:id="tm_btn" layoutX="133.0" layoutY="501.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="71.0" style="-fx-border-radius: 40;" text=" 타이머 홈" textFill="#ff3535"> </Button>
-            <ListView fx:id="taskListView" layoutX="75.0" layoutY="153.0" prefHeight="298.0" prefWidth="190.0" />
-            <Button layoutX="75.0" layoutY="102.0" mnemonicParsing="false" onAction="#addTask" prefHeight="32.0" prefWidth="71.0" text="작업 추가" textFill="#ff4444" />
+            <Button fx:id="tm_btn" layoutX="144.0" layoutY="522.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="55.0" style="-fx-background-color: #FAE0D4; -fx-background-radius: 50;"> </Button>
+            <Button layoutX="10.0" layoutY="52.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404" />
 
-            <Label layoutX="136.0" layoutY="58.0" prefHeight="22.0" prefWidth="67.0" text="Task Home" textFill="RED" />
-            <Button layoutX="194.0" layoutY="102.0" mnemonicParsing="false" onAction="#managementTask" prefHeight="32.0" prefWidth="71.0" text="작업 관리" textAlignment="CENTER" textFill="RED">
+            <Label layoutX="96.0" layoutY="14.0" prefHeight="29.0" prefWidth="148.0" stylesheets="@style.css" text="Task Home" textFill="#c98888">
             <font>
-               <Font name="Yu Gothic Regular" size="12.0" />
-            </font></Button>
+               <Font name="Arial Black" size="23.0" />
+            </font></Label>
+            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="106.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="작업관리" textAlignment="CENTER" textFill="#6b0404" />
+            <ListView fx:id="taskListView" layoutX="10.0" layoutY="163.0" prefHeight="320.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6;" stylesheets="@style.css" />
+         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="14.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@ListAddImage.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@FileImage.png" />
+            </image>
+         </ImageView>
+
+            <!--            <Button layoutX="8.0" layoutY="78.0" mnemonicParsing="false" onAction="#managementTask" prefHeight="22.0" prefWidth="308.0" style="-fx-background-color: #FAE0D4;" text="작업 관리                                                                              " />-->
         </children>
     </AnchorPane>
 </StackPane>

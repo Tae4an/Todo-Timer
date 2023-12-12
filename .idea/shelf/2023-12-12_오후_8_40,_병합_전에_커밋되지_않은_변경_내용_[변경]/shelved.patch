@@ -1,0 +1,125 @@
+Index: src/main/resources/com/example/todo_timer/TodoTimer.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.geometry.*?>\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<AnchorPane fx:id=\"timer_layout\" prefHeight=\"315.0\" prefWidth=\"215.0\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTimerController\">\r\n\r\n    <ListView fx:id=\"taskListView\" layoutX=\"14.0\" layoutY=\"14.0\" prefHeight=\"200.0\" prefWidth=\"190.0\" />\r\n\r\n    <Text fx:id=\"timerText\" layoutX=\"81.0\" layoutY=\"266.0\" text=\"25:00\" wrappingWidth=\"56.0\">\r\n        <font>\r\n            <Font name=\"Ami R\" size=\"20\" />\r\n        </font>\r\n    </Text>\r\n\r\n    <Button fx:id=\"btn_start_pause\" layoutX=\"14.0\" layoutY=\"222.0\" mnemonicParsing=\"false\" onAction=\"#startPauseTimer\" text=\"작업 시작\" />\r\n    <Button fx:id=\"btn_stop\" layoutX=\"94.0\" layoutY=\"222.0\" mnemonicParsing=\"false\" onAction=\"#stopTimer\" text=\"작업 종료\" />\r\n\r\n    <HBox fx:id=\"\" layoutX=\"10.0\" layoutY=\"280.0\" prefHeight=\"32.0\" prefWidth=\"198.0\" style=\"-fx-background-color: #BDBDBD;\">\r\n        <children>\r\n            <Button fx:id=\"tm_btn\" mnemonicParsing=\"false\" text=\" 타이머 홈\">\r\n                <HBox.margin>\r\n                    <Insets left=\"5.0\" />\r\n                </HBox.margin>\r\n            </Button>\r\n            <Button fx:id=\"tsk_btn\" mnemonicParsing=\"false\" text=\"작업 홈\">\r\n                <HBox.margin>\r\n                    <Insets left=\"5.0\" />\r\n                </HBox.margin>\r\n            </Button>\r\n            <Button fx:id=\"my_btn\" mnemonicParsing=\"false\" text=\"My 홈\">\r\n                <HBox.margin>\r\n                    <Insets left=\"5.0\" />\r\n                </HBox.margin>\r\n            </Button>\r\n        </children>\r\n        <padding>\r\n            <Insets bottom=\"3.0\" left=\"1.0\" right=\"1.0\" top=\"3.0\" />\r\n        </padding>\r\n    </HBox>\r\n\r\n    <Label layoutX=\"15.0\" prefHeight=\"14.0\" prefWidth=\"67.0\" text=\"Timer Home\" />\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTimer.fxml b/src/main/resources/com/example/todo_timer/TodoTimer.fxml
+--- a/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
++++ b/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
+@@ -1,45 +1,83 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<?import javafx.geometry.*?>
+ <?import javafx.scene.control.*?>
+ <?import javafx.scene.layout.*?>
++<?import javafx.scene.paint.*?>
++<?import javafx.scene.shape.*?>
+ <?import javafx.scene.text.*?>
+ 
+-<AnchorPane fx:id="timer_layout" prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
++<AnchorPane fx:id="timer_layout" prefHeight="600.0" prefWidth="330.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
++    <Circle fx:id="donutCircle" layoutX="170.0" layoutY="300.0" radius="113.0" strokeWidth="10">
++        <fill>
++            <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
++                <stops>
++                    <Stop>
++                        <color>
++                            <Color red="1.0" green="1.0" blue="1.0" fx:id="startColor" />
++                        </color>
++                    </Stop>
++                    <Stop offset="0.8">
++                        <color>
++                            <Color red="1.0" green="1.0" blue="1.0" />
++                        </color>
++                    </Stop>
++                    <Stop offset="0.8">
++                        <color>
++                            <Color opacity="0.0" />
++                        </color>
++                    </Stop>
++                    <Stop offset="1.0">
++                        <color>
++                            <Color opacity="0.0" />
++                        </color>
++                    </Stop>
++                </stops>
++            </LinearGradient>
++        </fill>
++        <stroke>
++            <LinearGradient endX="1.0" endY="1.0">
++                <stops>
++                    <Stop>
++                        <color>
++                            <Color />
++                        </color>
++                    </Stop>
++                    <Stop offset="0.00749063670411985">
++                        <color>
++                            <Color />
++                        </color>
++                    </Stop>
++                    <Stop offset="0.00749063670411985">
++                        <color>
++                            <Color red="1.0" green="1.0" blue="1.0" />
++                        </color>
++                    </Stop>
++               <Stop offset="1.0">
++                  <color>
++                     <Color red="1.0" green="1.0" blue="1.0" />
++                  </color>
++               </Stop>
++                </stops>
++            </LinearGradient>
++        </stroke>
++    </Circle>
++    <Text fx:id="timerText" fill="#ff4646" layoutX="88.0" layoutY="329.0" text="25:00" wrappingWidth="162.0">
+ 
+-    <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="190.0" />
+-
+-    <Text fx:id="timerText" layoutX="81.0" layoutY="266.0" text="25:00" wrappingWidth="56.0">
+         <font>
+-            <Font name="Ami R" size="20" />
++            <Font name="Yu Gothic Light" size="64.0" />
+         </font>
+     </Text>
+ 
+-    <Button fx:id="btn_start_pause" layoutX="14.0" layoutY="222.0" mnemonicParsing="false" onAction="#startPauseTimer" text="작업 시작" />
+-    <Button fx:id="btn_stop" layoutX="94.0" layoutY="222.0" mnemonicParsing="false" onAction="#stopTimer" text="작업 종료" />
++    <Button fx:id="btn_start_pause" layoutX="103.0" layoutY="458.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" stylesheets="@StylePont.css" text="작업 시작" textFill="#ff3b3b">
++      <font>
++         <Font size="19.0" />
++      </font></Button>
+ 
+-    <HBox fx:id="" layoutX="10.0" layoutY="280.0" prefHeight="32.0" prefWidth="198.0" style="-fx-background-color: #BDBDBD;">
+-        <children>
+-            <Button fx:id="tm_btn" mnemonicParsing="false" text=" 타이머 홈">
+-                <HBox.margin>
+-                    <Insets left="5.0" />
+-                </HBox.margin>
+-            </Button>
+-            <Button fx:id="tsk_btn" mnemonicParsing="false" text="작업 홈">
+-                <HBox.margin>
+-                    <Insets left="5.0" />
+-                </HBox.margin>
+-            </Button>
+-            <Button fx:id="my_btn" mnemonicParsing="false" text="My 홈">
+-                <HBox.margin>
+-                    <Insets left="5.0" />
+-                </HBox.margin>
+-            </Button>
+-        </children>
+-        <padding>
+-            <Insets bottom="3.0" left="1.0" right="1.0" top="3.0" />
+-        </padding>
+-    </HBox>
++    <Button fx:id="tsk_btn" layoutX="288.0" layoutY="14.0" mnemonicParsing="false" stylesheets="@StylePont.css" text="X" textFill="RED"> </Button>
+ 
+-    <Label layoutX="15.0" prefHeight="14.0" prefWidth="67.0" text="Timer Home" />
++    <Label layoutX="113.0" layoutY="77.0" prefHeight="47.0" prefWidth="115.0" text="Timer Home" textFill="RED">
++      <font>
++         <Font size="20.0" />
++      </font></Label>
++    <ChoiceBox fx:id="taskChoiceBox" layoutX="88.0" layoutY="14.0" prefHeight="22.0" prefWidth="162.0" style="-fx-border-color: #cc3333; -fx-border-radius: 5; -fx-border-width: 3;" stylesheets="@StylePont.css" />
+ </AnchorPane>

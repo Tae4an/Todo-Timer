@@ -21,9 +21,9 @@ public class CircleController {
     private void initialize() {
         // 애니메이션 타임라인 생성
         timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(donutCircle.strokeProperty(), Color.web("#F5F6CE"))),
-                new KeyFrame(Duration.seconds(1), new KeyValue(donutCircle.strokeProperty(), Color.web("#A9F5F2"))),
-                new KeyFrame(Duration.seconds(2), new KeyValue(donutCircle.strokeProperty(), Color.web("#ECE0F8"))),
+                new KeyFrame(Duration.ZERO, new KeyValue(donutCircle.strokeProperty(), Color.web("#D1B2FF"))),
+                new KeyFrame(Duration.seconds(1), new KeyValue(donutCircle.strokeProperty(), Color.web("#A566FF"))),
+                new KeyFrame(Duration.seconds(2), new KeyValue(donutCircle.strokeProperty(), Color.web("#8041D9"))),
                 new KeyFrame(Duration.seconds(3), new KeyValue(donutCircle.strokeProperty(), Color.WHITE))
         );
 

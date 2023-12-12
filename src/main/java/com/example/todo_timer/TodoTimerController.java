@@ -72,7 +72,7 @@ public class TodoTimerController implements Initializable {
                 Parent sub = (Parent) stackPane.getChildren().get(1);
 
                 Timeline timeline = new Timeline();
-                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 400);
+                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 600);
                 KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
