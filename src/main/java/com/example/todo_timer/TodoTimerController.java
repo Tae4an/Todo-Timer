@@ -186,7 +186,7 @@ public class TodoTimerController implements Initializable {
             pauseTimer();
         } else {
             startTimer();
-            btn_start_pause.setText("일시정지");
+            btn_start_pause.setText("Pause");
         }
     }
 
@@ -226,7 +226,7 @@ public class TodoTimerController implements Initializable {
         minutes = 25;
         seconds = 0;
         isPaused = false;
-        btn_start_pause.setText("작업 시작");
+        btn_start_pause.setText("Start");
         updateTimerDisplay();
     }
 
@@ -235,6 +235,7 @@ public class TodoTimerController implements Initializable {
      * 작업 시간 25분 설정
      */
     private void startWorkTimer() {
+        playSound();
         minutes = 25;
         seconds = 0;
         isPaused = false;
@@ -245,6 +246,7 @@ public class TodoTimerController implements Initializable {
      * 휴식 시간 5분 설정
      */
     private void startRestTimer() {
+        playSound();
         minutes = 5;
         seconds = 0;
         isPaused = false;
@@ -268,4 +270,14 @@ public class TodoTimerController implements Initializable {
             alert.showAndWait();
         });
     }
+
+    /**
+     * 타이머 시작, 끝났을 때 울리는 소리 메소드
+     */
+    private void playSound() {
+        Media sound = new Media(this.getClass().getResource("sound.wav").toString());
+        MediaPlayer player = new MediaPlayer(sound);
+        player.play();
+    }
+
 }
