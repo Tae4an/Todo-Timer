@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Refactor: 최적화">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTimerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/todo_timer/TodoTimerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTask.fxml" afterDir="false" />
+<<<<<<< HEAD
+    <list default="true" id="73d1029e-b23b-46bb-923e-1fc74d63da98" name="변경" comment="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+    <list default="true" id="2d5bbaa5-1602-4e2a-bfaf-c20cf0299ea7" name="변경" comment="Feat: First commit">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/free-icon-eco-home-6781909.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/free-icon-timer-1407089.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/free-icon-worker-4222823.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/img/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/todo_timer/TodoTimer.fxml" afterDir="false" />
+>>>>>>> changyoung
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +30,12 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+<<<<<<< HEAD
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
+=======
+>>>>>>> changyoung
         <projects_view>
           <tree_state>
             <expand />
@@ -35,6 +45,7 @@
       </state>
     </system>
   </component>
+<<<<<<< HEAD
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -48,10 +59,17 @@
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="Taesan" />
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Main" />
+>>>>>>> changyoung
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
@@ -84,7 +102,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;Taesan&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/최태산/Desktop/2023-2 선문대/기초프로젝트ll/javaFX/ToDo_Timer(before)&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/신창영/OneDrive/바탕 화면/javaFX/Todo-Timer/src/main/resources/com/example/todo_timer&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -100,7 +118,41 @@
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.todo_timer" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\신창영\OneDrive\바탕 화면\javaFX\Todo-Timer\src\main\resources\com\example\todo_timer" />
+    </key>
   </component>
+=======
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "changyoung",
+    "last_opened_file_path": "C:/Users/신창영/OneDrive/바탕 화면/javaFX/Todo-Timer"
+  }
+}]]></component>
+>>>>>>> changyoung
+  <component name="RunManager">
+    <configuration name="TodoTimerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.todo_timer.TodoTimerApplication" />
+      <module name="ToDo_Timer.main" />
+      <option name="VM_PARAMETERS" value="--module-path C:\javafx-sdk-21.0.1/lib --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.todo_timer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.TodoTimerApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+<<<<<<< HEAD
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\최태산\AppData\Roaming\Subversion</configuration>
@@ -277,12 +329,33 @@
       <option name="project" value="LOCAL" />
       <updated>1701784126490</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지">
+      <option name="closed" value="true" />
+      <created>1701861353580</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1701861353580</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지">
+      <option name="closed" value="true" />
+      <created>1701861549396</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1701861549396</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+=======
+  <component name="TaskManager">
+    <servers />
+  </component>
+>>>>>>> changyoung
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -294,7 +367,11 @@
                   <entry key="branch">
                     <value>
                       <list>
+<<<<<<< HEAD
                         <option value="HEAD" />
+=======
+                        <option value="changyoung" />
+>>>>>>> changyoung
                       </list>
                     </value>
                   </entry>
@@ -306,6 +383,7 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat : First commit&#10;- ToDo 타이머 앱 빌드&#10;- 작업 추가, 삭제, 수정 기능 적용" />
     <MESSAGE value="feat : First commit_2&#10;- 삭제 기능에서&#10;Index -1 out of bounds for length 0 에러 수정" />
@@ -324,10 +402,14 @@
     <MESSAGE value="Feat: 휴식 기능 추가" />
     <MESSAGE value="Refactor: 디자인 변경" />
     <MESSAGE value="Refactor: 최적화" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: 최적화" />
+    <MESSAGE value="Feat: 애니메이션 기능 추가&#10;- 씬 전환 애니메이션 기능 빌드" />
+    <MESSAGE value="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: 기본 프론트디자인 추가&#10;관련 css, 이미지" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
+=======
+>>>>>>> changyoung
 </project>
