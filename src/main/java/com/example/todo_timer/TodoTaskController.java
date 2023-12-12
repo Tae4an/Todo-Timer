@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,18 +13,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TodoTaskController implements Initializable {
-    @FXML
-    private ChoiceBox<String> taskChoiceBox;  // 작업을 선택할 ChoiceBox
 
     @FXML
     private ListView<String> taskListView;  // 작업 목록을 나타내는 ListView. 사용자가 작업을 추가, 수정, 삭제할 때 업데이트 됨
@@ -38,6 +37,9 @@ public class TodoTaskController implements Initializable {
 
     // 데이터의 변경 사항을 감지하고 자동으로 UI에 반영할 수 있도록 도와주는 컬렉션
     private static final ObservableList<String> tasks = FXCollections.observableArrayList();
+
+    protected static final Map<String, LocalDate> dueDates = new HashMap<>();
+
 
     private TodoTaskManageController manageController;  // 이 부분을 추가
 
@@ -132,6 +134,7 @@ public class TodoTaskController implements Initializable {
                 }
             }
         });
+
         updateTaskList();
     }
 
@@ -171,9 +174,28 @@ public class TodoTaskController implements Initializable {
      * @param newTask 새로운 작업 이름
      */
     public void updateTask(String oldTask, String newTask) {
-        tasks.remove(oldTask);
-        tasks.add(newTask);
-        updateTaskList();
+        // 기존 작업을 새로운 작업으로 업데이트
+        int index = tasks.indexOf(oldTask);
+        if (index != -1) {
+            tasks.set(index, newTask);
+        }
+
+        // 마감일도 업데이트
+        if (dueDates.containsKey(oldTask)) {
+            LocalDate dueDate = dueDates.remove(oldTask);
+            dueDates.put(newTask, dueDate);
+        }
+    }
+
+
+    public void updateDueDate(String task, LocalDate dueDate) {
+        // 작업의 마감일 업데이트
+        dueDates.put(task, dueDate);
+    }
+
+    public LocalDate getDueDate(String task) {
+        // 작업의 마감일을 반환
+        return dueDates.get(task);
     }
 
     /**
@@ -194,23 +216,6 @@ public class TodoTaskController implements Initializable {
         });
     }
 
-
-    /**
-     * 수정 다이얼로그를 표시하고, 사용자가 입력한 수정된 작업 이름을 반환하는 메서드
-     *
-     * @param currentTask 현재 작업의 이름
-     * @return 사용자가 입력한 수정된 작업 이름의 Optional 객체
-     */
-    private Optional<String> showEditDialog(String currentTask) {
-        // 수정 다이얼로그 생성 및 초기값 설정
-        TextInputDialog dialog = new TextInputDialog(currentTask);
-        dialog.setTitle("작업 수정");
-        dialog.setHeaderText("수정할 작업");
-        dialog.setContentText("새로운 작업:");
-
-        // 다이얼로그를 표시하고, 사용자가 입력한 값을 반환
-        return dialog.showAndWait();
-    }
 
     /**
      * 작업 목록을 업데이트하는 메서드

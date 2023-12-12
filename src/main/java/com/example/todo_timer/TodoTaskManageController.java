@@ -4,20 +4,19 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 
 public class TodoTaskManageController implements Initializable {
     @FXML
@@ -30,10 +29,13 @@ public class TodoTaskManageController implements Initializable {
     private Button save_btn;
     @FXML
     private Button delete_btn;
+    @FXML
+    private DatePicker dueDatePicker;
+
 
     @FXML
     private AnchorPane tskManage_layout;
-    private TodoTaskController todoTaskController;
+    private final TodoTaskController todoTaskController;
 
     private static TodoTaskManageController instance;
     private static String task;
@@ -47,25 +49,11 @@ public class TodoTaskManageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tsk_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                loadTodoTask();
-            }
-        });
-        save_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                saveTask();
-            }
-        });
-        delete_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                deleteTask(task);
-            }
-        });
+        tsk_btn.setOnMouseClicked(event -> loadTodoTask());
+        save_btn.setOnMouseClicked(event -> saveTask());
+        delete_btn.setOnMouseClicked(event -> deleteTask(task));
         tskName.setText(task);
+        updateDueDatePicker();
     }
 
     public TodoTaskManageController() {
@@ -79,18 +67,13 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
-    public void loadTodoTask(){
+    public void loadTodoTask() {
         StackPane stackPane = (StackPane) tskManage_layout.getScene().getRoot();
         Parent sub = (Parent) stackPane.getChildren().get(1);
 
         Timeline timeline = new Timeline();
         KeyValue keyValue = new KeyValue(sub.translateXProperty(), 400);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stackPane.getChildren().remove(1);
-            }
-        }, keyValue);
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), event -> stackPane.getChildren().remove(1), keyValue);
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
     }
@@ -108,28 +91,37 @@ public class TodoTaskManageController implements Initializable {
         // 사용자가 확인을 선택한 경우에만 작업을 삭제
         if (result.isPresent() && result.get() == ButtonType.OK) {
             todoTaskController.deleteTask(task);
-            showPopup("삭제","삭제 되었습니다..!");
+            showPopup("삭제", "삭제 되었습니다..!");
             loadTodoTask();
         }
     }
 
     private void saveTask() {
-        // tskName에서 작업 이름을 가져옵니다.
-        String updatedTask = tskName.getText();
+        String updatedTask = tskName.getText(); // 변경된 작업 이름
+        LocalDate dueDate = dueDatePicker.getValue(); // 변경된 마감일
 
-        // 작업 이름이 변경되었는지 확인합니다.
-        if (updatedTask != null && !updatedTask.isEmpty() && !updatedTask.equals(task)) {
-            // 작업 이름이 변경되었을 때만 tasks 목록을 업데이트합니다.
-            TodoTaskController.getInstance().updateTask(task, updatedTask);
+        // 작업 이름 또는 마감일이 변경되었는지 확인
+        boolean isTaskNameChanged = (updatedTask != null && !updatedTask.equals(task));
+        boolean isDueDateChanged = (dueDate != null && !dueDate.equals(TodoTaskController.getInstance().getDueDate(task)));
+
+        if (isTaskNameChanged || isDueDateChanged) {
+            // 마감일이 변경된 경우 먼저 업데이트
+            if (isDueDateChanged) {
+                TodoTaskController.getInstance().updateDueDate(task, dueDate);
+            }
+
+            // 작업 이름이 변경된 경우 업데이트
+            if (isTaskNameChanged) {
+                TodoTaskController.getInstance().updateTask(task, updatedTask);
+            }
+
             showPopup("저장", "저장 되었습니다..!");
-
-            // loadTodoTask 메서드 호출
             loadTodoTask();
         }
-
-        // 이후에 수행할 다른 동작들을 추가할 수 있습니다.
+        else {
+            showPopup("Error", "변경된 내용이 없습니다..!");
+        }
     }
-
     /**
      * 팝업 창을 표시하는 메서드.
      *
@@ -148,5 +140,13 @@ public class TodoTaskManageController implements Initializable {
         });
     }
 
+    /**
+     * 데이트 피커의 Prompt Text를 마감일로 업데이트
+     */
+    private void updateDueDatePicker() {
+        LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+
+        dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
+    }
 }
 
