@@ -1,0 +1,102 @@
+Index: src/main/java/com/example/todo_timer/TodoTaskController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.animation.KeyFrame;\r\nimport javafx.animation.KeyValue;\r\nimport javafx.animation.Timeline;\r\nimport javafx.application.Platform;\r\nimport javafx.collections.FXCollections;\r\nimport javafx.collections.ObservableList;\r\nimport javafx.event.ActionEvent;\r\nimport javafx.event.EventHandler;\r\nimport javafx.fxml.FXML;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.fxml.Initializable;\r\nimport javafx.scene.Parent;\r\nimport javafx.scene.control.*;\r\nimport javafx.scene.input.MouseEvent;\r\nimport javafx.scene.layout.AnchorPane;\r\nimport javafx.scene.layout.StackPane;\r\nimport javafx.util.Duration;\r\n\r\nimport java.io.IOException;\r\nimport java.net.URL;\r\nimport java.util.Optional;\r\nimport java.util.ResourceBundle;\r\n\r\npublic class TodoTaskController implements Initializable {\r\n    @FXML\r\n    private ListView<String> taskListView;  // 작업 리스트 뷰\r\n\r\n    @FXML\r\n    private Button tm_btn;  //타이머 홈 버튼\r\n    public AnchorPane task_layout;  // 작업 홈의 레이아웃\r\n\r\n    // 데이터의 변경 사항을 감지하고 자동으로 UI에 반영할 수 있도록 도와주는 컬렉션\r\n    private static final ObservableList<String> tasks = FXCollections.observableArrayList();\r\n\r\n    // TodoTaskController 클래스의 인스턴스를 싱글톤 패턴으로 관리하기 위한 변수\r\n    private static TodoTaskController instance;\r\n\r\n    /**\r\n     * Singleton 패턴을 사용하여 TodoTaskController의 인스턴스를 반환\r\n     *\r\n     * @return TodoTaskController의 인스턴스\r\n     */\r\n    public static TodoTaskController getInstance() {\r\n        if (instance == null) {\r\n            instance = new TodoTaskController();\r\n        }\r\n        return instance;\r\n    }\r\n\r\n    /**\r\n     * TodoTaskController의 생성자\r\n     */\r\n    public TodoTaskController() {\r\n    }\r\n\r\n\r\n    /**\r\n     * FXML 파일이 로드될 때 자동으로 호출되는 초기화 메서드\r\n     * UI 요소들의 초기 설정 및 이벤트 핸들러를 등록하는 역할을 수행\r\n     *\r\n     * @param location  FXML 파일의 위치\r\n     * @param resources 리소스 번들\r\n     */\r\n    @Override\r\n    public void initialize(URL location, ResourceBundle resources) {\r\n        // \"작업 관리\" 버튼에 대한 액션 설정\r\n        tm_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {\r\n            @Override\r\n            public void handle(MouseEvent event) {\r\n                try {\r\n                    Parent sub = FXMLLoader.load(getClass().getResource(\"TodoTimer.fxml\"));\r\n                    StackPane root = (StackPane) tm_btn.getScene().getRoot();\r\n                    root.getChildren().add(sub);\r\n\r\n                    sub.setTranslateY(400);\r\n\r\n                    Timeline timeline = new Timeline();\r\n                    KeyValue keyValue = new KeyValue(sub.translateYProperty(),0);\r\n                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);\r\n                    timeline.getKeyFrames().add(keyFrame);\r\n                    timeline.play();\r\n\r\n                } catch (IOException e) {\r\n                    throw new RuntimeException(e);\r\n                }\r\n            }\r\n        });\r\n        // 작업 목록 업데이트\r\n        updateTaskList();\r\n    }\r\n\r\n    /**\r\n     * 작업을 추가하는 메서드\r\n     */\r\n    @FXML\r\n    private void addTask() {\r\n        TextInputDialog dialog = new TextInputDialog();\r\n        dialog.setTitle(\"작업 추가\");\r\n        dialog.setHeaderText(\"새로운 작업을 추가하세요\");\r\n        dialog.setContentText(\"작업 이름:\");\r\n\r\n        // TextInputDialog를 화면에 표시하고, 사용자가 입력한 값을 기다림\r\n        Optional<String> result = dialog.showAndWait();\r\n\r\n        // Optional 객체에 값이 존재할 경우, 즉 사용자가 입력한 작업 이름이 비어 있지 않은 경우에 대한 처리\r\n        result.ifPresent(taskName -> {\r\n            // 작업 이름이 비어있지 않은 경우에만 실행\r\n            if (!taskName.isEmpty()) {\r\n                // tasks 리스트에 새로운 작업을 추가\r\n                tasks.add(taskName);\r\n                // 작업이 추가된 tasks 리스트를 ListView에 반영하여 화면을 업데이트\r\n                taskListView.setItems(tasks);\r\n            }\r\n        });\r\n    }\r\n\r\n    /**\r\n     * 선택한 작업을 삭제하기 위한 메서드\r\n     *\r\n     * @param selectedIndex 삭제할 작업의 인덱스\r\n     */\r\n    private void deleteTask(int selectedIndex) {\r\n        // 선택한 작업의 이름을 얻어옴\r\n        String selectedTask = tasks.get(selectedIndex);\r\n\r\n        // 확인 다이얼로그를 생성\r\n        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);\r\n        alert.setTitle(\"삭제 확인\");\r\n        alert.setHeaderText(\"다음 작업을 삭제하시겠습니까?\\n\\n\" + selectedTask);\r\n\r\n        // 사용자의 선택 결과를 얻어옴\r\n        Optional<ButtonType> result = alert.showAndWait();\r\n\r\n        // 사용자가 확인을 선택한 경우에만 작업을 삭제\r\n        if (result.isPresent() && result.get() == ButtonType.OK) {\r\n            tasks.remove(selectedIndex);\r\n            taskListView.setItems(tasks);\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * 선택한 작업을 관리하기 위한 메서드\r\n     * 선택한 작업에 대한 다이얼로그를 표시하고, 사용자가 선택한 작업을 수정하거나 삭제할 수 있는 기능을 제공\r\n     * 수정 또는 삭제 작업은 사용자가 확인을 선택한 경우에만 수행\r\n     */\r\n    @FXML\r\n    private void managementTask() {\r\n        // 선택한 작업의 인덱스를 얻어옴\r\n        int selectedIndex = taskListView.getSelectionModel().getSelectedIndex();\r\n\r\n        // 유효한 인덱스인 경우에만 다이얼로그를 표시\r\n        if (selectedIndex >= 0) {\r\n            // 선택한 작업의 이름을 얻어옴\r\n            String selectedTask = tasks.get(selectedIndex);\r\n\r\n            // 작업 관리 다이얼로그를 생성\r\n            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);\r\n            alert.setTitle(\"작업 관리\");\r\n            alert.setHeaderText(\"다음 작업을 어떻게 관리하시겠습니까?\\n\\n\" + selectedTask);\r\n\r\n            // 다이얼로그에 수정, 삭제, 취소 버튼을 추가하고, 각 버튼의 동작을 정의\r\n            ButtonType editButton = new ButtonType(\"수정\");\r\n            ButtonType deleteButton = new ButtonType(\"삭제\");\r\n            ButtonType cancelButton = new ButtonType(\"취소\", ButtonBar.ButtonData.CANCEL_CLOSE);\r\n            alert.getButtonTypes().setAll(editButton, deleteButton, cancelButton);\r\n\r\n            // 사용자의 선택 결과를 얻어옴\r\n            Optional<ButtonType> result = alert.showAndWait();\r\n\r\n            // 사용자가 선택한 작업을 수정 또는 삭제\r\n            if (result.isPresent()) {\r\n                if (result.get() == editButton) {\r\n                    // 수정 버튼을 선택한 경우\r\n                    showEditDialog(selectedTask).ifPresent(updatedTask -> {\r\n                        tasks.set(selectedIndex, updatedTask);\r\n                        taskListView.getItems().set(selectedIndex, updatedTask);\r\n                    });\r\n                } else if (result.get() == deleteButton) {\r\n                    // 삭제 버튼을 선택한 경우\r\n                    deleteTask(selectedIndex);\r\n                }\r\n            }\r\n        } else {\r\n            // 선택한 작업이 없을 경우\r\n            showPopup(\"Error\", \"작업을 선택하세요..!\");\r\n        }\r\n    }\r\n\r\n\r\n\r\n    /**\r\n     * 팝업 창을 표시하는 메서드.\r\n     *\r\n     * @param title   팝업 창 제목\r\n     * @param message 팝업 메시지\r\n     */\r\n    private void showPopup(String title, String message) {\r\n        // Platform.runLater() 메서드를 사용하여 JavaFX 애플리케이션 스레드에서 실행되도록 작업을 예약하는 데 사용\r\n        // 이렇게 하면 showAndWait()가 다음 프레임에서 실행되므로 애니메이션이나 레이아웃 처리와 충돌하지 않음\r\n        Platform.runLater(() -> {\r\n            Alert alert = new Alert(Alert.AlertType.INFORMATION);\r\n            alert.setTitle(title);\r\n            alert.setHeaderText(null);\r\n            alert.setContentText(message);\r\n            alert.showAndWait();\r\n        });\r\n    }\r\n\r\n\r\n    /**\r\n     * 수정 다이얼로그를 표시하고, 사용자가 입력한 수정된 작업 이름을 반환하는 메서드\r\n     *\r\n     * @param currentTask 현재 작업의 이름\r\n     * @return 사용자가 입력한 수정된 작업 이름의 Optional 객체\r\n     */\r\n    private Optional<String> showEditDialog(String currentTask) {\r\n        // 수정 다이얼로그 생성 및 초기값 설정\r\n        TextInputDialog dialog = new TextInputDialog(currentTask);\r\n        dialog.setTitle(\"작업 수정\");\r\n        dialog.setHeaderText(\"수정할 작업\");\r\n        dialog.setContentText(\"새로운 작업:\");\r\n\r\n        // 다이얼로그를 표시하고, 사용자가 입력한 값을 반환\r\n        return dialog.showAndWait();\r\n    }\r\n\r\n    /**\r\n     * 작업 목록을 업데이트하는 메서드\r\n     * 작업 목록이 비어 있고 실제 작업이 존재하는 경우에만 목록을 업데이트\r\n     */\r\n    private void updateTaskList() {\r\n        // 작업 목록이 비어 있고, 실제 작업이 존재하는 경우에만 목록을 업데이트\r\n        if (taskListView.getItems().isEmpty() && !tasks.isEmpty()) {\r\n            taskListView.setItems(tasks);\r\n        }\r\n    }\r\n\r\n    /**\r\n     * 작업 목록을 반환\r\n     *\r\n     * @return 작업 목록\r\n     */\r\n    public ObservableList<String> getTasks() {\r\n        return tasks;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TodoTaskController.java b/src/main/java/com/example/todo_timer/TodoTaskController.java
+--- a/src/main/java/com/example/todo_timer/TodoTaskController.java	
++++ b/src/main/java/com/example/todo_timer/TodoTaskController.java	
+@@ -29,6 +29,8 @@
+ 
+     @FXML
+     private Button tm_btn;  //타이머 홈 버튼
++
++
+     public AnchorPane task_layout;  // 작업 홈의 레이아웃
+ 
+     // 데이터의 변경 사항을 감지하고 자동으로 UI에 반영할 수 있도록 도와주는 컬렉션
+Index: src/main/resources/com/example/todo_timer/TodoTimer.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.paint.*?>\r\n<?import javafx.scene.shape.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<AnchorPane fx:id=\"timer_layout\" prefHeight=\"594.0\" prefWidth=\"337.0\" style=\"-fx-background-color: #FFD8D8;\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTimerController\">\r\n    <Circle fx:id=\"donutCircle\" layoutX=\"169.0\" layoutY=\"309.0\" radius=\"113.0\" strokeWidth=\"10\">\r\n        <fill>\r\n            <LinearGradient endX=\"1.0\" endY=\"0.009478672985781991\" startX=\"1.0\">\r\n                <stops>\r\n                    <Stop>\r\n                        <color>\r\n                            <Color red=\"1.0\" green=\"1.0\" blue=\"1.0\" fx:id=\"startColor\" />\r\n                        </color>\r\n                    </Stop>\r\n                    <Stop offset=\"0.8\">\r\n                        <color>\r\n                            <Color red=\"1.0\" green=\"1.0\" blue=\"1.0\" />\r\n                        </color>\r\n                    </Stop>\r\n                    <Stop offset=\"0.8\">\r\n                        <color>\r\n                            <Color opacity=\"0.0\" />\r\n                        </color>\r\n                    </Stop>\r\n                    <Stop offset=\"1.0\">\r\n                        <color>\r\n                            <Color opacity=\"0.0\" />\r\n                        </color>\r\n                    </Stop>\r\n                </stops>\r\n            </LinearGradient>\r\n        </fill>\r\n        <stroke>\r\n            <LinearGradient endX=\"1.0\" endY=\"1.0\">\r\n                <stops>\r\n                    <Stop>\r\n                        <color>\r\n                            <Color />\r\n                        </color>\r\n                    </Stop>\r\n                    <Stop offset=\"0.00749063670411985\">\r\n                        <color>\r\n                            <Color />\r\n                        </color>\r\n                    </Stop>\r\n                    <Stop offset=\"0.00749063670411985\">\r\n                        <color>\r\n                            <Color red=\"1.0\" green=\"1.0\" blue=\"1.0\" />\r\n                        </color>\r\n                    </Stop>\r\n               <Stop offset=\"1.0\">\r\n                  <color>\r\n                     <Color red=\"1.0\" green=\"1.0\" blue=\"1.0\" />\r\n                  </color>\r\n               </Stop>\r\n                </stops>\r\n            </LinearGradient>\r\n        </stroke>\r\n    </Circle>\r\n    <Text fx:id=\"timerText\" fill=\"#ff4646\" layoutX=\"88.0\" layoutY=\"332.0\" text=\"25:00\" wrappingWidth=\"162.0\">\r\n\r\n        <font>\r\n            <Font name=\"Yu Gothic Light\" size=\"64.0\" />\r\n        </font>\r\n    </Text>\r\n\r\n    <Button fx:id=\"btn_start_pause\" layoutX=\"107.0\" layoutY=\"456.0\" mnemonicParsing=\"false\" onAction=\"#startPauseTimer\" prefHeight=\"38.0\" prefWidth=\"124.0\" stylesheets=\"@StylePont.css\" text=\"작업 시작\" textFill=\"#ff3b3b\">\r\n      <font>\r\n         <Font size=\"19.0\" />\r\n      </font></Button>\r\n\r\n    <Button fx:id=\"tsk_btn\" layoutX=\"288.0\" layoutY=\"14.0\" mnemonicParsing=\"false\" text=\"X\"> </Button>\r\n\r\n    <Label layoutX=\"112.0\" layoutY=\"68.0\" prefHeight=\"47.0\" prefWidth=\"115.0\" text=\"Timer Home\" textFill=\"RED\">\r\n      <font>\r\n         <Font size=\"20.0\" />\r\n      </font></Label>\r\n    <ChoiceBox fx:id=\"taskChoiceBox\" layoutX=\"88.0\" layoutY=\"14.0\" prefHeight=\"22.0\" prefWidth=\"162.0\" />\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTimer.fxml b/src/main/resources/com/example/todo_timer/TodoTimer.fxml
+--- a/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
++++ b/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
+@@ -6,8 +6,8 @@
+ <?import javafx.scene.shape.*?>
+ <?import javafx.scene.text.*?>
+ 
+-<AnchorPane fx:id="timer_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+-    <Circle fx:id="donutCircle" layoutX="169.0" layoutY="309.0" radius="113.0" strokeWidth="10">
++<AnchorPane fx:id="timer_layout" prefHeight="600.0" prefWidth="330.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
++    <Circle fx:id="donutCircle" layoutX="170.0" layoutY="300.0" radius="113.0" strokeWidth="10">
+         <fill>
+             <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
+                 <stops>
+@@ -61,23 +61,23 @@
+             </LinearGradient>
+         </stroke>
+     </Circle>
+-    <Text fx:id="timerText" fill="#ff4646" layoutX="88.0" layoutY="332.0" text="25:00" wrappingWidth="162.0">
++    <Text fx:id="timerText" fill="#ff4646" layoutX="88.0" layoutY="329.0" text="25:00" wrappingWidth="162.0">
+ 
+         <font>
+             <Font name="Yu Gothic Light" size="64.0" />
+         </font>
+     </Text>
+ 
+-    <Button fx:id="btn_start_pause" layoutX="107.0" layoutY="456.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" stylesheets="@StylePont.css" text="작업 시작" textFill="#ff3b3b">
++    <Button fx:id="btn_start_pause" layoutX="103.0" layoutY="458.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" stylesheets="@StylePont.css" text="작업 시작" textFill="#ff3b3b">
+       <font>
+          <Font size="19.0" />
+       </font></Button>
+ 
+-    <Button fx:id="tsk_btn" layoutX="288.0" layoutY="14.0" mnemonicParsing="false" text="X"> </Button>
++    <Button fx:id="tsk_btn" layoutX="288.0" layoutY="14.0" mnemonicParsing="false" stylesheets="@StylePont.css" text="X" textFill="RED"> </Button>
+ 
+-    <Label layoutX="112.0" layoutY="68.0" prefHeight="47.0" prefWidth="115.0" text="Timer Home" textFill="RED">
++    <Label layoutX="113.0" layoutY="77.0" prefHeight="47.0" prefWidth="115.0" text="Timer Home" textFill="RED">
+       <font>
+          <Font size="20.0" />
+       </font></Label>
+-    <ChoiceBox fx:id="taskChoiceBox" layoutX="88.0" layoutY="14.0" prefHeight="22.0" prefWidth="162.0" />
++    <ChoiceBox fx:id="taskChoiceBox" layoutX="88.0" layoutY="14.0" prefHeight="22.0" prefWidth="162.0" style="-fx-border-color: #cc3333; -fx-border-radius: 5; -fx-border-width: 3;" stylesheets="@StylePont.css" />
+ </AnchorPane>
+Index: src/main/resources/com/example/todo_timer/StylePont.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.inner_pane{\r\n    -fx-background-color:  #D4F4FA;\r\n    -fx-background-radius: 20 20 20 20\r\n\r\n}\r\n\r\n.root_1 {\r\n    -fx-background-image: url('TodoTimeBack.png');\r\n    -fx-background-size: contain;\r\n\r\n}\r\n\r\n.root_2 {\r\n    -fx-background-image: url('TodoTimerTaskBackGrounImg.png');\r\n    -fx-background-size: contain;\r\n\r\n}\r\n\r\n\r\n/*\r\n.btn{\r\n    -fx-position: 150px;\r\n    -fx-left; 50px;\r\n    -fx-top: 50px;\r\n\r\n*/\r\n/*상자 디자인 큰틀 *//*\r\n\r\n    -fx-margin-bottom: 30px;\r\n    -fx-border: 0px;\r\n    -fx-background-color: #4EBF5;\r\n\r\n*/\r\n/*그림자 *//*\r\n\r\n    -fx-border-radius: 10px;\r\n    -fx-box-shadow: 4rem .3rem 0.7rem #BEC5D0,\r\n               -.2rem -.2rem .4rem #FBFBFB;\r\n\r\n*/\r\n/*글씨 *//*\r\n\r\n    -fx-color: #333333;\r\n    -fx-font-size: 1.3em;\r\n    -fx-font-weight: bold;\r\n}\r\n\r\n.btn.active{\r\n    -fx-box-shadow: inset -.3rem -.1rem 1.4rem #FBFBFB,\r\n                    inset .3rem .4rem .8rem #BECSD0;\r\n    -fx-cursor: pointer;\r\n}\r\n*/\r\n\r\n/* 버튼 스타일 */\r\n.button {\r\n    -fx-background-radius: 15px; /* 버튼의 모서리 반경을 설정합니다. */\r\n    -fx-background-color:\r\n        rgba(0,0,0,0.08), /* 하단 레이어: 반투명한 검은색 배경 */\r\n        linear-gradient(#9a9a9a, #909090), /* 중간 레이어: 어두운 회색에서 밝은 회색으로 그라데이션 */\r\n        linear-gradient(white 0%, #f3f3f3 50%, #ececec 51%, #f2f2f2 100%); /* 상단 레이어: 흰색에서 밝은 회색까지의 그라데이션 */\r\n    -fx-background-insets: 0 0 -1 0,0,1; /* 배경의 여백을 설정합니다. */\r\n\r\n}\r\n\r\n/* 버튼 호버 스타일 */\r\n.button:hover {\r\n    -fx-background-radius: 15px; /* 호버 시 버튼의 모서리 반경을 설정합니다. */\r\n    -fx-background-color:\r\n        rgba(0,0,0,0.08), /* 하단 레이어: 반투명한 검은색 배경 */\r\n        linear-gradient(#5a61af, #51536d), /* 중간 레이어: 어두운 파란색에서 어두운 회색으로 그라데이션 */\r\n        linear-gradient(#e4fbff 0%,#cee6fb 10%, #a5d3fb 50%, #88c6fb 51%, #d5faff 100%); /* 상단 레이어: 하늘색에서 연한 파란색까지의 그라데이션 */\r\n    -fx-background-insets: 0 0 -1 0,0,1; /* 배경의 여백을 설정합니다. */\r\n}\r\n\r\n\r\n\r\n/* Example.css */\r\n\r\n.choice-box {\r\n    -fx-background-color: #FFFFFF;\r\n    -fx-mark-color: orange; /* 화살표 색상 */\r\n    -fx-background-radius: 5; /* 모서리 반지름 값 */\r\n}\r\n\r\n\r\n
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/StylePont.css b/src/main/resources/com/example/todo_timer/StylePont.css
+--- a/src/main/resources/com/example/todo_timer/StylePont.css	
++++ b/src/main/resources/com/example/todo_timer/StylePont.css	
+@@ -16,6 +16,24 @@
+ 
+ }
+ 
++/* ListView의 칸 크기를 넓힘 */
++.list-view {
++    -fx-pref-width: 235;
++    -fx-pref-height: 330;
++}
++
++/* ListView의 칸 사이의 색상을 변경 */
++.list-cell {
++    -fx-background-color: #FFFFCC;
++    -fx-border-color: #0077cc; /* 테두리 색상 지정 */
++    -fx-border-width: 0 0 1 0; /* 테두리 두께 지정 (top, right, bottom, left) */
++}
++
++/* 마우스를 갖다 대었을 때의 효과 */
++.list-cell:hover {
++    -fx-background-color: #add8e6; /* 마우스 호버시 배경색 변경 */
++}
++
+ 
+ /*
+ .btn{

@@ -198,4 +198,3 @@ public class TodoTaskManageController implements Initializable {
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
     }
 }
-

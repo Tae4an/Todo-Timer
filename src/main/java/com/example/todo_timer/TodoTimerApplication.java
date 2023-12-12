@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-/**
+    /**
  * ToDo 타이머 애플리케이션의 진입점인 메인 애플리케이션 클래스
  */
 public class TodoTimerApplication extends Application {

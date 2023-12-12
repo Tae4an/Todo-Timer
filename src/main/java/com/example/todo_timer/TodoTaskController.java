@@ -121,7 +121,11 @@ public class TodoTaskController implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
         dialog.setHeaderText("새로운 작업을 추가하세요");
+        String cssPath = getClass().getResource("style.css").toExternalForm();
+        dialog.getDialogPane().getStylesheets().add(cssPath);
+
         dialog.setContentText("작업 이름:");
+        dialog.getDialogPane().setStyle("-fx-background-color: #ffb66e;");
 
         Optional<String> result = dialog.showAndWait();
 
@@ -162,7 +166,6 @@ public class TodoTaskController implements Initializable {
         }
     }
 
-
     /**
      * 지정된 작업의 마감일을 업데이트하는 메서드.
      *
@@ -184,7 +187,6 @@ public class TodoTaskController implements Initializable {
         // 'dueDates' 맵에서 작업 이름에 해당하는 마감일을 조회하여 반환
         return dueDates.get(task);
     }
-
 
     /**
      * 팝업 창을 표시하는 메서드.

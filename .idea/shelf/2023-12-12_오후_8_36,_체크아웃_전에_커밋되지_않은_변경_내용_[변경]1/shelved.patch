@@ -1,0 +1,154 @@
+Index: src/main/java/com/example/todo_timer/CircleController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.animation.KeyFrame;\r\nimport javafx.animation.KeyValue;\r\nimport javafx.animation.Timeline;\r\nimport javafx.fxml.FXML;\r\nimport javafx.scene.paint.Color;\r\nimport javafx.scene.shape.Circle;\r\nimport javafx.util.Duration;\r\n\r\n\r\n//임시적으로 Circle.fxml를 돌리는 코드\r\npublic class CircleController {\r\n\r\n    @FXML\r\n    private Circle donutCircle;\r\n\r\n    private Timeline timeline;\r\n\r\n    @FXML\r\n    private void initialize() {\r\n        // 애니메이션 타임라인 생성\r\n        timeline = new Timeline(\r\n                new KeyFrame(Duration.ZERO, new KeyValue(donutCircle.strokeProperty(), Color.web(\"#F5F6CE\"))),\r\n                new KeyFrame(Duration.seconds(1), new KeyValue(donutCircle.strokeProperty(), Color.web(\"#A9F5F2\"))),\r\n                new KeyFrame(Duration.seconds(2), new KeyValue(donutCircle.strokeProperty(), Color.web(\"#ECE0F8\"))),\r\n                new KeyFrame(Duration.seconds(3), new KeyValue(donutCircle.strokeProperty(), Color.WHITE))\r\n        );\r\n\r\n        timeline.setAutoReverse(true); // 애니메이션 반복 설정\r\n        timeline.setCycleCount(Timeline.INDEFINITE);\r\n    }\r\n\r\n    @FXML\r\n    private void toggleAnimation() {\r\n        if (timeline.getStatus() == Timeline.Status.RUNNING) {\r\n            // 애니메이션 정지\r\n            timeline.pause();\r\n            // 정지 시 원의 테두리 색을 흰색으로 설정\r\n            donutCircle.setStroke(Color.WHITE);\r\n        } else {\r\n            // 애니메이션 시작\r\n            timeline.play();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/CircleController.java b/src/main/java/com/example/todo_timer/CircleController.java
+--- a/src/main/java/com/example/todo_timer/CircleController.java	
++++ b/src/main/java/com/example/todo_timer/CircleController.java	
+@@ -21,9 +21,9 @@
+     private void initialize() {
+         // 애니메이션 타임라인 생성
+         timeline = new Timeline(
+-                new KeyFrame(Duration.ZERO, new KeyValue(donutCircle.strokeProperty(), Color.web("#F5F6CE"))),
+-                new KeyFrame(Duration.seconds(1), new KeyValue(donutCircle.strokeProperty(), Color.web("#A9F5F2"))),
+-                new KeyFrame(Duration.seconds(2), new KeyValue(donutCircle.strokeProperty(), Color.web("#ECE0F8"))),
++                new KeyFrame(Duration.ZERO, new KeyValue(donutCircle.strokeProperty(), Color.web("#D1B2FF"))),
++                new KeyFrame(Duration.seconds(1), new KeyValue(donutCircle.strokeProperty(), Color.web("#A566FF"))),
++                new KeyFrame(Duration.seconds(2), new KeyValue(donutCircle.strokeProperty(), Color.web("#8041D9"))),
+                 new KeyFrame(Duration.seconds(3), new KeyValue(donutCircle.strokeProperty(), Color.WHITE))
+         );
+ 
+Index: src/main/resources/com/example/todo_timer/TodoTask.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<StackPane prefHeight=\"594.0\" prefWidth=\"337.0\" styleClass=\"root_1\" stylesheets=\"@StylePont.css\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTaskController\">\r\n    <AnchorPane prefHeight=\"594.0\" prefWidth=\"301.0\">\r\n        <children>\r\n\r\n            <Button fx:id=\"tm_btn\" layoutX=\"133.0\" layoutY=\"501.0\" mnemonicParsing=\"false\" prefHeight=\"32.0\" prefWidth=\"71.0\" style=\"-fx-border-radius: 40;\" text=\" 타이머 홈\" textFill=\"#ff3535\"> </Button>\r\n            <ListView fx:id=\"taskListView\" layoutX=\"75.0\" layoutY=\"153.0\" prefHeight=\"298.0\" prefWidth=\"190.0\" />\r\n            <Button layoutX=\"75.0\" layoutY=\"102.0\" mnemonicParsing=\"false\" onAction=\"#addTask\" prefHeight=\"32.0\" prefWidth=\"71.0\" text=\"작업 추가\" textFill=\"#ff4444\" />\r\n\r\n            <Label layoutX=\"136.0\" layoutY=\"58.0\" prefHeight=\"22.0\" prefWidth=\"67.0\" text=\"Task Home\" textFill=\"RED\" />\r\n            <Button layoutX=\"194.0\" layoutY=\"102.0\" mnemonicParsing=\"false\" onAction=\"#managementTask\" prefHeight=\"32.0\" prefWidth=\"71.0\" text=\"작업 관리\" textAlignment=\"CENTER\" textFill=\"RED\">\r\n            <font>\r\n               <Font name=\"Yu Gothic Regular\" size=\"12.0\" />\r\n            </font></Button>\r\n        </children>\r\n    </AnchorPane>\r\n</StackPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTask.fxml b/src/main/resources/com/example/todo_timer/TodoTask.fxml
+--- a/src/main/resources/com/example/todo_timer/TodoTask.fxml	
++++ b/src/main/resources/com/example/todo_timer/TodoTask.fxml	
+@@ -9,7 +9,7 @@
+         <children>
+ 
+             <Button fx:id="tm_btn" layoutX="133.0" layoutY="501.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="71.0" style="-fx-border-radius: 40;" text=" 타이머 홈" textFill="#ff3535"> </Button>
+-            <ListView fx:id="taskListView" layoutX="75.0" layoutY="153.0" prefHeight="298.0" prefWidth="190.0" />
++            <ListView fx:id="taskListView" layoutX="51.0" layoutY="153.0" prefHeight="330.0" prefWidth="247.0" style="-fx-background-radius: 10; -fx-background-size: 33; -fx-border-color: #cc3333; -fx-border-radius: 10; -fx-border-width: 6;" />
+             <Button layoutX="75.0" layoutY="102.0" mnemonicParsing="false" onAction="#addTask" prefHeight="32.0" prefWidth="71.0" text="작업 추가" textFill="#ff4444" />
+ 
+             <Label layoutX="136.0" layoutY="58.0" prefHeight="22.0" prefWidth="67.0" text="Task Home" textFill="RED" />
+Index: src/main/java/com/example/todo_timer/TodoTimerApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.application.Application;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Parent;\r\nimport javafx.scene.Scene;\r\nimport javafx.stage.Stage;\r\n\r\nimport java.util.Objects;\r\n\r\n/**\r\n * ToDo 타이머 애플리케이션의 진입점인 메인 애플리케이션 클래스\r\n */\r\npublic class TodoTimerApplication extends Application {\r\n\r\n    @Override\r\n    public void start(Stage primaryStage) throws Exception {\r\n        //Objects.requireNonNull은 getResource(\"TodoTimer.fxml\")의 반환값이 null이면 예외를 발생시키므로, 리소스가 없는 경우에는 예외가 발생\r\n        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(\"TodoTask.fxml\")));\r\n        primaryStage.setTitle(\"ToDo 타이머\");\r\n        primaryStage.setScene(new Scene(root));\r\n        primaryStage.show();\r\n\r\n    }\r\n    public static void main(String[] args) {\r\n        launch(args);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TodoTimerApplication.java b/src/main/java/com/example/todo_timer/TodoTimerApplication.java
+--- a/src/main/java/com/example/todo_timer/TodoTimerApplication.java	
++++ b/src/main/java/com/example/todo_timer/TodoTimerApplication.java	
+@@ -8,7 +8,7 @@
+ 
+ import java.util.Objects;
+ 
+-/**
++    /**
+  * ToDo 타이머 애플리케이션의 진입점인 메인 애플리케이션 클래스
+  */
+ public class TodoTimerApplication extends Application {
+Index: src/main/resources/com/example/todo_timer/TodoTimerPont.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTimerPont.fxml b/src/main/resources/com/example/todo_timer/TodoTimerPont.fxml
+deleted file mode 100644
+--- a/src/main/resources/com/example/todo_timer/TodoTimerPont.fxml	
++++ /dev/null	
+@@ -1,64 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-
+-<?import javafx.scene.control.*?>
+-<?import javafx.scene.image.*?>
+-<?import javafx.scene.layout.*?>
+-
+-<AnchorPane prefHeight="640.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+-   <children>
+-      <ImageView fitHeight="89.0" fitWidth="200.0" layoutX="80.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+-         <image>
+-            <Image url="@../../../img/todotime.png" />
+-         </image></ImageView>
+-      <ImageView fitHeight="233.0" fitWidth="312.0" layoutX="25.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+-         <image>
+-            <Image url="@../../../img/back-icon.png" />
+-         </image>
+-      </ImageView>
+-      <Pane layoutX="64.0" layoutY="123.0" opacity="0.46" prefHeight="95.0" prefWidth="232.0" styleClass="inner_pane" stylesheets="@../../../img/style.css" />
+-      <ListView layoutX="29.0" layoutY="335.0" prefHeight="219.0" prefWidth="301.0" styleClass="inner_pane" stylesheets="@../../../img/style.css" />
+-      <Button layoutX="110.0" layoutY="255.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="46.0" stylesheets="@../../../img/style.css">
+-         <graphic>
+-            <ImageView fitHeight="35.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+-               <image>
+-                  <Image url="@../../../img/free-icon-play-button-3567937.png" />
+-               </image>
+-            </ImageView>
+-         </graphic></Button>
+-      <Button layoutX="208.0" layoutY="254.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="36.0" stylesheets="@../../../img/style.css">
+-         <graphic>
+-            <ImageView fitHeight="36.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+-               <image>
+-                  <Image url="@../../../img/free-icon-pause-button-3567925.png" />
+-               </image>
+-            </ImageView>
+-         </graphic></Button>
+-      <HBox layoutX="1.0" layoutY="580.0" prefHeight="60.0" prefWidth="360.0">
+-         <children>
+-            <Button mnemonicParsing="false" prefHeight="71.0" prefWidth="120.0">
+-               <graphic>
+-                  <ImageView fitHeight="76.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+-                     <image>
+-                        <Image url="@../../../img/free-icon-worker-4222823.png" />
+-                     </image>
+-                  </ImageView>
+-               </graphic></Button>
+-            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0">
+-               <graphic>
+-                  <ImageView fitHeight="47.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+-                     <image>
+-                        <Image url="@../../../img/free-icon-eco-home-6781909.png" />
+-                     </image>
+-                  </ImageView>
+-               </graphic></Button>
+-            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0">
+-               <graphic>
+-                  <ImageView fitHeight="47.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+-                     <image>
+-                        <Image url="@../../../img/free-icon-timer-1407089.png" />
+-                     </image>
+-                  </ImageView>
+-               </graphic></Button>
+-         </children></HBox>
+-   </children>
+-</AnchorPane>
+Index: src/main/java/com/example/todo_timer/TodoTimerController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.todo_timer;\r\n\r\nimport javafx.animation.KeyFrame;\r\nimport javafx.animation.KeyValue;\r\nimport javafx.animation.Timeline;\r\nimport javafx.application.Platform;\r\nimport javafx.event.ActionEvent;\r\nimport javafx.event.EventHandler;\r\nimport javafx.fxml.FXML;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.fxml.Initializable;\r\nimport javafx.scene.Parent;\r\nimport javafx.scene.control.*;\r\nimport javafx.scene.input.MouseEvent;\r\nimport javafx.scene.layout.AnchorPane;\r\nimport javafx.scene.layout.StackPane;\r\nimport javafx.scene.text.Text;\r\nimport javafx.util.Duration;\r\n\r\nimport java.io.IOException;\r\nimport java.net.URL;\r\nimport java.util.Optional;\r\nimport java.util.ResourceBundle;\r\n\r\n/**\r\n * ToDo 타이머 애플리케이션의 컨트롤러 클래스\r\n * 마지막 수정 일자 : 2023.11.29\r\n */\r\npublic class TodoTimerController implements Initializable {\r\n\r\n    @FXML\r\n    private Text timerText;  // 타이머 시간을 표시하는 Text\r\n    @FXML\r\n    private Button btn_start_pause;  // 시작/일시정지 버튼. 레이블은 상태에 따라 동적으로 변경 됨\r\n    @FXML\r\n    private Button tsk_btn;  // 작업 홈 버튼\r\n    @FXML\r\n    private AnchorPane timer_layout;   // 타이머 홈의 레이아웃\r\n    @FXML\r\n    private ChoiceBox<String> taskChoiceBox;   // 타이머 홈의 초이스 박스\r\n\r\n\r\n    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용\r\n\r\n    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분\r\n\r\n    private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초\r\n\r\n    private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정\r\n\r\n    private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그\r\n\r\n    private final TodoTaskController todoTaskController;\r\n\r\n\r\n\r\n\r\n    /**\r\n     * 화면 초기화 시 호출되는 메서드\r\n     * 주요 컴포넌트들을 초기화하고 이벤트 핸들러를 등록\r\n     *\r\n     * @param location   FXML 파일의 위치\r\n     * @param resources  리소스 번들\r\n     */\r\n    @Override\r\n    public void initialize(URL location, ResourceBundle resources) {\r\n        // \"할 일 목록\" 버튼에 대한 액션 설정\r\n        tsk_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {\r\n            @Override\r\n            public void handle(MouseEvent event) {\r\n                StackPane stackPane = (StackPane) timer_layout.getScene().getRoot();\r\n                Parent sub = (Parent) stackPane.getChildren().get(1);\r\n\r\n                Timeline timeline = new Timeline();\r\n                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 400);\r\n                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {\r\n                    @Override\r\n                    public void handle(ActionEvent event) {\r\n                        stackPane.getChildren().remove(1);\r\n                    }\r\n                }, keyValue);\r\n                timeline.getKeyFrames().add(keyFrame);\r\n                timeline.play();\r\n\r\n\r\n            }\r\n        });\r\n\r\n        // 할 일 선택 상자에 할 일 목록을 설정합니다.\r\n        taskChoiceBox.setItems(todoTaskController.getTasks());\r\n        // 선택 상자의 기본 선택을 첫 번째 항목으로 설정\r\n        taskChoiceBox.getSelectionModel().selectFirst();\r\n\r\n        // 타이머 초기화\r\n        initializeTimer();\r\n    }\r\n    /**\r\n     * TodoTimerController의 생성자.\r\n     */\r\n    public TodoTimerController() {\r\n        // TodoTaskController 인스턴스를 얻어옴\r\n        this.todoTaskController = TodoTaskController.getInstance();\r\n        initializeTimer(); // 타이머 초기화\r\n    }\r\n\r\n    /**\r\n     * 타이머를 초기화하는 메서드.\r\n     * 1초 간격으로 이벤트를 실행하는 Timeline을 생성하고, 타이머를 무한히 반복하도록 설정합니다.\r\n     * 타이머 이벤트에서는 일시정지 상태가 아니라면 타이머를 업데이트하고, 시간이 종료되면 휴식 또는 작업 타이머를 시작합니다.\r\n     */\r\n    private void initializeTimer() {\r\n        // 타이머 초기화: 1초 간격으로 이벤트를 실행하는 Timeline 생성\r\n        timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {\r\n            // 타이머가 일시정지 상태가 아닌 경우에만 처리\r\n            if (!isPaused) {\r\n                updateTimerDisplay();  // 타이머 디스플레이 업데이트\r\n\r\n                // 작업 타이머가 종료된 경우\r\n                if (minutes == 0 && seconds == 0) {\r\n                    if (!isRest) {  // 현재 휴식 중이 아닌 경우\r\n                        showPopup(\"휴식 시간입니다.\", \"5분 동안 휴식하세요.\");\r\n                        startRestTimer();  // 휴식 타이머 시작\r\n                    } else {\r\n                        // 휴식 타이머가 종료된 경우\r\n                        showPopup(\"작업을 시작하세요.\", \"25분 동안 집중하세요.\");\r\n                        startWorkTimer();  // 작업 타이머 시작\r\n                    }\r\n                } else {\r\n                    decrementTime();  // 타이머 시간 감소\r\n                }\r\n            }\r\n        }));\r\n\r\n        timer.setCycleCount(Timeline.INDEFINITE); // 타이머를 무한히 반복하도록 설정\r\n    }\r\n\r\n    /**\r\n     * 타이머 텍스트를 업데이트하는 메서드\r\n     */\r\n    private void updateTimerDisplay() {\r\n        // 타이머 텍스트 업데이트\r\n        timerText.setText(String.format(\"%02d:%02d\", minutes, seconds));\r\n    }\r\n\r\n    /**\r\n     * 시간을 감소시키는 메서드\r\n     */\r\n    private void decrementTime() {\r\n        if (seconds == 0) {\r\n            minutes--;\r\n            seconds = 59;\r\n        } else {\r\n            seconds--;\r\n        }\r\n    }\r\n\r\n    /**\r\n     * \"시작\" 버튼 클릭 시 호출되는 메서드\r\n     * 타이머를 시작하고, 일시정지 상태를 해제\r\n     */\r\n    @FXML\r\n    private void startTimer() {\r\n        // 타이머 시작 메서드\r\n        timer.play();\r\n        isPaused = false;\r\n    }\r\n\r\n//    /**\r\n//     * \"일시정지\" 버튼 클릭 시 호출되는 메서드\r\n//     * 타이머를 일시정지 상태로 변경\r\n//     */\r\n//    @FXML\r\n//    private void pauseTimer() {\r\n//        // 타이머 일시정지 메서드\r\n//        isPaused = true;\r\n//    }\r\n\r\n\r\n    /**\r\n     * \"시작/일시정지\" 버튼 클릭 시 호출되는 메서드\r\n     * 타이머의 상태에 따라 시작 또는 일시정지 하고 버튼의 텍스트를 업데이트\r\n     */\r\n    @FXML\r\n    private void startPauseTimer() {\r\n        if (timer.getStatus().equals(Timeline.Status.RUNNING) && !isPaused) {\r\n            pauseTimer();\r\n        } else {\r\n            startTimer();\r\n            btn_start_pause.setText(\"일시정지\");\r\n        }\r\n    }\r\n\r\n    @FXML\r\n    private void pauseTimer() {\r\n        // 타이머 일시정지 메서드\r\n        isPaused = true;\r\n\r\n        // 사용자에게 선택을 받는 다이얼로그 표시\r\n        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);\r\n        alert.setTitle(\"일시정지\");\r\n        alert.setHeaderText(\"일시정지 상태입니다.\");\r\n        alert.setContentText(\"계속 작업을 진행하시겠습니까?\");\r\n\r\n        ButtonType resumeButton = new ButtonType(\"계속\");\r\n        ButtonType stopButton = new ButtonType(\"정지\", ButtonBar.ButtonData.CANCEL_CLOSE);\r\n        alert.getButtonTypes().setAll(resumeButton, stopButton);\r\n\r\n        Optional<ButtonType> result = alert.showAndWait();\r\n        if (result.isPresent() && result.get() == resumeButton) {\r\n            // \"계속\" 버튼이 선택된 경우\r\n            startTimer();  // 타이머 계속 진행\r\n        } else {\r\n            // \"정지\" 버튼이나 다이얼로그를 닫은 경우\r\n            stopTimer();  // 타이머 정지\r\n        }\r\n    }\r\n\r\n    /**\r\n     * \"종료\" 버튼 클릭 시 호출되는 메서드\r\n     * 타이머를 종료하고 초기 상태로 설정\r\n     */\r\n    @FXML\r\n    private void stopTimer() {\r\n        // 타이머 종료 메서드\r\n        timer.stop();\r\n        minutes = 25;\r\n        seconds = 0;\r\n        isPaused = false;\r\n        btn_start_pause.setText(\"작업 시작\");\r\n        updateTimerDisplay();\r\n    }\r\n\r\n    /**\r\n     * 작업 타이머를 시작하는 메서드.\r\n     * 작업 시간 25분 설정\r\n     */\r\n    private void startWorkTimer() {\r\n        minutes = 25;\r\n        seconds = 0;\r\n        isPaused = false;\r\n    }\r\n\r\n    /**\r\n     * 휴식 타이머를 시작하는 메서드.\r\n     * 휴식 시간 5분 설정\r\n     */\r\n    private void startRestTimer() {\r\n        minutes = 5;\r\n        seconds = 0;\r\n        isPaused = false;\r\n        isRest = true;\r\n    }\r\n\r\n    /**\r\n     * 팝업 창을 표시하는 메서드.\r\n     *\r\n     * @param title   팝업 창 제목\r\n     * @param message 팝업 메시지\r\n     */\r\n    private void showPopup(String title, String message) {\r\n        // Platform.runLater() 메서드를 사용하여 JavaFX 애플리케이션 스레드에서 실행되도록 작업을 예약하는 데 사용\r\n        // 이렇게 하면 showAndWait()가 다음 프레임에서 실행되므로 애니메이션이나 레이아웃 처리와 충돌하지 않음\r\n        Platform.runLater(() -> {\r\n            Alert alert = new Alert(Alert.AlertType.INFORMATION);\r\n            alert.setTitle(title);\r\n            alert.setHeaderText(null);\r\n            alert.setContentText(message);\r\n            alert.showAndWait();\r\n        });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/todo_timer/TodoTimerController.java b/src/main/java/com/example/todo_timer/TodoTimerController.java
+--- a/src/main/java/com/example/todo_timer/TodoTimerController.java	
++++ b/src/main/java/com/example/todo_timer/TodoTimerController.java	
+@@ -26,7 +26,7 @@
+  * ToDo 타이머 애플리케이션의 컨트롤러 클래스
+  * 마지막 수정 일자 : 2023.11.29
+  */
+-public class TodoTimerController implements Initializable {
++public class    TodoTimerController implements Initializable {
+ 
+     @FXML
+     private Text timerText;  // 타이머 시간을 표시하는 Text
