@@ -4,16 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane prefHeight="594.0" prefWidth="337.0" styleClass="root_1" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+<StackPane prefHeight="594.0" prefWidth="337.0" styleClass="root_1" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
     <AnchorPane prefHeight="594.0" prefWidth="301.0">
         <children>
 
-            <Button fx:id="tm_btn" layoutX="133.0" layoutY="501.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="71.0" style="-fx-border-radius: 40;" text=" 타이머 홈" textFill="#ff3535"> </Button>
+            <Button fx:id="tm_btn" layoutX="133.0" layoutY="501.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="71.0" style="-fx-border-radius: 40;" text=" 타이머 홈"> </Button>
             <ListView fx:id="taskListView" layoutX="75.0" layoutY="153.0" prefHeight="298.0" prefWidth="190.0" />
-            <Button layoutX="75.0" layoutY="102.0" mnemonicParsing="false" onAction="#addTask" prefHeight="32.0" prefWidth="71.0" text="작업 추가" textFill="#ff4444" />
+            <Button layoutX="75.0" layoutY="102.0" mnemonicParsing="false" onAction="#addTask" prefHeight="32.0" prefWidth="71.0" text="작업 추가" />
 
-            <Label layoutX="136.0" layoutY="58.0" prefHeight="22.0" prefWidth="67.0" text="Task Home" textFill="RED" />
-            <Button layoutX="194.0" layoutY="102.0" mnemonicParsing="false" onAction="#managementTask" prefHeight="32.0" prefWidth="71.0" text="작업 관리" textAlignment="CENTER" textFill="RED">
+            <Label layoutX="142.0" layoutY="58.0" prefHeight="22.0" prefWidth="67.0" text="Task Home">
+            <font>
+               <Font name="Helvetica-Condensed Bold" size="14.0" />
+            </font></Label>
+            <Button layoutX="194.0" layoutY="102.0" mnemonicParsing="false" onAction="#managementTask" prefHeight="32.0" prefWidth="71.0" text="작업 관리" textAlignment="CENTER">
             <font>
                <Font name="Yu Gothic Regular" size="12.0" />
             </font></Button>
