@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoCategoryController">
+    <AnchorPane prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFFFFF;">
+        <Button fx:id="tm_btn" layoutX="134.0" layoutY="526.0" mnemonicParsing="false"
+                style="-fx-background-color: #FAE0D4;" text=" 타이머 홈"/>
+    </AnchorPane>
+</StackPane>
