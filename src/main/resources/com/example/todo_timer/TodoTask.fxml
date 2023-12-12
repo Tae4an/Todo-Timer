@@ -14,7 +14,6 @@
          <Button fx:id="tskmanage_btn" layoutX="8.0" layoutY="88.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="308.0" style="-fx-background-color: #FAE0D4;" text="작업 관리                                                                              " />
          <ListView fx:id="taskListView" layoutX="7.0" layoutY="133.0" prefHeight="324.0" prefWidth="319.0" style="-fx-background-color: #FFF2E6;" />
             
-<!--            <Button layoutX="8.0" layoutY="78.0" mnemonicParsing="false" onAction="#managementTask" prefHeight="22.0" prefWidth="308.0" style="-fx-background-color: #FAE0D4;" text="작업 관리                                                                              " />-->
         </children>
     </AnchorPane>
 </StackPane>
