@@ -5,6 +5,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -12,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -99,23 +101,45 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
-    /**
-     * 작업 목록 UI를 로드하는 메서드.
-     */
-    public void loadTodoTask() {
-        // 현재 UI의 루트를 가져옴 (StackPane)
-        StackPane stackPane = (StackPane) tskManage_layout.getScene().getRoot();
-        // StackPane의 두 번째 자식 요소를 가져옴
-        Parent sub = (Parent) stackPane.getChildren().get(1);
+//    /**
+//     * 작업 목록 UI를 로드하는 메서드.
+//     */
+//    public void loadTodoTask() {
+//        // 현재 UI의 루트를 가져옴 (StackPane)
+//        StackPane stackPane = (StackPane) tskManage_layout.getScene().getRoot();
+//        // StackPane의 두 번째 자식 요소를 가져옴
+//        Parent sub = (Parent) stackPane.getChildren().get(1);
+//
+//        // 애니메이션을 사용하여 UI 요소를 제거함
+//        Timeline timeline = new Timeline();
+//        KeyValue keyValue = new KeyValue(sub.translateXProperty(), 400);
+//        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), event -> stackPane.getChildren().remove(1), keyValue);
+//        timeline.getKeyFrames().add(keyFrame);
+//        timeline.play();
+//    }
+public void loadTodoTask() {
+    try {
+        // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
+        Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
+        StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
-        // 애니메이션을 사용하여 UI 요소를 제거함
+        // 현재 씬에 새로운 TodoTask 씬 추가
+        root.getChildren().add(todoTaskScene);
+
+        // 필요한 경우, 새 씬에 애니메이션 효과 적용
+        todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
         Timeline timeline = new Timeline();
-        KeyValue keyValue = new KeyValue(sub.translateXProperty(), 400);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), event -> stackPane.getChildren().remove(1), keyValue);
+        KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
-    }
 
+        // 이전 씬 제거
+        root.getChildren().remove(1);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
     /**
      * 선택된 작업을 삭제하는 메서드.
      *

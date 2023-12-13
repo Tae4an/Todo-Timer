@@ -5,18 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
-    <AnchorPane prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF;">
+<StackPane fx:id="task_layout" prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+    <AnchorPane  prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF;">
         <children>
 
-            <Button fx:id="tm_btn" layoutX="143.0" layoutY="526.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="55.0" style="-fx-background-color: #FAE0D4; -fx-background-radius: 50;">
-            <graphic>
-               <ImageView fitHeight="36.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../../img/TimerImage.png" />
-                  </image>
-               </ImageView>
-            </graphic></Button>
             <Button layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404" />
 
             <Label layoutX="87.0" layoutY="14.0" prefHeight="40.0" prefWidth="168.0" stylesheets="@../../../css/style.css" text="Task Home" textFill="#c98888">
@@ -35,6 +27,7 @@
                <Image url="@../../../img/FileImage.png" />
             </image>
          </ImageView>
+            <Button fx:id="back_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888;" text="←" />
 
         </children>
     </AnchorPane>

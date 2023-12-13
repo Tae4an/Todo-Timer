@@ -31,6 +31,10 @@ public class TodoTaskController implements Initializable {
 
     @FXML
     private Button tskmanage_btn; // "작업 관리" 기능을 위한 버튼
+    @FXML
+    private Button back_btn;
+    @FXML
+    private StackPane task_layout;
 
     // 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
     private static final ObservableList<String> tasks = FXCollections.observableArrayList();
@@ -107,7 +111,32 @@ public class TodoTaskController implements Initializable {
                 }
             }
         });
+        back_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
+                    Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
+                    StackPane root = (StackPane) task_layout.getScene().getRoot();
 
+                    // 현재 씬에 새로운 TodoTask 씬 추가
+                    root.getChildren().add(todoTaskScene);
+
+                    // 필요한 경우, 새 씬에 애니메이션 효과 적용
+                    todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
+                    Timeline timeline = new Timeline();
+                    KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
+                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+                    timeline.getKeyFrames().add(keyFrame);
+                    timeline.play();
+
+                    // 이전 씬 제거
+                    root.getChildren().remove(1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         // 작업 목록 업데이트
         updateTaskList();
     }
@@ -121,8 +150,14 @@ public class TodoTaskController implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
         dialog.setHeaderText("새로운 작업을 추가하세요");
-        String cssPath = getClass().getResource("style.css").toExternalForm();
-        dialog.getDialogPane().getStylesheets().add(cssPath);
+
+        // style.css 파일의 URL을 안전하게 가져오기
+        URL cssUrl = getClass().getResource("/style.css"); // 절대 경로 사용
+        if (cssUrl != null) {
+            dialog.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+        } else {
+            System.out.println("style.css 파일을 찾을 수 없음");
+        }
 
         dialog.setContentText("작업 이름:");
         dialog.getDialogPane().setStyle("-fx-background-color: #ffb66e;");
@@ -136,6 +171,7 @@ public class TodoTaskController implements Initializable {
             }
         });
     }
+
 
     /**
      * 선택한 작업을 삭제하기 위한 메서드
