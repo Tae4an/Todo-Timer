@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoMainController">
-    <AnchorPane fx:id="main_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFFFFF;">
+    <AnchorPane fx:id="main_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #f5f1ed;">
 
         <Button fx:id="tm_btn" layoutX="143.0" layoutY="526.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="55.0" style="-fx-background-color: #FAE0D4; -fx-background-radius: 50;">
             <graphic>
@@ -14,9 +17,26 @@
                         <Image url="@../../../img/TimerImage.png" />
                     </image>
                 </ImageView>
-            </graphic></Button>        <Button fx:id="addProject_btn" layoutX="15.0" layoutY="50.0" mnemonicParsing="false" text="프로젝트 추가" />
-        <ListView fx:id="projectListView" layoutX="10.0" layoutY="88.0" prefHeight="200" prefWidth="320" />
-      <Button fx:id="manageProject_btn" layoutX="118.0" layoutY="50.0" mnemonicParsing="false" text="프로젝트 관리" />
+            </graphic>
+        </Button>
+
+        <Button fx:id="addProject_btn" layoutX="14.0" layoutY="72.0" mnemonicParsing="false" style="-fx-background-color: #FAE0D4;" text="프로젝트 추가" textFill="#6b0404" />
+        <ListView fx:id="projectListView" layoutX="11.0" layoutY="107.0" prefHeight="324.0" prefWidth="320" style="-fx-background-color: #FFF2E6; -fx-border-color: #CC9966; -fx-border-width: 5; -fx-border-radius: 3;" stylesheets="@../../../css/style.css">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <!-- 아이템 추가 -->
+                    <String fx:value="작업을 추가하십시요.." />
+                    <!-- 필요에 따라 더 많은 아이템 추가 -->
+                </FXCollections>
+            </items>
+        </ListView>
+
+        <Button fx:id="manageProject_btn" layoutX="119.0" layoutY="72.0" mnemonicParsing="false" style="-fx-background-color: #FAE0D4;" text="프로젝트 관리" textFill="#6b0404" />
+      <Label layoutX="68.0" layoutY="14.0" text="TO-DO TIMER" textFill="#c98888">
+         <font>
+            <Font name="Arial Black" size="26.0" />
+         </font>
+      </Label>
 
     </AnchorPane>
 </StackPane>

@@ -59,6 +59,8 @@ public class TodoMainController implements Initializable {
                         StackPane root = (StackPane) manageProject_btn.getScene().getRoot();
                         root.getChildren().add(sub);
 
+
+
                         // 뷰에 애니메이션 효과 적용
                         sub.setTranslateX(500);
                         Timeline timeline = new Timeline();
