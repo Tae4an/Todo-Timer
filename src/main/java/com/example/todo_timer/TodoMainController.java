@@ -60,6 +60,8 @@ public class TodoMainController implements Initializable {
                         root.getChildren().add(sub);
                         todoTaskController.setCurrentProject(selectedProject);
 
+
+
                         // 뷰에 애니메이션 효과 적용
                         sub.setTranslateX(500);
                         Timeline timeline = new Timeline();
@@ -108,6 +110,7 @@ public class TodoMainController implements Initializable {
             result.ifPresent(name -> {
                 ProjectManager newProject = new ProjectManager(name);
                 projects.add(newProject);
+
             });
         });
 
