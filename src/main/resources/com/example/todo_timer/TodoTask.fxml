@@ -16,7 +16,7 @@
                <Font name="Arial Black" size="25.0" />
             </font></Label>
             <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="작업관리" textAlignment="CENTER" textFill="#6b0404" />
-            <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="324.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 5; -fx-border-color: #CC9966; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/style.css" >
+            <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="324.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 5; -fx-border-color: #CC9966; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/style.css">
         </ListView>
             <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -30,7 +30,7 @@
          </ImageView>
             <Button fx:id="back_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888;" textFill="#f5f1ed">
             <graphic>
-               <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="22.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../../../img/arrow.png" />
                   </image>
