@@ -1,0 +1,71 @@
+Index: src/main/resources/com/example/todo_timer/TodoTimer.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<AnchorPane fx:id=\"timer_layout\" prefHeight=\"315.0\" prefWidth=\"215.0\" style=\"-fx-background-color: #CCFFFF;\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTimerController\">\r\n\r\n    <Text fx:id=\"timerText\" layoutX=\"88.0\" layoutY=\"269.0\" text=\"25:00\" wrappingWidth=\"40.0\">\r\n        <font>\r\n            <Font name=\"Ami R\" size=\"20\" />\r\n        </font>\r\n    </Text>\r\n\r\n    <Button fx:id=\"tsk_btn\" layoutX=\"189.0\" layoutY=\"3.0\" mnemonicParsing=\"false\" text=\"X\"> </Button>\r\n\r\n    <Label layoutX=\"8.0\" layoutY=\"2.0\" prefHeight=\"14.0\" prefWidth=\"67.0\" text=\"Timer Home\" />\r\n    <ChoiceBox fx:id=\"taskChoiceBox\" layoutX=\"19.0\" layoutY=\"25.0\" prefHeight=\"22.0\" prefWidth=\"162.0\" />\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTimer.fxml b/src/main/resources/com/example/todo_timer/TodoTimer.fxml
+--- a/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
++++ b/src/main/resources/com/example/todo_timer/TodoTimer.fxml	
+@@ -6,12 +6,14 @@
+ 
+ <AnchorPane fx:id="timer_layout" prefHeight="315.0" prefWidth="215.0" style="-fx-background-color: #CCFFFF;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+ 
+-    <Text fx:id="timerText" layoutX="88.0" layoutY="269.0" text="25:00" wrappingWidth="40.0">
++    <Text fx:id="timerText" layoutX="81.0" layoutY="260.0" text="25:00" wrappingWidth="47.0">
+         <font>
+             <Font name="Ami R" size="20" />
+         </font>
+     </Text>
+ 
++    <Button fx:id="btn_start_pause" layoutX="70.0" layoutY="222.0" mnemonicParsing="false" onAction="#startPauseTimer" text="작업 시작" />
++
+     <Button fx:id="tsk_btn" layoutX="189.0" layoutY="3.0" mnemonicParsing="false" text="X"> </Button>
+ 
+     <Label layoutX="8.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Timer Home" />
+Index: src/main/resources/com/example/todo_timer/TodoTask.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.image.*?>\r\n<?import javafx.scene.layout.*?>\r\n\r\n<<<<<<< HEAD\r\n<StackPane prefHeight=\"594.0\" prefWidth=\"337.0\" styleClass=\"root_2\" stylesheets=\"@StylePont.css\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTaskController\">\r\n    <AnchorPane prefHeight=\"594.0\" prefWidth=\"337.0\">\r\n        <children>\r\n\r\n            <Button fx:id=\"tm_btn\" layoutX=\"131.0\" layoutY=\"524.0\" mnemonicParsing=\"false\" prefHeight=\"43.0\" prefWidth=\"76.0\">\r\n            <graphic>\r\n               <ImageView fitHeight=\"48.0\" fitWidth=\"63.0\" pickOnBounds=\"true\" preserveRatio=\"true\">\r\n                  <image>\r\n                     <Image url=\"@../../../img/Timer-Icon.png\" />\r\n                  </image>\r\n               </ImageView>\r\n            </graphic></Button>\r\n            <ListView fx:id=\"taskListView\" layoutX=\"29.0\" layoutY=\"157.0\" prefHeight=\"236.0\" prefWidth=\"280.0\" stylesheets=\"@StylePont.css\" />\r\n            <Button layoutX=\"69.0\" layoutY=\"93.0\" mnemonicParsing=\"false\" onAction=\"#addTask\" text=\"작업 추가\" />\r\n\r\n            <Label layoutX=\"2.0\" layoutY=\"2.0\" prefHeight=\"14.0\" prefWidth=\"67.0\" text=\"Task Home\" />\r\n            <Button layoutX=\"196.0\" layoutY=\"93.0\" mnemonicParsing=\"false\" onAction=\"#managementTask\" text=\"작업 관리\" />\r\n        </children>\r\n    </AnchorPane>\r\n=======\r\n<StackPane prefHeight=\"315.0\" prefWidth=\"215.0\" xmlns=\"http://javafx.com/javafx/11.0.14-internal\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.todo_timer.TodoTaskController\">\r\n   <AnchorPane prefHeight=\"200.0\" prefWidth=\"200.0\">\r\n      <children>\r\n      \r\n          <Button fx:id=\"tm_btn\" layoutX=\"72.0\" layoutY=\"286.0\" mnemonicParsing=\"false\" text=\" 타이머 홈\"> </Button>\r\n          <ListView fx:id=\"taskListView\" layoutX=\"12.0\" layoutY=\"107.0\" prefHeight=\"167.0\" prefWidth=\"190.0\" />\r\n          <Button layoutX=\"23.0\" layoutY=\"38.0\" mnemonicParsing=\"false\" onAction=\"#addTask\" text=\"작업 추가\" />\r\n      \r\n          <Label layoutX=\"2.0\" layoutY=\"2.0\" prefHeight=\"14.0\" prefWidth=\"67.0\" text=\"Task Home\" />\r\n         <Button layoutX=\"126.0\" layoutY=\"38.0\" mnemonicParsing=\"false\" onAction=\"#managementTask\" text=\"작업 관리\" />\r\n      </children>\r\n   </AnchorPane>\r\n>>>>>>> 1a87372f7c944354b747e8774739ec03d3d405fd\r\n</StackPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/com/example/todo_timer/TodoTask.fxml b/src/main/resources/com/example/todo_timer/TodoTask.fxml
+--- a/src/main/resources/com/example/todo_timer/TodoTask.fxml	
++++ b/src/main/resources/com/example/todo_timer/TodoTask.fxml	
+@@ -3,28 +3,6 @@
+ <?import javafx.scene.control.*?>
+ <?import javafx.scene.image.*?>
+ <?import javafx.scene.layout.*?>
+-
+-<<<<<<< HEAD
+-<StackPane prefHeight="594.0" prefWidth="337.0" styleClass="root_2" stylesheets="@StylePont.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+-    <AnchorPane prefHeight="594.0" prefWidth="337.0">
+-        <children>
+-
+-            <Button fx:id="tm_btn" layoutX="131.0" layoutY="524.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="76.0">
+-            <graphic>
+-               <ImageView fitHeight="48.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+-                  <image>
+-                     <Image url="@../../../img/Timer-Icon.png" />
+-                  </image>
+-               </ImageView>
+-            </graphic></Button>
+-            <ListView fx:id="taskListView" layoutX="29.0" layoutY="157.0" prefHeight="236.0" prefWidth="280.0" stylesheets="@StylePont.css" />
+-            <Button layoutX="69.0" layoutY="93.0" mnemonicParsing="false" onAction="#addTask" text="작업 추가" />
+-
+-            <Label layoutX="2.0" layoutY="2.0" prefHeight="14.0" prefWidth="67.0" text="Task Home" />
+-            <Button layoutX="196.0" layoutY="93.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
+-        </children>
+-    </AnchorPane>
+-=======
+ <StackPane prefHeight="315.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
+    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+       <children>
+@@ -37,5 +15,4 @@
+          <Button layoutX="126.0" layoutY="38.0" mnemonicParsing="false" onAction="#managementTask" text="작업 관리" />
+       </children>
+    </AnchorPane>
+->>>>>>> 1a87372f7c944354b747e8774739ec03d3d405fd
+ </StackPane>

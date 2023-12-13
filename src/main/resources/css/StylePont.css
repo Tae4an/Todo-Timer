@@ -1,0 +1,98 @@
+
+/*
+.btn{
+    -fx-position: 150px;
+    -fx-left; 50px;
+    -fx-top: 50px;
+
+*/
+/*상자 디자인 큰틀 *//*
+
+    -fx-margin-bottom: 30px;
+    -fx-border: 0px;
+    -fx-background-color: #4EBF5;
+
+*/
+/*그림자 *//*
+
+    -fx-border-radius: 10px;
+    -fx-box-shadow: 4rem .3rem 0.7rem #BEC5D0,
+               -.2rem -.2rem .4rem #FBFBFB;
+
+*/
+/*글씨 *//*
+
+    -fx-color: #333333;
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold;
+}
+
+.btn.active{
+    -fx-box-shadow: inset -.3rem -.1rem 1.4rem #FBFBFB,
+                    inset .3rem .4rem .8rem #BECSD0;
+    -fx-cursor: pointer;
+}
+*/
+
+/*
+ 버튼 스타일
+.button {
+    -fx-background-radius: 15px; */
+/* 버튼의 모서리 반경을 설정합니다. *//*
+
+    -fx-background-color:
+        rgba(0,0,0,0.08), */
+/* 하단 레이어: 반투명한 검은색 배경 *//*
+
+        linear-gradient(#9a9a9a, #909090), */
+/* 중간 레이어: 어두운 회색에서 밝은 회색으로 그라데이션 *//*
+
+        linear-gradient(white 0%, #f3f3f3 50%, #ececec 51%, #f2f2f2 100%); */
+/* 상단 레이어: 흰색에서 밝은 회색까지의 그라데이션 *//*
+
+    -fx-background-insets: 0 0 -1 0,0,1; */
+/* 배경의 여백을 설정합니다. *//*
+
+
+}
+*/
+
+/* 버튼 호버 스타일 */
+.button:hover {
+    -fx-background-radius: 15px; /* 호버 시 버튼의 모서리 반경을 설정합니다. */
+    -fx-background-color:
+        rgba(0,0,0,0.08), /* 하단 레이어: 반투명한 검은색 배경 */
+        linear-gradient(#5a61af, #51536d), /* 중간 레이어: 어두운 파란색에서 어두운 회색으로 그라데이션 */
+        linear-gradient(#e4fbff 0%,#cee6fb 10%, #a5d3fb 50%, #88c6fb 51%, #d5faff 100%); /* 상단 레이어: 하늘색에서 연한 파란색까지의 그라데이션 */
+
+}
+
+
+
+/* Example.css */
+
+.choice-box {
+    -fx-background-color: #FFFFFF;
+    -fx-mark-color: orange; /* 화살표 색상 */
+    -fx-background-radius: 5; /* 모서리 반지름 값 */
+}
+
+/* ListView의 칸 크기를 넓힘 */
+.list-view {
+    -fx-pref-width: 300;
+    -fx-pref-height: 400;
+}
+
+/* ListView의 칸 사이의 색상을 변경 */
+.list-cell {
+    -fx-background-color: lightblue;
+    -fx-border-color: #0077cc; /* 테두리 색상 지정 */
+    -fx-border-width: 0 0 1 0; /* 테두리 두께 지정 (top, right, bottom, left) */
+}
+
+/* 마우스를 갖다 대었을 때의 효과 */
+.list-cell:hover {
+    -fx-background-color: #add8e6; /* 마우스 호버시 배경색 변경 */
+}
+
+

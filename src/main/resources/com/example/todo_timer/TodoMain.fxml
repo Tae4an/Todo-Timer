@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoMainController">
+    <AnchorPane fx:id="main_layout" prefHeight="594.0" prefWidth="337.0" style="-fx-background-color: #FFFFFF;">
+
+        <Button fx:id="tm_btn" layoutX="143.0" layoutY="526.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="55.0" style="-fx-background-color: #FAE0D4; -fx-background-radius: 50;">
+            <graphic>
+                <ImageView fitHeight="36.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../img/TimerImage.png" />
+                    </image>
+                </ImageView>
+            </graphic></Button>        <Button fx:id="addProject_btn" layoutX="15.0" layoutY="50.0" mnemonicParsing="false" text="프로젝트 추가" />
+        <ListView fx:id="projectListView" layoutX="10.0" layoutY="88.0" prefHeight="200" prefWidth="320" />
+      <Button fx:id="manageProject_btn" layoutX="118.0" layoutY="50.0" mnemonicParsing="false" text="프로젝트 관리" />
+
+    </AnchorPane>
+</StackPane>
