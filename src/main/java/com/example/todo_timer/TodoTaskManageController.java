@@ -77,6 +77,9 @@ public class TodoTaskManageController implements Initializable {
         tskName.setText(task);
         // 마감일 업데이트 메서드 호출
         updateDueDatePicker();
+
+        tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
+
     }
 
     /**
@@ -153,24 +156,36 @@ public void loadTodoTask() {
     private void saveTask() {
         // 텍스트 필드에서 변경된 작업 이름을 가져옴
         String updatedTask = tskName.getText();
-
         // DatePicker에서 변경된 마감일을 가져옴
         LocalDate dueDate = dueDatePicker.getValue();
+        // 텍스트 에리어에서 변경된 메모를 가져옴
+        String updatedMemo = tskMemo.getText();
 
-        // 작업 이름 또는 마감일이 변경되었는지 확인
+        // 변경 확인
         boolean isTaskNameChanged = (updatedTask != null && !updatedTask.equals(task));
         boolean isDueDateChanged = (dueDate != null && !dueDate.equals(TodoTaskController.getInstance().getDueDate(task)));
+        boolean isMemoChanged = !updatedMemo.equals(TodoTaskController.getInstance().getTaskMemo(task));
 
-        if (isTaskNameChanged || isDueDateChanged) {
-            // 마감일이 변경된 경우 먼저 업데이트
-            if (isDueDateChanged) {
-                TodoTaskController.getInstance().updateDueDate(task, dueDate);
-            }
-
-            // 작업 이름이 변경된 경우 업데이트
+        if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
             if (isTaskNameChanged) {
+                // 작업 이름 변경 시, 마감일과 메모도 새 작업 이름에 맞추어 변경
                 TodoTaskController.getInstance().updateTask(task, updatedTask);
+                if (isDueDateChanged) {
+                    TodoTaskController.getInstance().updateDueDate(updatedTask, dueDate);
+                }
+                if (isMemoChanged) {
+                    TodoTaskController.getInstance().updateTaskMemo(updatedTask, updatedMemo);
+                }
+            } else {
+                // 작업 이름이 변경되지 않은 경우, 기존 작업 이름으로 마감일과 메모 업데이트
+                if (isDueDateChanged) {
+                    TodoTaskController.getInstance().updateDueDate(task, dueDate);
+                }
+                if (isMemoChanged) {
+                    TodoTaskController.getInstance().updateTaskMemo(task, updatedMemo);
+                }
             }
+
 
             showPopup("저장", "저장 되었습니다..!");
             loadTodoTask();
