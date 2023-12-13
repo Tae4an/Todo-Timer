@@ -25,14 +25,18 @@ name-text {
 }
 
 
-// 전체 컨텍스트 메뉴의 배경색
+
 .choice-box .context-menu { -fx-background-color:  #FFF2E6; }
-// 목록에서 선택된 항목의 배경색
+
 .choice-box .menu-item:focused { -fx-background-color:  #c98888; }
-// 목록에서 선택되지 않은 항목의 텍스트 색상
+
 .choice-box .menu-item > .label { -fx-text-fill: black; }
-// 목록에서 선택된 항목의 텍스트 색상
+
 .choice-box .menu-item:focused > .label { -fx-text-fill: white; }
+/* 화살표 색상 */
+.choice-box .arrow {
+    -fx-background-color: white;
+}
 
 .dialog-pane .header-panel {
     -fx-background-color: #FFCC99;

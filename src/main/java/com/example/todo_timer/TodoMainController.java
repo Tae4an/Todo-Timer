@@ -109,6 +109,7 @@ public class TodoMainController implements Initializable {
             result.ifPresent(name -> {
                 Project newProject = new Project(name);
                 projects.add(newProject);
+
             });
         });
 
