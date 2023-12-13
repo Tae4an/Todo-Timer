@@ -37,7 +37,7 @@ public class TodoTaskController implements Initializable {
     private StackPane task_layout;
 
     // 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
-    private static final ObservableList<String> tasks = FXCollections.observableArrayList();
+    private static ObservableList<String> tasks = FXCollections.observableArrayList();
 
     // 각 작업에 대한 마감일을 저장하는 Map, 키는 작업 이름, 값은 해당 작업의 마감일
     protected static final Map<String, LocalDate> dueDates = new HashMap<>();
@@ -47,6 +47,12 @@ public class TodoTaskController implements Initializable {
 
     // TodoTaskController 클래스의 싱글톤 인스턴스
     private static TodoTaskController instance;
+
+    private static ObservableList<String> currentTasks; // 현재 선택된 프로젝트의 작업 목록
+
+    private static boolean isInitialized = false;
+
+    private static ProjectManager currentProject;
 
 
     /**
@@ -85,9 +91,9 @@ public class TodoTaskController implements Initializable {
 
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
-                    showPopup("Error","작업이 없습니다..!");
+                    showPopup("Error", "작업이 없습니다..!");
                 } else if (selectedTask == null) {
-                    showPopup("Error","작업을 선택하세요..!");
+                    showPopup("Error", "작업을 선택하세요..!");
                 } else {
                     // 선택된 작업으로 TodoTaskManageController 설정 및 뷰 로드
                     manageController = TodoTaskManageController.getInstance();
@@ -137,6 +143,14 @@ public class TodoTaskController implements Initializable {
                 }
             }
         });
+
+        // 메서드가 처음 호출될 때만 currentTasks를 초기화
+        if (!isInitialized) {
+            this.currentTasks = FXCollections.observableArrayList();
+            isInitialized = true;
+        }
+        taskListView.setItems(currentTasks); // ListView에 현재 작업 목록을 설정
+
         // 작업 목록 업데이트
         updateTaskList();
     }
@@ -165,9 +179,12 @@ public class TodoTaskController implements Initializable {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(taskName -> {
-            if (!taskName.isEmpty()) {
-                tasks.add(taskName);
-                updateTaskList();  // ListView 업데이트
+            if (!taskName.isEmpty() && currentProject != null) {
+                currentProject.addTask(taskName); // 프로젝트에 작업 추가
+                currentTasks.add(taskName);
+                tasks.add(taskName); // 현재 작업 목록 업데이트
+
+                taskListView.setItems(currentTasks);
             }
         });
     }
@@ -179,34 +196,34 @@ public class TodoTaskController implements Initializable {
      * @param selectedTask 삭제할 작업
      */
     public void deleteTask(String selectedTask) {
-         tasks.remove(selectedTask);
-         updateTaskList();
+        if (tasks.remove(selectedTask)) {
+            currentTasks.remove(selectedTask); // currentTasks에서도 삭제
+            updateTaskList();
+        }
     }
 
     /**
      * 작업을 업데이트하는 메서드
+     *
      * @param oldTask 이전 작업 이름
      * @param newTask 새로운 작업 이름
      */
     public void updateTask(String oldTask, String newTask) {
-        // 기존 작업을 새로운 작업으로 업데이트
         int index = tasks.indexOf(oldTask);
         if (index != -1) {
-            tasks.set(index, newTask);
-        }
-
-        // 마감일도 업데이트
-        if (dueDates.containsKey(oldTask)) {
-            LocalDate dueDate = dueDates.remove(oldTask);
-            dueDates.put(newTask, dueDate);
+            tasks.set(index, newTask); // tasks에서 업데이트
+            int currentTaskIndex = currentTasks.indexOf(oldTask);
+            if (currentTaskIndex != -1) {
+                currentTasks.set(currentTaskIndex, newTask); // currentTasks에서도 업데이트
+            }
         }
     }
 
     /**
      * 지정된 작업의 마감일을 업데이트하는 메서드.
      *
-     * @param task     업데이트할 작업의 이름
-     * @param dueDate  새로운 마감일
+     * @param task    업데이트할 작업의 이름
+     * @param dueDate 새로운 마감일
      */
     public void updateDueDate(String task, LocalDate dueDate) {
         // 'dueDates' 맵에 작업 이름을 키로 하고 마감일을 값으로 저장
@@ -255,9 +272,10 @@ public class TodoTaskController implements Initializable {
 
         // 작업 목록이 비어 있고, 실제 작업이 존재하는 경우에만 목록을 업데이트
         if (taskListView.getItems().isEmpty() && !tasks.isEmpty()) {
-            taskListView.setItems(tasks);
+            taskListView.setItems(currentTasks); // ListView에 현재 작업 목록을 설정
         }
     }
+
     /**
      * 작업 목록을 반환
      *
@@ -265,5 +283,15 @@ public class TodoTaskController implements Initializable {
      */
     public ObservableList<String> getTasks() {
         return tasks;
+    }
+
+    public void setCurrentProject(ProjectManager project) {
+        this.currentProject = project;
+        this.currentTasks.setAll(project.getTasks());
+
+        // Null 체크를 추가
+        if (this.taskListView != null) {
+            taskListView.setItems(this.currentTasks);
+        }
     }
 }

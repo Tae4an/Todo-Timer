@@ -182,8 +182,8 @@ public class TodoTimerController implements Initializable {
         alert.setTitle("일시정지");
         alert.setHeaderText("일시정지 상태입니다.");
         alert.setContentText("계속 작업을 진행하시겠습니까?");
-        String cssPath = getClass().getResource("style.css").toExternalForm();
-        alert.getDialogPane().getStylesheets().add(cssPath);
+//        String cssPath = getClass().getResource("/style.css").toExternalForm();
+//        alert.getDialogPane().getStylesheets().add(cssPath);
         alert.getDialogPane().setStyle("-fx-background-color: #FFCC99;");
 
         ButtonType resumeButton = new ButtonType("계속");
