@@ -30,14 +30,14 @@ public class TodoMainController implements Initializable {
     @FXML
     private Button addProject_btn; // "프로젝트 추가" 버튼
     @FXML
-    private ListView<Project> projectListView; // 프로젝트 목록을 표시하는 ListView
+    private ListView<ProjectManager> projectListView; // 프로젝트 목록을 표시하는 ListView
     @FXML
     private Button manageProject_btn;
 
-    private ObservableList<Project> projects = FXCollections.observableArrayList();
+    private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
+    private final TodoTaskController todoTaskController =  TodoTaskController.getInstance();
 
     public TodoMainController() {
-        this.projectListView = new ListView<>();
     }
 
     @Override
@@ -46,18 +46,21 @@ public class TodoMainController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 // ListView에서 선택된 작업을 얻음
-                Project selectedTask = projectListView.getSelectionModel().getSelectedItem();
+                ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
 
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (projectListView.getItems().isEmpty()) {
                     showPopup("Error","프로젝트가 없습니다..!");
-                } else if (selectedTask == null) {
+                } else if (selectedProject == null) {
                     showPopup("Error","프로젝트를 선택하세요..!");
                 } else {
                     try {
                         Parent sub = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
                         StackPane root = (StackPane) manageProject_btn.getScene().getRoot();
                         root.getChildren().add(sub);
+                        todoTaskController.setCurrentProject(selectedProject);
+
+
 
                         // 뷰에 애니메이션 효과 적용
                         sub.setTranslateX(500);
@@ -105,12 +108,13 @@ public class TodoMainController implements Initializable {
             dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(name -> {
-                Project newProject = new Project(name);
+                ProjectManager newProject = new ProjectManager(name);
                 projects.add(newProject);
+
             });
         });
 
-
+    updateProjectList();
     }
     /**
      * 팝업 창을 표시하는 메서드.
@@ -129,18 +133,46 @@ public class TodoMainController implements Initializable {
             alert.showAndWait();
         });
     }
-}
-class Project {
-    private String name;
+    /**
+     * 작업 목록을 업데이트하는 메서드
+     * 작업 목록이 비어 있고 실제 작업이 존재하는 경우에만 목록을 업데이트
+     */
+    private void updateProjectList() {
+        // projectListView가 null이면 초기화
+        if (projectListView == null) {
+            projectListView = new ListView<>();
+        }
 
-    public Project(String name) {
+        // 프로젝트 목록이 비어 있고, 실제 프로젝트가 존재하는 경우에만 목록을 업데이트
+        if (projectListView.getItems().isEmpty() && !projects.isEmpty()) {
+            projectListView.setItems(projects);
+        }
+    }
+}
+class ProjectManager {
+    private String name;
+    private ObservableList<String> tasks;
+
+    public ProjectManager(String name) {
         this.name = name;
+        this.tasks = FXCollections.observableArrayList();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ObservableList<String> getTasks() {
+        return tasks;
     }
 
     @Override
     public String toString() {
-        return name;
+        return name; // ListView에 프로젝트의 이름을 표시
     }
 
-    // 기타 필요한 메서드 (getter, setter 등)...
+    public void addTask(String task) {
+        tasks.add(task);
+    }
+    // 나머지 필요한 메서드...
 }

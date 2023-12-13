@@ -101,22 +101,6 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
-//    /**
-//     * 작업 목록 UI를 로드하는 메서드.
-//     */
-//    public void loadTodoTask() {
-//        // 현재 UI의 루트를 가져옴 (StackPane)
-//        StackPane stackPane = (StackPane) tskManage_layout.getScene().getRoot();
-//        // StackPane의 두 번째 자식 요소를 가져옴
-//        Parent sub = (Parent) stackPane.getChildren().get(1);
-//
-//        // 애니메이션을 사용하여 UI 요소를 제거함
-//        Timeline timeline = new Timeline();
-//        KeyValue keyValue = new KeyValue(sub.translateXProperty(), 400);
-//        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), event -> stackPane.getChildren().remove(1), keyValue);
-//        timeline.getKeyFrames().add(keyFrame);
-//        timeline.play();
-//    }
 public void loadTodoTask() {
     try {
         // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
