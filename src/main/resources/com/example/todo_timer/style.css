@@ -41,3 +41,9 @@ name-text {
 .text-area {
     -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
 }
+.text-field{
+    -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
+}
+.date-picker{
+    -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
+}
