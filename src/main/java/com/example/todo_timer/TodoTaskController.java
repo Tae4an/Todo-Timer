@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,36 +13,41 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TodoTaskController implements Initializable {
-    @FXML
-    private ChoiceBox<String> taskChoiceBox;  // 작업을 선택할 ChoiceBox
 
     @FXML
-    private ListView<String> taskListView;  // 작업 목록을 나타내는 ListView. 사용자가 작업을 추가, 수정, 삭제할 때 업데이트 됨
+    private ListView<String> taskListView; // 작업 목록을 표시하는 ListView 컴포넌트
 
     @FXML
-    private Button tm_btn;  //타이머 홈 버튼
-
+    private Button tskmanage_btn; // "작업 관리" 기능을 위한 버튼
     @FXML
-    private Button tskmanage_btn;  //작업관리 홈 홈 버튼
+    private Button back_btn;
+    @FXML
+    private StackPane task_layout;
 
-    // 데이터의 변경 사항을 감지하고 자동으로 UI에 반영할 수 있도록 도와주는 컬렉션
+    // 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
     private static final ObservableList<String> tasks = FXCollections.observableArrayList();
 
-    private TodoTaskManageController manageController;  // 이 부분을 추가
+    // 각 작업에 대한 마감일을 저장하는 Map, 키는 작업 이름, 값은 해당 작업의 마감일
+    protected static final Map<String, LocalDate> dueDates = new HashMap<>();
 
+    // TodoTaskManageController 인스턴스, 작업 관리 화면의 컨트롤러
+    private TodoTaskManageController manageController;
 
-    // TodoTaskController 클래스의 인스턴스를 싱글톤 패턴으로 관리하기 위한 변수
+    // TodoTaskController 클래스의 싱글톤 인스턴스
     private static TodoTaskController instance;
+
 
     /**
      * Singleton 패턴을 사용하여 TodoTaskController의 인스턴스를 반환
@@ -67,49 +71,25 @@ public class TodoTaskController implements Initializable {
     /**
      * FXML 파일이 로드될 때 자동으로 호출되는 초기화 메서드
      * UI 요소들의 초기 설정 및 이벤트 핸들러를 등록하는 역할을 수행
-     *
-     * @param location  FXML 파일의 위치
-     * @param resources 리소스 번들
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // "작업 관리" 버튼에 대한 액션 설정
-        tm_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                try {
-                    Parent sub = FXMLLoader.load(getClass().getResource("TodoTimer.fxml"));
-                    StackPane root = (StackPane) tm_btn.getScene().getRoot();
-                    root.getChildren().add(sub);
 
-                    sub.setTranslateY(600);
 
-                    Timeline timeline = new Timeline();
-                    KeyValue keyValue = new KeyValue(sub.translateYProperty(), 0);
-                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                    timeline.getKeyFrames().add(keyFrame);
-                    timeline.play();
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        // "작업 관리" 버튼에 대한 클릭 이벤트 핸들러 설정
         tskmanage_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
-                // 선택한 작업을 얻어옴
+                // ListView에서 선택된 작업을 얻음
                 String selectedTask = taskListView.getSelectionModel().getSelectedItem();
 
+                // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
                     showPopup("Error","작업이 없습니다..!");
-                }
-                else if (selectedTask == null){
+                } else if (selectedTask == null) {
                     showPopup("Error","작업을 선택하세요..!");
-                }
-
-                else {
+                } else {
+                    // 선택된 작업으로 TodoTaskManageController 설정 및 뷰 로드
                     manageController = TodoTaskManageController.getInstance();
                     manageController.setSelectTask(selectedTask);
                     try {
@@ -117,8 +97,8 @@ public class TodoTaskController implements Initializable {
                         StackPane root = (StackPane) tskmanage_btn.getScene().getRoot();
                         root.getChildren().add(sub);
 
+                        // 뷰에 애니메이션 효과 적용
                         sub.setTranslateX(500);
-
                         Timeline timeline = new Timeline();
                         KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
                         KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
@@ -128,12 +108,39 @@ public class TodoTaskController implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
                 }
             }
         });
+        back_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                try {
+                    // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
+                    Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
+                    StackPane root = (StackPane) task_layout.getScene().getRoot();
+
+                    // 현재 씬에 새로운 TodoTask 씬 추가
+                    root.getChildren().add(todoTaskScene);
+
+                    // 필요한 경우, 새 씬에 애니메이션 효과 적용
+                    todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
+                    Timeline timeline = new Timeline();
+                    KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
+                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+                    timeline.getKeyFrames().add(keyFrame);
+                    timeline.play();
+
+                    // 이전 씬 제거
+                    root.getChildren().remove(1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        // 작업 목록 업데이트
         updateTaskList();
     }
+
 
     /**
      * 작업을 추가하는 메서드
@@ -143,11 +150,18 @@ public class TodoTaskController implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
         dialog.setHeaderText("새로운 작업을 추가하세요");
-        String cssPath = getClass().getResource("style.css").toExternalForm();
-        dialog.getDialogPane().getStylesheets().add(cssPath);
+
+        // style.css 파일의 URL을 안전하게 가져오기
+        URL cssUrl = getClass().getResource("/style.css"); // 절대 경로 사용
+        if (cssUrl != null) {
+            dialog.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+        } else {
+            System.out.println("style.css 파일을 찾을 수 없음");
+        }
 
         dialog.setContentText("작업 이름:");
         dialog.getDialogPane().setStyle("-fx-background-color: #ffb66e;");
+
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(taskName -> {
@@ -158,14 +172,15 @@ public class TodoTaskController implements Initializable {
         });
     }
 
+
     /**
      * 선택한 작업을 삭제하기 위한 메서드
      *
      * @param selectedTask 삭제할 작업
      */
     public void deleteTask(String selectedTask) {
-        tasks.remove(selectedTask);
-        updateTaskList();
+         tasks.remove(selectedTask);
+         updateTaskList();
     }
 
     /**
@@ -174,9 +189,39 @@ public class TodoTaskController implements Initializable {
      * @param newTask 새로운 작업 이름
      */
     public void updateTask(String oldTask, String newTask) {
-        tasks.remove(oldTask);
-        tasks.add(newTask);
-        updateTaskList();
+        // 기존 작업을 새로운 작업으로 업데이트
+        int index = tasks.indexOf(oldTask);
+        if (index != -1) {
+            tasks.set(index, newTask);
+        }
+
+        // 마감일도 업데이트
+        if (dueDates.containsKey(oldTask)) {
+            LocalDate dueDate = dueDates.remove(oldTask);
+            dueDates.put(newTask, dueDate);
+        }
+    }
+
+    /**
+     * 지정된 작업의 마감일을 업데이트하는 메서드.
+     *
+     * @param task     업데이트할 작업의 이름
+     * @param dueDate  새로운 마감일
+     */
+    public void updateDueDate(String task, LocalDate dueDate) {
+        // 'dueDates' 맵에 작업 이름을 키로 하고 마감일을 값으로 저장
+        dueDates.put(task, dueDate);
+    }
+
+    /**
+     * 지정된 작업의 마감일을 반환하는 메서드.
+     *
+     * @param task 조회할 작업의 이름
+     * @return 해당 작업의 마감일, 저장된 마감일이 없을 경우 null 반환
+     */
+    public LocalDate getDueDate(String task) {
+        // 'dueDates' 맵에서 작업 이름에 해당하는 마감일을 조회하여 반환
+        return dueDates.get(task);
     }
 
     /**
@@ -197,23 +242,6 @@ public class TodoTaskController implements Initializable {
         });
     }
 
-
-    /**
-     * 수정 다이얼로그를 표시하고, 사용자가 입력한 수정된 작업 이름을 반환하는 메서드
-     *
-     * @param currentTask 현재 작업의 이름
-     * @return 사용자가 입력한 수정된 작업 이름의 Optional 객체
-     */
-    private Optional<String> showEditDialog(String currentTask) {
-        // 수정 다이얼로그 생성 및 초기값 설정
-        TextInputDialog dialog = new TextInputDialog(currentTask);
-        dialog.setTitle("작업 수정");
-        dialog.setHeaderText("수정할 작업");
-        dialog.setContentText("새로운 작업:");
-
-        // 다이얼로그를 표시하고, 사용자가 입력한 값을 반환
-        return dialog.showAndWait();
-    }
 
     /**
      * 작업 목록을 업데이트하는 메서드

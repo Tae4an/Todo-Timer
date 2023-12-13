@@ -7,7 +7,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -16,15 +15,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
  * ToDo 타이머 애플리케이션의 컨트롤러 클래스
- * 마지막 수정 일자 : 2023.11.29
  */
 public class TodoTimerController implements Initializable {
 
@@ -54,13 +50,9 @@ public class TodoTimerController implements Initializable {
 
 
 
-
     /**
      * 화면 초기화 시 호출되는 메서드
      * 주요 컴포넌트들을 초기화하고 이벤트 핸들러를 등록
-     *
-     * @param location   FXML 파일의 위치
-     * @param resources  리소스 번들
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -165,16 +157,6 @@ public class TodoTimerController implements Initializable {
         isPaused = false;
     }
 
-//    /**
-//     * "일시정지" 버튼 클릭 시 호출되는 메서드
-//     * 타이머를 일시정지 상태로 변경
-//     */
-//    @FXML
-//    private void pauseTimer() {
-//        // 타이머 일시정지 메서드
-//        isPaused = true;
-//    }
-
 
     /**
      * "시작/일시정지" 버튼 클릭 시 호출되는 메서드
@@ -205,7 +187,7 @@ public class TodoTimerController implements Initializable {
         alert.getDialogPane().setStyle("-fx-background-color: #FFCC99;");
 
         ButtonType resumeButton = new ButtonType("계속");
-        ButtonType stopButton = new ButtonType("정지", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType stopButton = new ButtonType("종료", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(resumeButton, stopButton);
 
         Optional<ButtonType> result = alert.showAndWait();

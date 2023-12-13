@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <AnchorPane fx:id="tskManage_layout" prefHeight="600.0" prefWidth="340.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskManageController">
     <children>
         <TextArea fx:id="tskMemo" layoutX="11.0" layoutY="135.0" prefHeight="295.0" prefWidth="318.0" style="-fx-border-radius: 5; -fx-border-color: #CC9966; -fx-border-width: 5;" stylesheets="@style.css" />
@@ -11,8 +12,8 @@
          <font>
             <Font size="15.0" />
          </font></Button>
-        <TextField fx:id="tskName" layoutX="14.0" layoutY="70.0" prefHeight="22.0" prefWidth="261.0" stylesheets="@style.css" />
-        <DatePicker layoutX="14.0" layoutY="103.0" prefHeight="22.0" prefWidth="190.0" stylesheets="@style.css" />
+        <TextField fx:id="tskName" layoutX="14.0" layoutY="70.0" prefHeight="22.0" prefWidth="261.0" stylesheets="@../../../css/style.css" />
+        <DatePicker fx:id="dueDatePicker" layoutX="14.0" layoutY="103.0" prefHeight="22.0" prefWidth="190.0" stylesheets="@../../../css/style.css" />
         <Button fx:id="save_btn" layoutX="278.0" layoutY="443.0" mnemonicParsing="false" style="-fx-background-color: #c98888;" text="저장" textFill="#fffdfd" />
         <Button fx:id="delete_btn" layoutX="221.0" layoutY="443.0" mnemonicParsing="false" style="-fx-background-color: #832929;" text="삭제" textFill="WHITE" />
       <Label layoutX="11.0" layoutY="25.0" text="Task Manage" textFill="#c98888">
@@ -20,5 +21,6 @@
             <Font name="Arial Black" size="25.0" />
          </font>
       </Label>
+
     </children>
 </AnchorPane>
