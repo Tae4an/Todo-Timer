@@ -24,9 +24,7 @@
         <ListView fx:id="projectListView" layoutX="10.0" layoutY="148.0" prefHeight="324.0" prefWidth="320" style="-fx-background-color: #FFF2E6; -fx-border-color: #CC9966; -fx-border-width: 5; -fx-border-radius: 3;" stylesheets="@../../../css/style.css">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <!-- 아이템 추가 -->
                     <String fx:value="Add Project.." />
-                    <!-- 필요에 따라 더 많은 아이템 추가 -->
                 </FXCollections>
             </items>
         </ListView>
