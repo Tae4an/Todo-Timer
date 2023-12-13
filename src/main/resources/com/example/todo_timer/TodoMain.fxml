@@ -19,7 +19,7 @@
             </ImageView>
          </graphic></Button>
 
-        <Button fx:id="addProject_btn" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #ffd38c;" text="프로젝트 추가" textFill="#e5920a">
+        <Button fx:id="addProject_btn" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #ffd38c;" text="프로젝트 추가" textFill="#a1670a">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -31,7 +31,7 @@
             </items>
         </ListView>
 
-        <Button fx:id="manageProject_btn" layoutX="10.0" layoutY="132.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #ffd38c;" text="프로젝트 관리" textAlignment="JUSTIFY" textFill="#e3900b">
+        <Button fx:id="manageProject_btn" layoutX="10.0" layoutY="132.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #ffd38c;" text="프로젝트 관리" textAlignment="JUSTIFY" textFill="#a1670a">
          <font>
             <Font name="Serif Regular" size="18.0" />
          </font></Button>
@@ -43,6 +43,11 @@
       <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../img/addImage2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="35.0" layoutX="19.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/edit.png" />
          </image>
       </ImageView>
 
