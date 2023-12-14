@@ -7,20 +7,70 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="timer_layout" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
+
+    <Circle fx:id="donutCircle" layoutX="174.0" layoutY="298.0" radius="140.0" strokeWidth="8.0">
+        <fill>
+            <LinearGradient endX="1.0" endY="0.009478672985781991" startX="1.0">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="0.8">
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="0.8">
+                        <color>
+                            <Color opacity="0.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color opacity="0.0" />
+                        </color>
+                    </Stop>
+                </stops>
+            </LinearGradient>
+        </fill>
+        <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+                <stops>
+                    <Stop>
+                        <color>
+                            <Color />
+                        </color>
+                    </Stop>
+                    <Stop offset="0.05723905723905724">
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                    <Stop offset="1.0">
+                        <color>
+                            <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                    </Stop>
+                </stops>
+            </LinearGradient>
+        </stroke>
+    </Circle>
+    <Arc fx:id="timerArc" centerX="174.0" centerY="298.0" radiusX="140.0" radiusY="140.0" startAngle="90.0" type="ROUND">
+        <stroke>
+            <Color opacity="0.0" />
+        </stroke>
+        <fill>
+            <Color red="1.0" fx:id="redColor" />
+        </fill>
+    </Arc>
     <Text fx:id="timerText" fill="#6b0404" layoutX="78.0" layoutY="323.0" text="25:00" wrappingWidth="195.0">
 
         <font>
             <Font name="Arial Black" size="64.0" />
         </font>
     </Text>
-    <Arc fx:id="timerArc" centerX="174.0" centerY="298.0" radiusX="140.0" radiusY="140.0" startAngle="90.0" type="ROUND">
-        <stroke>
-            <Color />
-        </stroke>
-        <fill>
-            <Color opacity="0.0" />
-        </fill>
-    </Arc>
     <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="467.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #c98888; -fx-background-radius: 10;" text="START" textFill="WHITE">
       <font>
          <Font name="Arial Black" size="19.0" />

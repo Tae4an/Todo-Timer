@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -51,7 +52,7 @@ public class TodoTimerController implements Initializable {
 
     @FXML
     private Arc timerArc; // Arc 객체 참조
-
+    Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
     /**
      * 화면 초기화 시 호출되는 메서드
      * 주요 컴포넌트들을 초기화하고 이벤트 핸들러를 등록
@@ -88,8 +89,13 @@ public class TodoTimerController implements Initializable {
         // 타이머 초기화
         initializeTimer();
 
+        // #FFD8D8 색상으로 아크 색상 변경
+        timerArc.setFill(color); // 아크 색상 설정
+
+        timerText.toFront();
 
     }
+
     /**
      * TodoTimerController의 생성자.
      */
@@ -140,8 +146,13 @@ public class TodoTimerController implements Initializable {
         // Arc 업데이트
         double totalSeconds = 25 * 60; // 전체 작업 시간 (예: 25분)
         double elapsedSeconds = (25 - minutes) * 60 + (60 - seconds); // 경과 시간
-        double length = 360.0 * (elapsedSeconds / totalSeconds);
-        timerArc.setLength(length); // Arc의 길이를 업데이트 (음수로 설정하여 시계 반대 방향으로 그림)
+        double startAngle = 90; // 시작 각도를 항상 90도로 유지
+        timerArc.setStartAngle(startAngle);
+
+        // 아크의 길이 업데이트 (0에서부터 증가)
+        double length = (360.0 * (elapsedSeconds / totalSeconds))-14.4;
+
+        timerArc.setLength(length);
     }
 
     private void setupDonutCircle() {
