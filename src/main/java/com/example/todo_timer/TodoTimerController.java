@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Arc;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import java.net.URL;
@@ -48,7 +49,8 @@ public class TodoTimerController implements Initializable {
 
     private final TodoTaskController todoTaskController;
 
-
+    @FXML
+    private Arc timerArc; // Arc 객체 참조
 
     /**
      * 화면 초기화 시 호출되는 메서드
@@ -85,6 +87,8 @@ public class TodoTimerController implements Initializable {
 
         // 타이머 초기화
         initializeTimer();
+
+
     }
     /**
      * TodoTimerController의 생성자.
@@ -92,7 +96,6 @@ public class TodoTimerController implements Initializable {
     public TodoTimerController() {
         // TodoTaskController 인스턴스를 얻어옴
         this.todoTaskController = TodoTaskController.getInstance();
-        initializeTimer(); // 타이머 초기화
     }
 
     /**
@@ -101,6 +104,7 @@ public class TodoTimerController implements Initializable {
      * 타이머 이벤트에서는 일시정지 상태가 아니라면 타이머를 업데이트하고, 시간이 종료되면 휴식 또는 작업 타이머를 시작합니다.
      */
     private void initializeTimer() {
+        setupDonutCircle();
         // 타이머 초기화: 1초 간격으로 이벤트를 실행하는 Timeline 생성
         timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             // 타이머가 일시정지 상태가 아닌 경우에만 처리
@@ -132,6 +136,17 @@ public class TodoTimerController implements Initializable {
     private void updateTimerDisplay() {
         // 타이머 텍스트 업데이트
         timerText.setText(String.format("%02d:%02d", minutes, seconds));
+
+        // Arc 업데이트
+        double totalSeconds = 25 * 60; // 전체 작업 시간 (예: 25분)
+        double elapsedSeconds = (25 - minutes) * 60 + (60 - seconds); // 경과 시간
+        double length = 360.0 * (elapsedSeconds / totalSeconds);
+        timerArc.setLength(length); // Arc의 길이를 업데이트 (음수로 설정하여 시계 반대 방향으로 그림)
+    }
+
+    private void setupDonutCircle() {
+            timerArc.setStartAngle(90); // 상단 중앙부터 시작
+            timerArc.setLength(0); // 초기에는 아무것도 표시하지 않음
     }
 
     /**
