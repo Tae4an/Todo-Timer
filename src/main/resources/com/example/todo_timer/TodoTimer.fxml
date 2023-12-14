@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="timer_layout" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
-    <Text fx:id="timerText" fill="#6b0404" layoutX="78.0" layoutY="323.0" text="25:00" wrappingWidth="195.0">
+    <Text fx:id="timerText" fill="#6b0404" layoutX="79.0" layoutY="297.0" text="25:00" wrappingWidth="195.0">
 
         <font>
             <Font name="Arial Black" size="64.0" />
@@ -17,7 +17,10 @@
             <Font name="Arial Black" size="19.0" />
         </font></Button>
 
-    <Button fx:id="tsk_btn" layoutX="301.0" layoutY="14.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #c98888; -fx-background-radius: 10;" text="X" textFill="WHITE"> </Button>
+    <Button fx:id="tsk_btn" layoutX="301.0" layoutY="14.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #c98888; -fx-background-radius: 10;" text="X" textFill="WHITE">
+      <font>
+         <Font size="14.0" />
+      </font></Button>
 
     <Label layoutX="93.0" layoutY="4.0" prefHeight="47.0" prefWidth="162.0" text="Timer Home" textFill="#c98888">
         <font>

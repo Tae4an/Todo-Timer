@@ -1,9 +1,9 @@
 .list-cell {
 
-    -fx-background-color: #FEE0AE;
+    -fx-background-color:  #FFF2E6;
 
 
-    -fx-border-color: #FFA742;
+    -fx-border-color: #6b0404;
 
 
     -fx-border-width: 0 0 1 0;
@@ -29,7 +29,7 @@
 }*/
 
 .root_1 {
-    -fx-background-image: url('@../../../img/Back.jpg');
+    -fx-background-image: url('@../../../img/PinkBackImg.jpg');
     -fx-background-size: contain;
 
 }
