@@ -171,6 +171,7 @@ public class TodoTaskController implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
         dialog.setHeaderText("새로운 작업을 추가하세요");
+        dialog.getDialogPane().setStyle("-fx-background-color: #FEEFF2;");
 
         // style.css 파일의 URL을 안전하게 가져오기
         URL cssUrl = getClass().getResource("/style.css"); // 절대 경로 사용
@@ -181,7 +182,9 @@ public class TodoTaskController implements Initializable {
         }
 
         dialog.setContentText("작업 이름:");
-        dialog.getDialogPane().setStyle("-fx-background-color: #ffb66e;");
+       /* dialog.getDialogPane().setStyle("-fx-background-color: #FEEFF2;");*/
+
+
 
         Optional<String> result = dialog.showAndWait();
 
