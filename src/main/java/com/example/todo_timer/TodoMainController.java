@@ -37,6 +37,7 @@ public class TodoMainController implements Initializable {
     private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
     private final TodoTaskController todoTaskController =  TodoTaskController.getInstance();
 
+
     public TodoMainController() {
     }
 
@@ -150,16 +151,18 @@ public class TodoMainController implements Initializable {
     }
 }
 class ProjectManager {
-    private String name;
+    private String projectName;
     private ObservableList<String> tasks;
 
+
+
     public ProjectManager(String name) {
-        this.name = name;
+        this.projectName = name;
         this.tasks = FXCollections.observableArrayList();
     }
 
     public String getName() {
-        return name;
+        return projectName;
     }
 
     public ObservableList<String> getTasks() {
@@ -168,7 +171,7 @@ class ProjectManager {
 
     @Override
     public String toString() {
-        return name; // ListView에 프로젝트의 이름을 표시
+        return projectName; // ListView에 프로젝트의 이름을 표시
     }
 
     public void addTask(String task) {

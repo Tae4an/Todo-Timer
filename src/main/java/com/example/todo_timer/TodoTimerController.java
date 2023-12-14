@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import java.net.URL;
@@ -48,8 +50,9 @@ public class TodoTimerController implements Initializable {
 
     private final TodoTaskController todoTaskController;
 
-
-
+    @FXML
+    private Arc timerArc; // Arc 객체 참조
+    Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
     /**
      * 화면 초기화 시 호출되는 메서드
      * 주요 컴포넌트들을 초기화하고 이벤트 핸들러를 등록
@@ -85,14 +88,20 @@ public class TodoTimerController implements Initializable {
 
         // 타이머 초기화
         initializeTimer();
+
+        // #FFD8D8 색상으로 아크 색상 변경
+        timerArc.setFill(color); // 아크 색상 설정
+
+        timerText.toFront();
+
     }
+
     /**
      * TodoTimerController의 생성자.
      */
     public TodoTimerController() {
         // TodoTaskController 인스턴스를 얻어옴
         this.todoTaskController = TodoTaskController.getInstance();
-        initializeTimer(); // 타이머 초기화
     }
 
     /**
@@ -101,6 +110,7 @@ public class TodoTimerController implements Initializable {
      * 타이머 이벤트에서는 일시정지 상태가 아니라면 타이머를 업데이트하고, 시간이 종료되면 휴식 또는 작업 타이머를 시작합니다.
      */
     private void initializeTimer() {
+        setupDonutCircle();
         // 타이머 초기화: 1초 간격으로 이벤트를 실행하는 Timeline 생성
         timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             // 타이머가 일시정지 상태가 아닌 경우에만 처리
@@ -132,6 +142,22 @@ public class TodoTimerController implements Initializable {
     private void updateTimerDisplay() {
         // 타이머 텍스트 업데이트
         timerText.setText(String.format("%02d:%02d", minutes, seconds));
+
+        // Arc 업데이트
+        double totalSeconds = 25 * 60; // 전체 작업 시간 (예: 25분)
+        double elapsedSeconds = (25 - minutes) * 60 + (60 - seconds); // 경과 시간
+        double startAngle = 90; // 시작 각도를 항상 90도로 유지
+        timerArc.setStartAngle(startAngle);
+
+        // 아크의 길이 업데이트 (0에서부터 증가)
+        double length = (360.0 * (elapsedSeconds / totalSeconds))-14.4;
+
+        timerArc.setLength(length);
+    }
+
+    private void setupDonutCircle() {
+            timerArc.setStartAngle(90); // 상단 중앙부터 시작
+            timerArc.setLength(0); // 초기에는 아무것도 표시하지 않음
     }
 
     /**
@@ -182,8 +208,6 @@ public class TodoTimerController implements Initializable {
         alert.setTitle("일시정지");
         alert.setHeaderText("일시정지 상태입니다.");
         alert.setContentText("계속 작업을 진행하시겠습니까?");
-        String cssPath = getClass().getResource("/style.css").toExternalForm();
-        alert.getDialogPane().getStylesheets().add(cssPath);
         alert.getDialogPane().setStyle("-fx-background-color: #FFCC99;");
 
         ButtonType resumeButton = new ButtonType("계속");

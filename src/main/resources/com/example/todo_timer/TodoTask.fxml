@@ -6,36 +6,43 @@
 <?import javafx.scene.text.*?>
 
 <StackPane fx:id="task_layout" prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskController">
-    <AnchorPane prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #f5f1ed;">
+    <AnchorPane prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #f5f1ed;" styleClass="root_1" stylesheets="@../../../css/style.css">
         <children>
 
-            <Button layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404" />
+            <Button layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404">
+            <font>
+               <Font name="Arial Black" size="16.0" />
+            </font></Button>
 
-            <Label layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="168.0" stylesheets="@../../../css/style.css" text="Task Home" textFill="#c98888">
+            <Label fx:id="task_label" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="168.0" stylesheets="@../../../css/style.css" text="Task Home" textFill="#c98888">
             <font>
                <Font name="Arial Black" size="25.0" />
             </font></Label>
-            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #FAE0D4;" text="작업관리" textAlignment="CENTER" textFill="#6b0404" />
-            <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="324.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 5; -fx-border-color: #CC9966; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/style.css" >
+
+            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca;" text="작업관리" textAlignment="CENTER" textFill="#6b0404">
+            <font>
+               <Font size="16.0" />
+            </font></Button>
+            <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="324.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 5; -fx-border-color: #CC9966; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/style.css">
         </ListView>
-            <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../../../img/ListAddImage.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="29.0" fitWidth="33.0" layoutX="12.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../../../img/FileImage.png" />
-            </image>
-         </ImageView>
             <Button fx:id="back_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888;" textFill="#f5f1ed">
             <graphic>
-               <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../../../img/arrow.png" />
                   </image>
                </ImageView>
             </graphic></Button>
+         <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="19.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../img/folder.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="27.0" fitWidth="70.0" layoutX="18.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../img/addImage.png" />
+            </image>
+         </ImageView>
 
         </children>
     </AnchorPane>

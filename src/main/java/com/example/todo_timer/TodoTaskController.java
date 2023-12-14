@@ -35,12 +35,17 @@ public class TodoTaskController implements Initializable {
     private Button back_btn;
     @FXML
     private StackPane task_layout;
+    @FXML
+    private Label task_label;
 
     // 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
     private static ObservableList<String> tasks = FXCollections.observableArrayList();
 
     // 각 작업에 대한 마감일을 저장하는 Map, 키는 작업 이름, 값은 해당 작업의 마감일
     protected static final Map<String, LocalDate> dueDates = new HashMap<>();
+
+    // 작업에 대한 메모를 저장하는 Map
+    protected static final Map<String, String> taskMemos = new HashMap<>();
 
     // TodoTaskManageController 인스턴스, 작업 관리 화면의 컨트롤러
     private TodoTaskManageController manageController;
@@ -53,6 +58,8 @@ public class TodoTaskController implements Initializable {
     private static boolean isInitialized = false;
 
     private static ProjectManager currentProject;
+
+
 
 
     /**
@@ -164,6 +171,7 @@ public class TodoTaskController implements Initializable {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
         dialog.setHeaderText("새로운 작업을 추가하세요");
+        dialog.getDialogPane().setStyle("-fx-background-color: #FEEFF2;");
 
         // style.css 파일의 URL을 안전하게 가져오기
         URL cssUrl = getClass().getResource("/style.css"); // 절대 경로 사용
@@ -174,7 +182,9 @@ public class TodoTaskController implements Initializable {
         }
 
         dialog.setContentText("작업 이름:");
-        dialog.getDialogPane().setStyle("-fx-background-color: #ffb66e;");
+       /* dialog.getDialogPane().setStyle("-fx-background-color: #FEEFF2;");*/
+
+
 
         Optional<String> result = dialog.showAndWait();
 
@@ -289,9 +299,17 @@ public class TodoTaskController implements Initializable {
         this.currentProject = project;
         this.currentTasks.setAll(project.getTasks());
 
-        // Null 체크를 추가
+
         if (this.taskListView != null) {
             taskListView.setItems(this.currentTasks);
         }
+    }
+
+    public void updateTaskMemo(String task, String memo) {
+        taskMemos.put(task, memo);
+    }
+
+    public String getTaskMemo(String task) {
+        return taskMemos.getOrDefault(task, "");
     }
 }

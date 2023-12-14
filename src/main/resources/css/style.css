@@ -51,3 +51,9 @@ name-text {
 .date-picker{
     -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
 }
+
+.root_1 {
+    -fx-background-image: url('@../../../img/PinkBack.jpg');
+    -fx-background-size: contain;
+
+}
