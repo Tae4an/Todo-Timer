@@ -60,8 +60,6 @@ public class TodoTaskController implements Initializable {
     private static ProjectManager currentProject;
 
 
-
-
     /**
      * Singleton 패턴을 사용하여 TodoTaskController의 인스턴스를 반환
      *
@@ -182,19 +180,21 @@ public class TodoTaskController implements Initializable {
         }
 
         dialog.setContentText("작업 이름:");
-       /* dialog.getDialogPane().setStyle("-fx-background-color: #FEEFF2;");*/
-
+        /* dialog.getDialogPane().setStyle("-fx-background-color: #FEEFF2;");*/
 
 
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(taskName -> {
             if (!taskName.isEmpty() && currentProject != null) {
-                currentProject.addTask(taskName); // 프로젝트에 작업 추가
-                currentTasks.add(taskName);
-                tasks.add(taskName); // 현재 작업 목록 업데이트
-
-                taskListView.setItems(currentTasks);
+                if (isTaskNameExist(taskName)) {
+                    showPopup("중복된 작업", "이미 존재하는 작업 이름입니다.");
+                } else {
+                    currentProject.addTask(taskName); // 프로젝트에 작업 추가
+                    currentTasks.add(taskName);
+                    tasks.add(taskName); // 현재 작업 목록 업데이트
+                    taskListView.setItems(currentTasks); // ListView 업데이트
+                }
             }
         });
 
@@ -223,17 +223,38 @@ public class TodoTaskController implements Initializable {
      * @param newTask 새로운 작업 이름
      */
     public void updateTask(String oldTask, String newTask) {
+        if (currentProject != null && currentProject.getTasks().contains(oldTask)) {
+            // 현재 프로젝트에서 oldTask 이름의 작업을 찾아 newTask로 업데이트
+            currentProject.updateTask(oldTask, newTask);
+
+            // 전역 작업 목록(tasks)과 현재 작업 목록(currentTasks) 업데이트
+            updateGlobalAndCurrentTaskLists(oldTask, newTask);
+        }
+    }
+
+    /**
+     * 전역 및 현재 작업 목록을 업데이트하는 메서드
+     *
+     * @param oldTask 이전 작업 이름
+     * @param newTask 새로운 작업 이름
+     */
+    private void updateGlobalAndCurrentTaskLists(String oldTask, String newTask) {
+        // taskListView가 null이면 초기화
+        if (taskListView == null) {
+            taskListView = new ListView<>();
+        }
         int index = tasks.indexOf(oldTask);
         if (index != -1) {
-            tasks.set(index, newTask); // tasks에서 업데이트
-            int currentTaskIndex = currentTasks.indexOf(oldTask);
-            if (currentTaskIndex != -1) {
-                currentTasks.set(currentTaskIndex, newTask); // currentTasks에서도 업데이트
-            }
+            tasks.set(index, newTask);
         }
-        if (currentProject != null) {
-            currentProject.updateTask(oldTask, newTask); // 프로젝트의 작업 목록 업데이트
+
+        int currentTaskIndex = currentTasks.indexOf(oldTask);
+        if (currentTaskIndex != -1) {
+            currentTasks.set(currentTaskIndex, newTask);
         }
+
+        taskListView.setItems(currentTasks); // ListView 업데이트
+
     }
 
     /**
@@ -302,21 +323,50 @@ public class TodoTaskController implements Initializable {
         return tasks;
     }
 
+    /**
+     * 현재 프로젝트를 설정하고 해당 프로젝트의 작업 목록을 현재 작업 목록으로 설정
+     * 작업 목록이 설정되면, 이 메서드는 작업 목록을 표시하는 ListView에도 설정
+     *
+     * @param project 현재 프로젝트
+     */
     public void setCurrentProject(ProjectManager project) {
         this.currentProject = project;
         this.currentTasks.setAll(project.getTasks());
-
 
         if (this.taskListView != null) {
             taskListView.setItems(this.currentTasks);
         }
     }
 
+    /**
+     * 작업의 메모를 업데이트합니다. 지정된 작업에 대한 메모를 설정
+     *
+     * @param task 작업 이름
+     * @param memo 작업 메모
+     */
     public void updateTaskMemo(String task, String memo) {
         taskMemos.put(task, memo);
     }
 
+
+    /**
+     * 지정된 작업의 메모를 가져옴. 만약 메모가 없는 경우 빈 문자열을 반환
+     *
+     * @param task 작업 이름
+     * @return 작업 메모 (없는 경우 빈 문자열)
+     */
     public String getTaskMemo(String task) {
         return taskMemos.getOrDefault(task, "");
     }
+
+    /**
+     * 입력된 작업 이름이 이미 존재하는지 검사하는 메서드
+     *
+     * @param taskName 검사할 작업 이름
+     * @return 중복 여부 (true: 중복됨, false: 중복되지 않음)
+     */
+    public boolean isTaskNameExist(String taskName) {
+        return currentProject != null && currentProject.getTasks().contains(taskName);
+    }
+
 }
