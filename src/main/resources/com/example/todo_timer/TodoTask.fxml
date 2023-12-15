@@ -9,7 +9,7 @@
     <AnchorPane prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #f5f1ed;" styleClass="root_1" stylesheets="@../../../css/style.css">
         <children>
 
-            <Button layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404">
+            <Button layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#addTask" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="ADD TO-DO" textAlignment="CENTER" textFill="#6b0404">
             <font>
                <Font name="Arial Black" size="16.0" />
             </font></Button>
@@ -19,7 +19,7 @@
                <Font name="Arial Black" size="25.0" />
             </font></Label>
 
-            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca;" text="작업관리" textAlignment="CENTER" textFill="#6b0404">
+            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="작업관리" textAlignment="CENTER" textFill="#6b0404">
             <font>
                <Font size="16.0" />
             </font></Button>

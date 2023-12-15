@@ -11,10 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -107,6 +104,13 @@ public class TodoMainController implements Initializable {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("프로젝트 추가");
             dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
+
+            // 다이얼로그 패널에 접근 >> 신창영
+            DialogPane dialogPane = dialog.getDialogPane();
+
+            dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            dialogPane.getStyleClass().add("custom-dialog");
+
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(name -> {
                 // 프로젝트 이름 중복 검사

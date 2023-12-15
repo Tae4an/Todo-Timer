@@ -57,3 +57,43 @@ name-text {
     -fx-background-size: contain;
 
 }
+
+
+
+/* 전체 다이얼로그 스타일 */
+.dialog-pane {
+    -fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+}
+
+/* 다이얼로그 제목 부분 스타일 */
+.dialog-pane .header-panel {
+-fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+}
+
+/* 다이얼로그 내용 부분 스타일 */
+.dialog-pane .content {
+    -fx-background-color: #FEEFF2; /* 다이얼로그 내용 부분 배경 색상 */
+}
+
+/* 다이얼로그 버튼 바 스타일 */
+.dialog-pane .button-bar {
+    -fx-background-color: #FEEFF2; /* 다이얼로그 버튼 바 배경 색상 */
+}
+
+/* 다이얼로그 버튼 스타일 */
+.dialog-pane .button {
+    -fx-background-color:  #f8d8ca; /* 다이얼로그 버튼 배경 색상 */
+    -fx-text-fill: #6b0404; /* 다이얼로그 버튼 텍스트 색상 */
+
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #c98888; /* 다이얼로그 버튼 호버 시 배경 색상 */
+}
+
+.dialog-pane .button:pressed {
+    -fx-background-color: #c98888; /* 다이얼로그 버튼 누를 때 배경 색상 */
+}
+
+
+
