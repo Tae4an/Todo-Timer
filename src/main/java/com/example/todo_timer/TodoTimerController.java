@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 /**
  * ToDo 타이머 애플리케이션의 컨트롤러 클래스
  */
@@ -228,12 +229,20 @@ public class TodoTimerController implements Initializable {
     private void pauseTimer() {
         isPaused = true; // 타이머 일시정지 상태로 변경
 
-        // 사용자에게 선택을 받는 다이얼로그 생성
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        // 사용자에게 선택을 받는 다이얼로그 표시
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("일시정지");
         alert.setHeaderText("일시정지 상태입니다.");
         alert.setContentText("계속 작업을 진행하시겠습니까?");
-        alert.getDialogPane().setStyle("-fx-background-color: #FFCC99;");
+        alert.getDialogPane().getStyleClass().add("confirmation-dialog");
+
+
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = alert.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
 
         ButtonType resumeButton = new ButtonType("계속");
         ButtonType stopButton = new ButtonType("종료", ButtonBar.ButtonData.CANCEL_CLOSE);
