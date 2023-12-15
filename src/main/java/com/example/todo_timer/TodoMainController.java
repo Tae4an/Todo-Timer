@@ -32,7 +32,7 @@ public class TodoMainController implements Initializable {
     @FXML
     private ListView<ProjectManager> projectListView; // 프로젝트 목록을 표시하는 ListView
     @FXML
-    private Button manageProject_btn;
+    private Button manageTask_btn;
 
     private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
     private final TodoTaskController todoTaskController =  TodoTaskController.getInstance();
@@ -43,7 +43,7 @@ public class TodoMainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        manageProject_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        manageTask_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 // ListView에서 선택된 작업을 얻음
@@ -57,7 +57,7 @@ public class TodoMainController implements Initializable {
                 } else {
                     try {
                         Parent sub = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
-                        StackPane root = (StackPane) manageProject_btn.getScene().getRoot();
+                        StackPane root = (StackPane) manageTask_btn.getScene().getRoot();
                         root.getChildren().add(sub);
                         todoTaskController.setCurrentProject(selectedProject);
 
@@ -109,9 +109,13 @@ public class TodoMainController implements Initializable {
             dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(name -> {
-                ProjectManager newProject = new ProjectManager(name);
-                projects.add(newProject);
-
+                // 프로젝트 이름 중복 검사
+                if (isProjectNameExist(name)) {
+                    showPopup("중복된 프로젝트", "이미 존재하는 프로젝트 이름입니다.");
+                } else {
+                    ProjectManager newProject = new ProjectManager(name);
+                    projects.add(newProject);
+                }
             });
         });
 
@@ -149,6 +153,22 @@ public class TodoMainController implements Initializable {
             projectListView.setItems(projects);
         }
     }
+
+    /**
+     * 입력된 프로젝트 이름이 이미 존재하는지 검사하는 메서드
+     *
+     * @param projectName 검사할 프로젝트 이름
+     * @return 중복 여부 (true: 중복됨, false: 중복되지 않음)
+     */
+    private boolean isProjectNameExist(String projectName) {
+        for (ProjectManager project : projects) {
+            if (project.getName().equals(projectName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 class ProjectManager {
     private String projectName;

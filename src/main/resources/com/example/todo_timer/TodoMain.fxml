@@ -10,7 +10,7 @@
 <StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoMainController">
     <AnchorPane fx:id="main_layout" prefHeight="594.0" prefWidth="337.0" styleClass="root_1" stylesheets="@../../../css/StylePont.css">
 
-        <Button fx:id="tm_btn" layoutX="144.0" layoutY="523.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: #f8d8ca; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: #c98888; -fx-border-width: 2;">
+        <Button fx:id="tm_btn" layoutX="144.0" layoutY="523.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: #f8d8ca; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: #c98888;">
             <graphic>
                 <ImageView fitHeight="35.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -23,6 +23,10 @@
             <font>
                 <Font name="Arial Black" size="16.0" />
             </font></Button>
+        <Button layoutX="10.0" layoutY="133.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="157.0" style="-fx-background-color: #f8d8ca;" text="PROJECT" textFill="#6b0404">
+            <font>
+                <Font name="Arial Black" size="16.0" />
+            </font></Button>
         <ListView fx:id="projectListView" layoutX="10.0" layoutY="181.0" prefHeight="324.0" prefWidth="320" style="-fx-border-color: #c98888; -fx-background-color: #FFF2E6; -fx-border-width: 5; -fx-border-radius: 3;">
             <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -31,7 +35,7 @@
             </items>
         </ListView>
 
-        <Button fx:id="manageProject_btn" layoutX="11.0" layoutY="133.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca;" text="프로젝트 관리" textAlignment="JUSTIFY" textFill="#690404">
+        <Button fx:id="manageTask_btn" layoutX="171.0" layoutY="133.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="158.0" style="-fx-background-color: #f8d8ca;" text="To-Do" textAlignment="JUSTIFY" textFill="#690404">
             <font>
                 <Font name="Arial Black" size="16.0" />
             </font></Button>
@@ -45,7 +49,13 @@
                 <Image url="@../../../img/addImage.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="22.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+
+        <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="18.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../img/free-icon-font-pencil.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="186.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../img/free-icon-font-pencil.png" />
             </image>

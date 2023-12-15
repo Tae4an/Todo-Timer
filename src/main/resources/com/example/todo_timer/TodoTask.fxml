@@ -23,6 +23,7 @@
             <font>
                <Font size="16.0" />
             </font></Button>
+
             <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="324.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 5; -fx-border-color: #CC9966; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/style.css">
         </ListView>
             <Button fx:id="back_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888;" textFill="#f5f1ed">
