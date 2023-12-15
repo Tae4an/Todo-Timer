@@ -20,6 +20,8 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * ToDo 타이머 애플리케이션의 컨트롤러 클래스
@@ -42,6 +44,8 @@ public class TodoTimerController implements Initializable {
 
     private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
 
+
+
     private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
 
     private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정
@@ -53,6 +57,15 @@ public class TodoTimerController implements Initializable {
     @FXML
     private Arc timerArc; // Arc 객체 참조
     Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
+
+    @FXML
+    private Button timerSetting_btn;
+
+    private int newMinutes = 25;
+
+    private int newRestMinutes = 5;
+
+
 
     /**
      * 화면 초기화 시 호출되는 메서드
@@ -121,11 +134,12 @@ public class TodoTimerController implements Initializable {
                 // 작업 타이머가 종료된 경우
                 if (minutes == 0 && seconds == 0) {
                     if (!isRest) {  // 현재 휴식 중이 아닌 경우
-                        showPopup("휴식 시간입니다.", "5분 동안 휴식하세요.");
+                        showPopup("휴식 시간입니다.", newRestMinutes +"분 동안 휴식하세요.");
                         startRestTimer();  // 휴식 타이머 시작
-                    } else {
+                    }
+                    else {
                         // 휴식 타이머가 종료된 경우
-                        showPopup("작업을 시작하세요.", "25분 동안 집중하세요.");
+                        showPopup("작업을 시작하세요.", newMinutes + "분 동안 집중하세요.");
                         startWorkTimer();  // 작업 타이머 시작
                     }
                 } else {
@@ -145,13 +159,13 @@ public class TodoTimerController implements Initializable {
         timerText.setText(String.format("%02d:%02d", minutes, seconds));
 
         // Arc 업데이트
-        double totalSeconds = 25 * 60; // 전체 작업 시간 (예: 25분)
-        double elapsedSeconds = (25 - minutes) * 60 + (60 - seconds); // 경과 시간
+        double totalSeconds = 60 * 60; // 전체 작업 시간 (예: 25분)
+        double elapsedSeconds = (60 - minutes) * 60 + (60 - seconds); // 경과 시간
         double startAngle = 90; // 시작 각도를 항상 90도로 유지
         timerArc.setStartAngle(startAngle);
 
         // 아크의 길이 업데이트 (0에서부터 증가)
-        double length = (360.0 * (elapsedSeconds / totalSeconds))-14.4;
+        double length = (360.0 * (elapsedSeconds / totalSeconds))- 6;
 
         timerArc.setLength(length);
     }
@@ -163,7 +177,7 @@ public class TodoTimerController implements Initializable {
      */
     private void setupDonutCircle() {
         timerArc.setStartAngle(90); // 시작 각도를 90도로 설정 (상단 중앙에서 시작)
-        timerArc.setLength(0);      // 아무런 시각적 진행도를 가지지 않는 상태로 초기화
+        timerArc.setLength(210);      // 아무런 시각적 진행도를 가지지 않는 상태로 초기화
     }
 
     /**
@@ -200,7 +214,7 @@ public class TodoTimerController implements Initializable {
             pauseTimer();
         } else {
             startTimer();
-            btn_start_pause.setText("일시정지");
+            btn_start_pause.setText("PAUSE");
         }
     }
 
@@ -243,21 +257,105 @@ public class TodoTimerController implements Initializable {
     private void stopTimer() {
         // 타이머 종료 메서드
         timer.stop();
-        minutes = 25;
+        minutes = newMinutes;
         seconds = 0;
         isPaused = false;
-        btn_start_pause.setText("작업 시작");
+        btn_start_pause.setText("START");
         updateTimerDisplay();
     }
+    @FXML
+    private void openTimerSettingDialog() {
+        // 다이얼로그에 타이머 및 휴식 시간 설정 버튼을 포함하는 커스텀 다이얼로그를 생성합니다.
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("설정 선택");
+        dialog.setHeaderText("원하는 설정을 선택하세요.");
+
+        // 타이머 시간 설정 버튼
+        ButtonType timerSettingButtonType = new ButtonType("타이머 시간 설정");
+        dialog.getDialogPane().getButtonTypes().add(timerSettingButtonType);
+
+        // 휴식 시간 설정 버튼
+        ButtonType restSettingButtonType = new ButtonType("휴식 시간 설정");
+        dialog.getDialogPane().getButtonTypes().add(restSettingButtonType);
+
+        // 취소 버튼
+        ButtonType cancelButtonType = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().add(cancelButtonType);
+
+        // 사용자가 어떤 설정을 선택했는지 확인
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == timerSettingButtonType) {
+                openTimerInputDialog();
+            } else if (dialogButton == restSettingButtonType) {
+                openRestInputDialog();
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
+    }
+    private void openTimerInputDialog() {
+        // 새로운 타이머 시간을 입력받을 다이얼로그 생성
+        TextInputDialog dialog = new TextInputDialog(Integer.toString(newMinutes)); // 현재 설정된 시간을 기본값으로 설정
+        dialog.setTitle("타이머 시간 설정");
+        dialog.setHeaderText("1분에서 60분 사이의 시간을 입력하세요.");
+        dialog.setContentText("타이머 시간(분)을 입력하세요:");
+
+        // 다이얼로그를 표시하고 사용자 입력을 처리
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(time -> {
+            try {
+                newMinutes = Integer.parseInt(time);
+                if (newMinutes >= 1 && newMinutes <= 60) {
+                    // 입력된 값이 1 이상인 경우에만 시간을 설정
+                    minutes = newMinutes;
+                    seconds = 0;
+                    updateTimerDisplay();
+                } else {
+                    showPopup("오류", "1분에서 60분 사이의 유효한 시간을 입력하세요.");
+                }
+            } catch (NumberFormatException e) {
+                showPopup("오류", "유효한 숫자를 입력하세요.");
+            }
+        });
+    }
+
+
+    private void openRestInputDialog() {
+        // 새로운 휴식 시간을 입력받을 다이얼로그 생성
+        TextInputDialog dialog = new TextInputDialog(Integer.toString(newRestMinutes)); // 기본값은 5분
+        dialog.setTitle("휴식 시간 설정");
+        dialog.setHeaderText("1분에서 30분 사이의 시간을 입력하세요.");
+        dialog.setContentText("휴식 시간(분)을 입력하세요:");
+
+        // 다이얼로그를 표시하고 사용자 입력을 처리
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(time -> {
+            try {
+                newRestMinutes = Integer.parseInt(time);
+                if (newRestMinutes >= 1 && newRestMinutes <= 30) {
+                    // 입력된 값이 1 이상인 경우에만 휴식 시간을 설정
+                    seconds = 0;
+                } else {
+                    showPopup("오류", "1분에서 25분 사이의 유효한 시간을 입력하세요.");
+                }
+            } catch (NumberFormatException e) {
+                showPopup("오류", "유효한 숫자를 입력하세요.");
+            }
+        });
+    }
+
 
     /**
      * 작업 타이머를 시작하는 메서드.
      * 작업 시간 25분 설정
      */
     private void startWorkTimer() {
-        minutes = 25;
+        minutes = newMinutes;
         seconds = 0;
         isPaused = false;
+        isRest = false;
+
     }
 
     /**
@@ -265,7 +363,7 @@ public class TodoTimerController implements Initializable {
      * 휴식 시간 5분 설정
      */
     private void startRestTimer() {
-        minutes = 5;
+        minutes = newRestMinutes;
         seconds = 0;
         isPaused = false;
         isRest = true;
@@ -285,6 +383,7 @@ public class TodoTimerController implements Initializable {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+
             alert.showAndWait();
         });
     }
