@@ -110,6 +110,8 @@ public void loadTodoTask() {
         Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
         StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
+
+
         // 현재 씬에 새로운 TodoTask 씬 추가
         root.getChildren().add(todoTaskScene);
 
@@ -134,9 +136,11 @@ public void loadTodoTask() {
      */
     public void deleteTask(String selectedTask) {
         // 작업 삭제를 확인하는 다이얼로그를 생성 및 표시
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("삭제 확인");
         alert.setHeaderText("다음 작업을 삭제하시겠습니까?\n\n" + selectedTask);
+
+
 
         // 사용자가 삭제를 확인하는 경우 해당 작업을 삭제함
         Optional<ButtonType> result = alert.showAndWait();
