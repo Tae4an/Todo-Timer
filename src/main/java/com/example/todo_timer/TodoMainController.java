@@ -160,7 +160,15 @@ class ProjectManager {
         this.projectName = name;
         this.tasks = FXCollections.observableArrayList();
     }
-
+    public void updateTask(String oldTask, String newTask) {
+        int taskIndex = tasks.indexOf(oldTask);
+        if (taskIndex != -1) {
+            tasks.set(taskIndex, newTask);
+        }
+    }
+    public void deleteTask(String task) {
+        tasks.remove(task);
+    }
     public String getName() {
         return projectName;
     }

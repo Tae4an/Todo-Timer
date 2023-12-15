@@ -197,6 +197,7 @@ public class TodoTaskController implements Initializable {
                 taskListView.setItems(currentTasks);
             }
         });
+
     }
 
 
@@ -209,6 +210,9 @@ public class TodoTaskController implements Initializable {
         if (tasks.remove(selectedTask)) {
             currentTasks.remove(selectedTask); // currentTasks에서도 삭제
             updateTaskList();
+        }
+        if (currentProject != null) {
+            currentProject.deleteTask(selectedTask); // 프로젝트의 작업 목록에서 삭제
         }
     }
 
@@ -226,6 +230,9 @@ public class TodoTaskController implements Initializable {
             if (currentTaskIndex != -1) {
                 currentTasks.set(currentTaskIndex, newTask); // currentTasks에서도 업데이트
             }
+        }
+        if (currentProject != null) {
+            currentProject.updateTask(oldTask, newTask); // 프로젝트의 작업 목록 업데이트
         }
     }
 
