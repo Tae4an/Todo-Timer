@@ -110,6 +110,8 @@ public void loadTodoTask() {
         Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
         StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
+
+
         // 현재 씬에 새로운 TodoTask 씬 추가
         root.getChildren().add(todoTaskScene);
 
@@ -138,11 +140,7 @@ public void loadTodoTask() {
         alert.setTitle("삭제 확인");
         alert.setHeaderText("다음 작업을 삭제하시겠습니까?\n\n" + selectedTask);
 
-        // 다이얼로그 패널에 접근 >> 신창영
-        DialogPane dialogPane = alert.getDialogPane();
 
-        dialogPane.getStylesheets().add(getClass().getResource("/css/TaskManage.css").toExternalForm());
-        dialogPane.getStyleClass().add("custom-dialog");
 
         // 사용자가 삭제를 확인하는 경우 해당 작업을 삭제함
         Optional<ButtonType> result = alert.showAndWait();

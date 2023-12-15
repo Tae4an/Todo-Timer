@@ -49,6 +49,7 @@ public class TodoMainController implements Initializable {
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (projectListView.getItems().isEmpty()) {
                     showPopup("Error","프로젝트가 없습니다..!");
+
                 } else if (selectedProject == null) {
                     showPopup("Error","프로젝트를 선택하세요..!");
                 } else {
@@ -140,6 +141,13 @@ public class TodoMainController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText(message);
             alert.showAndWait();
+
+            DialogPane dialogPane = alert.getDialogPane();
+
+            dialogPane.getStylesheets().add(getClass().getResource("/css/TaskManage.css").toExternalForm());
+            dialogPane.getStyleClass().add("custom-dialog");
+
+
         });
     }
     /**

@@ -5,12 +5,14 @@
 
 /* 다이얼로그 제목 부분 스타일 */
 .dialog-pane .header-panel {
-      -fx-background-image: url('@../../../img/print.png');}
+-fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+    -fx-text-fill: #6b0404; /* 다이얼로그 제목 글자 색상 */
 }
 
 /* 다이얼로그 내용 부분 스타일 */
 .dialog-pane .content {
     -fx-background-color: #FEEFF2; /* 다이얼로그 내용 부분 배경 색상 */
+    -fx-text-fill: #6b0404; /* 다이얼로그 내용 글자 색상 */
 }
 
 /* 다이얼로그 버튼 바 스타일 */
@@ -22,7 +24,6 @@
 .dialog-pane .button {
     -fx-background-color:  #f8d8ca; /* 다이얼로그 버튼 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 버튼 텍스트 색상 */
-
 }
 
 .dialog-pane .button:hover {

@@ -67,7 +67,7 @@ name-text {
 
 /* 다이얼로그 제목 부분 스타일 */
 .dialog-pane .header-panel {
--fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+    -fx-background-image: url('@../../../img/Pinkptn.png');
 }
 
 /* 다이얼로그 내용 부분 스타일 */
@@ -95,5 +95,20 @@ name-text {
     -fx-background-color: #c98888; /* 다이얼로그 버튼 누를 때 배경 색상 */
 }
 
+
+/* 버튼 이밴트 */
+
+.styled-button {
+    -fx-background-color: #f8d8ca; /* 기본 버튼 배경 색상 */
+    -fx-text-fill: #6b0404; /* 버튼 텍스트 색상 */
+}
+
+.styled-button:hover {
+    -fx-background-color: #c98888; /* 호버 시 버튼 배경 색상 변화 */
+}
+
+.styled-button:pressed {
+    -fx-background-color: #c98888; /* 버튼 누를 때 버튼 배경 색상 변화 */
+}
 
 

@@ -10,7 +10,7 @@
 <StackPane prefHeight="600.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoMainController">
     <AnchorPane fx:id="main_layout" prefHeight="594.0" prefWidth="337.0" styleClass="root_1" stylesheets="@../../../css/StylePont.css">
 
-        <Button fx:id="tm_btn" layoutX="144.0" layoutY="523.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: #f8d8ca; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: #c98888;" stylesheets="@../../../css/style.css">
+        <Button fx:id="tm_btn" layoutX="144.0" layoutY="523.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="55.0" style="-fx-background-color: #f8d8ca; -fx-background-radius: 50; -fx-border-radius: 50; -fx-border-color: #c98888;" styleClass="styled-button" stylesheets="@../../../css/style.css">
             <graphic>
                 <ImageView fitHeight="35.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                     <image>

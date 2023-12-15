@@ -195,7 +195,7 @@ public class TodoTimerController implements Initializable {
             pauseTimer();
         } else {
             startTimer();
-            btn_start_pause.setText("일시정지");
+            btn_start_pause.setText("STOP");
         }
     }
 

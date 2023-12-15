@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
 <AnchorPane fx:id="timer_layout" prefHeight="600.0" prefWidth="350.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTimerController">
     <Circle fx:id="donutCircle" layoutX="174.0" layoutY="298.0" radius="140.0" strokeWidth="8.0">
         <fill>
@@ -71,14 +71,11 @@
             <Font name="Arial Black" size="64.0" />
         </font>
     </Text>
-    <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="467.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #c98888; -fx-background-radius: 10;" text="START" textFill="WHITE">
+    <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="496.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;" text="START" textFill="WHITE">
         <font>
             <Font name="Arial Black" size="19.0" />
         </font></Button>
-    <stylesheets>
-        <URL value="@/css/style.css" />
-    </stylesheets>
-    <Button fx:id="tsk_btn" layoutX="301.0" layoutY="14.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #c98888; -fx-background-radius: 10;" text="X" textFill="WHITE">
+    <Button fx:id="tsk_btn" layoutX="301.0" layoutY="14.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;" text="X" textFill="WHITE">
       <font>
          <Font size="14.0" />
       </font></Button>
@@ -87,5 +84,8 @@
         <font>
             <Font name="Arial Black" size="23.0" />
         </font></Label>
-    <ChoiceBox fx:id="taskChoiceBox" layoutX="66.0" layoutY="53.0" prefHeight="28.0" prefWidth="218.0" style="-fx-background-color: #c98888; -fx-background-radius: 10;" stylesheets="@../../../css/style.css" />
+    <ChoiceBox fx:id="taskChoiceBox" layoutX="66.0" layoutY="53.0" prefHeight="28.0" prefWidth="218.0" style="-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;" stylesheets="@../../../css/style.css" />
+    <stylesheets>
+        <URL value="@/css/style.css" />
+    </stylesheets>
 </AnchorPane>
