@@ -323,20 +323,38 @@ public class TodoTaskController implements Initializable {
         return tasks;
     }
 
+    /**
+     * 현재 프로젝트를 설정하고 해당 프로젝트의 작업 목록을 현재 작업 목록으로 설정
+     * 작업 목록이 설정되면, 이 메서드는 작업 목록을 표시하는 ListView에도 설정
+     *
+     * @param project 현재 프로젝트
+     */
     public void setCurrentProject(ProjectManager project) {
         this.currentProject = project;
         this.currentTasks.setAll(project.getTasks());
-
 
         if (this.taskListView != null) {
             taskListView.setItems(this.currentTasks);
         }
     }
 
+    /**
+     * 작업의 메모를 업데이트합니다. 지정된 작업에 대한 메모를 설정
+     *
+     * @param task 작업 이름
+     * @param memo 작업 메모
+     */
     public void updateTaskMemo(String task, String memo) {
         taskMemos.put(task, memo);
     }
 
+
+    /**
+     * 지정된 작업의 메모를 가져옴. 만약 메모가 없는 경우 빈 문자열을 반환
+     *
+     * @param task 작업 이름
+     * @return 작업 메모 (없는 경우 빈 문자열)
+     */
     public String getTaskMemo(String task) {
         return taskMemos.getOrDefault(task, "");
     }

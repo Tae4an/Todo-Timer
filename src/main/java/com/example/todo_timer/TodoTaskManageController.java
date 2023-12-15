@@ -148,25 +148,31 @@ public void loadTodoTask() {
     }
 
 
+
     /**
-     * 변경된 작업 이름과 마감일을 저장하는 메서드.
-     * 작업 이름 또는 마감일이 변경되었을 경우에만 업데이트를 수행함.
-     * 변경이 감지되지 않으면 사용자에게 변경된 내용이 없음을 알리는 팝업을 표시함.
+     * 작업을 저장하는 메서드
+     * 사용자가 수정한 작업 이름, 마감일 및 메모를 가져와서 저장
+     * 작업 이름이 변경되고 중복된 경우 중복 메시지를 표시하고 함수를 종료
+     * 작업 이름, 마감일 또는 메모가 변경된 경우 해당 변경 내용을 업데이트하고 저장
+     * 변경 내용이 없는 경우 오류 메시지를 표시
      */
     private void saveTask() {
-        String updatedTask = tskName.getText();
-        LocalDate dueDate = dueDatePicker.getValue();
-        String updatedMemo = tskMemo.getText();
+        String updatedTask = tskName.getText(); // 수정된 작업 이름 가져오기
+        LocalDate dueDate = dueDatePicker.getValue(); // 수정된 마감일 가져오기
+        String updatedMemo = tskMemo.getText(); // 수정된 메모 가져오기
 
+        // 작업 이름이 변경되고 중복된 경우 처리
         if (!updatedTask.equals(task) && TodoTaskController.getInstance().isTaskNameExist(updatedTask)) {
             showPopup("중복된 작업", "이미 존재하는 작업 이름입니다.");
             return; // 중복된 경우 함수 종료
         }
 
+        // 변경 여부 확인
         boolean isTaskNameChanged = !updatedTask.equals(task);
         boolean isDueDateChanged = dueDate != null && !dueDate.equals(TodoTaskController.getInstance().getDueDate(task));
         boolean isMemoChanged = !updatedMemo.equals(TodoTaskController.getInstance().getTaskMemo(task));
 
+        // 변경된 내용이 있는 경우 처리
         if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
             if (isTaskNameChanged) {
                 TodoTaskController.getInstance().updateTask(task, updatedTask);
@@ -180,7 +186,7 @@ public void loadTodoTask() {
             }
 
             showPopup("저장", "저장 되었습니다..!");
-            loadTodoTask();
+            loadTodoTask(); // 작업 목록 다시 불러오기
         } else {
             showPopup("Error", "변경된 내용이 없습니다..!");
         }

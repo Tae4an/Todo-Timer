@@ -53,6 +53,7 @@ public class TodoTimerController implements Initializable {
     @FXML
     private Arc timerArc; // Arc 객체 참조
     Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
+
     /**
      * 화면 초기화 시 호출되는 메서드
      * 주요 컴포넌트들을 초기화하고 이벤트 핸들러를 등록
@@ -155,9 +156,14 @@ public class TodoTimerController implements Initializable {
         timerArc.setLength(length);
     }
 
+    /**
+     * 도넛 모양의 타이머 그래픽을 초기화하고 설정하는 메서드
+     * 시작 각도를 90도로 설정하여 상단 중앙에서 시작하도록 하고,
+     * 초기에는 아무런 시각적 진행도를 가지지 않도록 설정
+     */
     private void setupDonutCircle() {
-            timerArc.setStartAngle(90); // 상단 중앙부터 시작
-            timerArc.setLength(0); // 초기에는 아무것도 표시하지 않음
+        timerArc.setStartAngle(90); // 시작 각도를 90도로 설정 (상단 중앙에서 시작)
+        timerArc.setLength(0);      // 아무런 시각적 진행도를 가지지 않는 상태로 초기화
     }
 
     /**
@@ -198,12 +204,17 @@ public class TodoTimerController implements Initializable {
         }
     }
 
+    /**
+     * 타이머를 일시정지하는 메서드
+     * 타이머를 일시정지 상태로 변경하고, 사용자에게 계속 진행할지 여부를 묻는 다이얼로그를 표시
+     * 사용자가 "계속"을 선택한 경우 타이머를 계속 진행하며,
+     * "종료"를 선택하거나 다이얼로그를 닫은 경우 타이머를 정지
+     */
     @FXML
     private void pauseTimer() {
-        // 타이머 일시정지 메서드
-        isPaused = true;
+        isPaused = true; // 타이머 일시정지 상태로 변경
 
-        // 사용자에게 선택을 받는 다이얼로그 표시
+        // 사용자에게 선택을 받는 다이얼로그 생성
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("일시정지");
         alert.setHeaderText("일시정지 상태입니다.");
@@ -215,12 +226,12 @@ public class TodoTimerController implements Initializable {
         alert.getButtonTypes().setAll(resumeButton, stopButton);
 
         Optional<ButtonType> result = alert.showAndWait();
+
+        // 사용자의 선택에 따라 처리
         if (result.isPresent() && result.get() == resumeButton) {
-            // "계속" 버튼이 선택된 경우
-            startTimer();  // 타이머 계속 진행
+            startTimer(); // "계속" 버튼이 선택된 경우 타이머 계속 진행
         } else {
-            // "정지" 버튼이나 다이얼로그를 닫은 경우
-            stopTimer();  // 타이머 정지
+            stopTimer(); // "종료" 버튼이나 다이얼로그를 닫은 경우 타이머 정지
         }
     }
 

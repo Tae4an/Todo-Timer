@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
+
 public class TodoMainController implements Initializable {
     @FXML
     private Button tm_btn; // "타이머" 기능을 위한 버튼
@@ -32,7 +34,7 @@ public class TodoMainController implements Initializable {
     @FXML
     private ListView<ProjectManager> projectListView; // 프로젝트 목록을 표시하는 ListView
     @FXML
-    private Button manageTask_btn;
+    private Button manageTask_btn; // "To-Do" 버튼
 
     private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
     private final TodoTaskController todoTaskController =  TodoTaskController.getInstance();
@@ -170,40 +172,82 @@ public class TodoMainController implements Initializable {
     }
 
 }
+/**
+ * 프로젝트 관리를 위한 클래스
+ * 이 클래스는 프로젝트 이름과 해당 프로젝트에 속한 작업 목록을 관리
+ */
 class ProjectManager {
-    private String projectName;
-    private ObservableList<String> tasks;
+    private String projectName;           // 프로젝트 이름
+    private ObservableList<String> tasks; // 프로젝트에 속한 작업 목록
 
-
-
+    /**
+     * ProjectManager의 생성자
+     *
+     * @param name 프로젝트의 이름
+     */
     public ProjectManager(String name) {
         this.projectName = name;
         this.tasks = FXCollections.observableArrayList();
     }
+
+    /**
+     * 작업 이름을 업데이트. 기존 작업 이름을 새로운 이름으로 변경
+     *
+     * @param oldTask 이전 작업 이름
+     * @param newTask 새 작업 이름
+     */
     public void updateTask(String oldTask, String newTask) {
         int taskIndex = tasks.indexOf(oldTask);
         if (taskIndex != -1) {
             tasks.set(taskIndex, newTask);
         }
     }
+
+    /**
+     * 지정된 작업을 삭제
+     *
+     * @param task 삭제할 작업 이름
+     */
     public void deleteTask(String task) {
         tasks.remove(task);
     }
+
+    /**
+     * 프로젝트의 이름을 반환
+     *
+     * @return 프로젝트 이름
+     */
     public String getName() {
         return projectName;
     }
 
+    /**
+     * 프로젝트에 속한 작업 목록을 반환
+     *
+     * @return 작업 목록
+     */
     public ObservableList<String> getTasks() {
         return tasks;
     }
 
+    /**
+     * 객체를 문자열로 표현할 때 사용하는 메서드
+     * 이 메서드는 ListView 등에서 프로젝트의 이름을 표시
+     *
+     * @return 프로젝트 이름
+     */
     @Override
     public String toString() {
-        return projectName; // ListView에 프로젝트의 이름을 표시
+        return projectName;
     }
 
+    /**
+     * 새로운 작업을 프로젝트에 추가
+     *
+     * @param task 추가할 작업 이름
+     */
     public void addTask(String task) {
         tasks.add(task);
     }
-    // 나머지 필요한 메서드...
 }
+
