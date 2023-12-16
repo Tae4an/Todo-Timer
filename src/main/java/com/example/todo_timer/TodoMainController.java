@@ -56,19 +56,12 @@ public class TodoMainController implements Initializable {
             dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             dialogPane.getStyleClass().add("custom-dialog");
 
-            Font customFont = Font.loadFont(getClass().getResourceAsStream("/img/YEONGJUPunggiGinseng.otf"), 14);
+            Font customFont = Font.loadFont(getClass().getResourceAsStream("/img/YEONGJUPunggiGinseng.otf"), 20);
 
             // ListView의 셀 스타일 적용
             projectListView.setStyle(
-                    "-fx-background-color: #FFF2E6;" +
-                            "-fx-border-color: #CC9966;" +
-                            "-fx-border-width: 0 0 1 0;" +
-                            "-fx-font-size: 20px;" +
-                            "-fx-text-fill: #6b0404;" +
                             "-fx-font-family: '" + customFont.getFamily() + "';"
             );
-
-
 
 
             Optional<String> result = dialog.showAndWait();

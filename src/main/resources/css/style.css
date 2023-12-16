@@ -1,5 +1,10 @@
 /* ListView의 셀 간격 조절 */
 .list-view {
+    -fx-background-color:  #FFF2E6;
+    -fx-background-radius: 5;
+    -fx-border-color:  #c98888;
+    -fx-border-width:  5;
+    -fx-border-radius:  5;
     -fx-cell-size: 40px; /* 셀 간격 조절 */
 }
 
