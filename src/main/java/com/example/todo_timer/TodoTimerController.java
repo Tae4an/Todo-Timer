@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
@@ -39,6 +41,8 @@ public class TodoTimerController implements Initializable {
     private AnchorPane timer_layout;   // 타이머 홈의 레이아웃
     @FXML
     private ChoiceBox<String> taskChoiceBox;   // 타이머 홈의 초이스 박스
+    @FXML
+    private Label timer_label;
 
 
     private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용
@@ -364,7 +368,15 @@ public class TodoTimerController implements Initializable {
         seconds = 0;
         isPaused = false;
         isRest = false;
-
+        // 씬의 배경 색상을 #FFD8D8로 변경
+        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
+        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        tsk_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+        // 색상을 #6b0404로 설정
+        timerText.setFill(Color.web("#6b0404"));
+        timer_label.setTextFill(Color.web("#c98888"));
     }
 
     /**
@@ -376,8 +388,18 @@ public class TodoTimerController implements Initializable {
         seconds = 0;
         isPaused = false;
         isRest = true;
-    }
 
+        // 씬의 배경 색상을 #B7F0B1로 변경
+        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(183, 240, 177), null, null)));
+        timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        tsk_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
+        timerText.setFill(Color.web("#005C00"));
+        timer_label.setTextFill(Color.web("#47C83E"));
+
+
+    }
     /**
      * 팝업 창을 표시하는 메서드.
      *
