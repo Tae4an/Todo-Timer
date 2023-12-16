@@ -80,6 +80,10 @@ public class TodoTaskManageController implements Initializable {
 
         tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
 
+        // 테스트를 위해 타이머를 30초마다 실행하도록 설정
+        Timeline deadlineCheckTimeline = new Timeline(new KeyFrame(Duration.seconds(30), ev -> checkDeadline()));
+        deadlineCheckTimeline.setCycleCount(Timeline.INDEFINITE);
+        deadlineCheckTimeline.play();
     }
 
     /**
@@ -135,16 +139,16 @@ public class TodoTaskManageController implements Initializable {
      * @param selectedTask 삭제할 작업의 이름
      */
     public void deleteTask(String selectedTask) {
-        // 작업 삭제를 확인하는 다이얼로그를 생성 및 표시
-        Alert alert = new Alert(Alert.AlertType.NONE);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION); // 타입을 CONFIRMATION으로 설정
         alert.setTitle("삭제 확인");
         alert.setHeaderText("다음 작업을 삭제하시겠습니까?\n\n" + selectedTask);
 
+        ButtonType deleteButton = new ButtonType("삭제");
+        ButtonType cancelButton = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(deleteButton, cancelButton);
 
-
-        // 사용자가 삭제를 확인하는 경우 해당 작업을 삭제함
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == deleteButton) {
             todoTaskController.deleteTask(task);
             showPopup("삭제", "삭제 되었습니다..!");
             loadTodoTask();
@@ -223,5 +227,17 @@ public class TodoTaskManageController implements Initializable {
         LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
 
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
+    }
+
+    private void checkDeadline() {
+        LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+        LocalDate today = LocalDate.now();
+
+        // 여기서 dueDate.minusDays(1).isEqual(today) 대신에 테스트를 위해 조건을 제거
+        if (dueDate != null) {
+            Platform.runLater(() -> {
+                showPopup("마감 임박", "작업 '" + task + "'의 마감 기한이 하루 남았습니다.");
+            });
+        }
     }
 }
