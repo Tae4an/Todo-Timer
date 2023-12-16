@@ -295,6 +295,12 @@ public class TodoTimerController implements Initializable {
         ButtonType cancelButtonType = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().add(cancelButtonType);
 
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
         // 사용자가 어떤 설정을 선택했는지 확인
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == timerSettingButtonType) {
@@ -313,6 +319,11 @@ public class TodoTimerController implements Initializable {
         dialog.setTitle("타이머 시간 설정");
         dialog.setHeaderText("1분에서 60분 사이의 시간을 입력하세요.");
         dialog.setContentText("타이머 시간(분)을 입력하세요:");
+
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
 
         // 다이얼로그를 표시하고 사용자 입력을 처리
         Optional<String> result = dialog.showAndWait();
@@ -340,6 +351,11 @@ public class TodoTimerController implements Initializable {
         dialog.setTitle("휴식 시간 설정");
         dialog.setHeaderText("1분에서 30분 사이의 시간을 입력하세요.");
         dialog.setContentText("휴식 시간(분)을 입력하세요:");
+
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
 
         // 다이얼로그를 표시하고 사용자 입력을 처리
         Optional<String> result = dialog.showAndWait();
@@ -414,6 +430,7 @@ public class TodoTimerController implements Initializable {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
 
             alert.showAndWait();
         });

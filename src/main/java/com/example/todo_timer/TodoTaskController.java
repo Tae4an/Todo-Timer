@@ -298,6 +298,10 @@ public class TodoTaskController implements Initializable {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+
+
+            //팝업창 색감 스타일 입히지 : 신창영
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             alert.showAndWait();
         });
     }
