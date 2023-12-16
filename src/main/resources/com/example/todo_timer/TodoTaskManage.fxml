@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="tskManage_layout" prefHeight="600.0" prefWidth="340.0" style="-fx-background-color: #FFD8D8;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.todo_timer.TodoTaskManageController">
     <children>
-        <TextArea fx:id="tskMemo" layoutX="11.0" layoutY="157.0" prefHeight="295.0" prefWidth="318.0" style="-fx-border-radius: 5; -fx-border-color: #c98888; -fx-border-width: 5;" stylesheets="@../../../css/style.css" />
+        <TextArea fx:id="tskMemo" layoutX="11.0" layoutY="157.0" prefHeight="295.0" prefWidth="318.0" styleClass="text-area" stylesheets="@../../../css/style.css" />
         <Button fx:id="tsk_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888; -fx-border-color: #865353; -fx-border-radius: 2;" textFill="#f5f1ed">
             <graphic>
                 <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">

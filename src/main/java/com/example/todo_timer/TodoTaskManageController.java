@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -79,6 +80,11 @@ public class TodoTaskManageController implements Initializable {
         updateDueDatePicker();
 
         tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
+
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
+
+        // ListView의 셀 스타일 적용
+        tskMemo.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
 
         // 테스트를 위해 타이머를 30초마다 실행하도록 설정
         Timeline deadlineCheckTimeline = new Timeline(new KeyFrame(Duration.seconds(30), ev -> checkDeadline()));

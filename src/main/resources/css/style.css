@@ -90,8 +90,13 @@ name-text {
 
 .text-area {
     -fx-control-inner-background:  #FFF2E6;
-        -fx-font-size: 16px; /* 텍스트 크기 조절 */
-        -fx-text-fill: #6b0404; /* 폰트 색상 설정 */
+    -fx-background-color:  #FFF2E6;
+    -fx-background-radius: 5;
+    -fx-border-color:  #c98888;
+    -fx-border-width:  5;
+    -fx-border-radius:  5;
+    -fx-font-size: 16px; /* 텍스트 크기 조절 */
+    -fx-text-fill: #6b0404; /* 폰트 색상 설정 */
 }
 .text-field{
     -fx-control-inner-background:  #FFF2E6;

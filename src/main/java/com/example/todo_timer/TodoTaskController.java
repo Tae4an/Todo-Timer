@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -105,6 +106,11 @@ public class TodoTaskController implements Initializable {
             public void handle(MouseEvent event) {
                 String selectedTask = taskListView.getSelectionModel().getSelectedItem();
                 String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
+
+                // ListView의 셀 스타일 적용
+                Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
+                taskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
+                completedTaskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
 
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
