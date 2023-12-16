@@ -7,6 +7,7 @@
 .dialog-pane .header-panel {
 -fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 제목 글자 색상 */
+    -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
 }
 
 /* 다이얼로그 내용 부분 스타일 */
@@ -17,13 +18,18 @@
 
 /* 다이얼로그 버튼 바 스타일 */
 .dialog-pane .button-bar {
-    -fx-background-color: #FEEFF2; /* 다이얼로그 버튼 바 배경 색상 */
+    -fx-background-color: #eedbdb; /* 다이얼로그 버튼 바 배경 색상 */
+
+
 }
 
 /* 다이얼로그 버튼 스타일 */
 .dialog-pane .button {
     -fx-background-color:  #f8d8ca; /* 다이얼로그 버튼 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 버튼 텍스트 색상 */
+    -fx-background-radius: 5; /* 버튼의 모서리를 둥글게 만듭니다. */
+    -fx-border-color: #c98888; /* 버튼의 테두리 색상을 변경합니다. */
+    -fx-border-radius: 5; /* 테두리의 모서리를 둥글게 만듭니다. */
 }
 
 .dialog-pane .button:hover {
@@ -33,3 +39,50 @@
 .dialog-pane .button:pressed {
     -fx-background-color: #c98888; /* 다이얼로그 버튼 누를 때 배경 색상 */
 }
+
+/* TextInputDialog의 TextField 스타일 */
+.text-input-dialog .text-field {
+    -fx-border-color: #c98888; /* 텍스트 필드의 테두리 색상 설정 */
+    -fx-border-radius: 5; /* 텍스트 필드의 테두리 모서리를 둥글게 만듭니다. */
+    -fx-border-width : 3;
+}
+.custom-dialog .dialog-pane {
+    -fx-graphic: null; /* 물음표 아이콘을 null로 설정하여 숨깁니다. */
+}
+
+
+/* TodoTimer.css 파일에 추가할 CSS 코드 */
+.alert {
+    -fx-background-color: #FEEFF2; /* 팝업 창 전체 배경 색상 설정 */
+}
+
+.alert .dialog-pane {
+    -fx-background-color: #FEEFF2; /* 다이얼로그 패널 배경 색상 설정 */
+}
+
+.alert .header-panel {
+    -fx-background-color: #FEEFF2; /* 팝업 창 제목 부분 배경 색상 설정 */
+}
+
+.alert .content {
+    -fx-background-color: #eedbdb; /* 팝업 창 내용 부분 배경 색상 설정 */
+}
+
+
+
+
+
+
+/*
+ 버튼 스타일
+#timerSetting_btn,
+#btn_start_pause,
+#tsk_btn,
+#taskChoiceBox {
+    -fx-background-color:#47C83E;
+    -fx-background-radius: 10;
+    -fx-border-color: #005C00;
+    -fx-border-radius: 10;
+}
+*/
+

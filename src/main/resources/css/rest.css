@@ -1,0 +1,38 @@
+/* TodoTimer.css 파일에 추가할 CSS 코드 */
+
+
+/* 버튼 스타일 */
+.timerSetting_btn,
+ {
+    -fx-background-color:#47C83E;
+    -fx-background-radius: 10;
+    -fx-border-color: #005C00;
+    -fx-border-radius: 10;
+}
+
+/* 버튼 스타일 */
+.btn_start_pause,
+{
+    -fx-background-color:#47C83E;
+    -fx-background-radius: 10;
+    -fx-border-color: #005C00;
+    -fx-border-radius: 10;
+}
+
+
+/* 버튼 스타일 */
+.tsk_btn,
+ {
+    -fx-background-color:#47C83E;
+    -fx-background-radius: 10;
+    -fx-border-color: #005C00;
+    -fx-border-radius: 10;
+}
+
+
+/* 버튼 스타일 */
+.taskChoiceBox
+{
+    -fx-border-color: #005C00;
+    -fx-border-radius: 10;
+}

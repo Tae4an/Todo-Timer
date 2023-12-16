@@ -6,14 +6,18 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -23,12 +27,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class TodoTaskController implements Initializable {
 
     @FXML
     private ListView<String> taskListView; // 작업 목록을 표시하는 ListView 컴포넌트
-
+    @FXML
+    private ListView<String> completedTaskListView; // 완료한 작업 목록을 표시하는 ListView 컴포넌트
     @FXML
     private Button tskmanage_btn; // "작업 관리" 기능을 위한 버튼
     @FXML
@@ -37,9 +43,14 @@ public class TodoTaskController implements Initializable {
     private StackPane task_layout;
     @FXML
     private Label task_label;
+    @FXML
+    private Button complete_btn;
+    @FXML
+    private Button restore_btn;
 
-    // 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
-    private static ObservableList<String> tasks = FXCollections.observableArrayList();
+
+    // 완료한 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
+    private static ObservableList<String> completedTasks = FXCollections.observableArrayList();
 
     // 각 작업에 대한 마감일을 저장하는 Map, 키는 작업 이름, 값은 해당 작업의 마감일
     protected static final Map<String, LocalDate> dueDates = new HashMap<>();
@@ -58,6 +69,8 @@ public class TodoTaskController implements Initializable {
     private static boolean isInitialized = false;
 
     private static ProjectManager currentProject;
+
+    private ProjectManager projectManager;
 
 
     /**
@@ -91,14 +104,22 @@ public class TodoTaskController implements Initializable {
         tskmanage_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // ListView에서 선택된 작업을 얻음
                 String selectedTask = taskListView.getSelectionModel().getSelectedItem();
-
+                String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
+                selectedTask = extractTaskName(selectedTask);
+                selectedCompletedTask = extractTaskName(selectedCompletedTask);
+                // ListView의 셀 스타일 적용
+                Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
+                taskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
+                completedTaskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
                     showPopup("Error", "작업이 없습니다..!");
-                } else if (selectedTask == null) {
+                } else if (selectedTask == null && selectedCompletedTask == null) {
                     showPopup("Error", "작업을 선택하세요..!");
+                } else if (selectedCompletedTask != null) {
+                    // 완료한 작업은 변경할 수 없다는 팝업 표시
+                    showPopup("Error", "완료한 작업은 변경할 수 없습니다.");
                 } else {
                     // 선택된 작업으로 TodoTaskManageController 설정 및 뷰 로드
                     manageController = TodoTaskManageController.getInstance();
@@ -149,13 +170,13 @@ public class TodoTaskController implements Initializable {
             }
         });
 
+
         // 메서드가 처음 호출될 때만 currentTasks를 초기화
         if (!isInitialized) {
             this.currentTasks = FXCollections.observableArrayList();
+            this.completedTasks = FXCollections.observableArrayList();
             isInitialized = true;
         }
-        taskListView.setItems(currentTasks); // ListView에 현재 작업 목록을 설정
-
         // 작업 목록 업데이트
         updateTaskList();
     }
@@ -197,7 +218,6 @@ public class TodoTaskController implements Initializable {
                 } else {
                     currentProject.addTask(taskName); // 프로젝트에 작업 추가
                     currentTasks.add(taskName);
-                    tasks.add(taskName); // 현재 작업 목록 업데이트
                     taskListView.setItems(currentTasks); // ListView 업데이트
                 }
             }
@@ -212,10 +232,10 @@ public class TodoTaskController implements Initializable {
      * @param selectedTask 삭제할 작업
      */
     public void deleteTask(String selectedTask) {
-        if (tasks.remove(selectedTask)) {
-            currentTasks.remove(selectedTask); // currentTasks에서도 삭제
-            updateTaskList();
-        }
+        selectedTask = extractTaskName(selectedTask);
+        currentTasks.remove(selectedTask);
+        updateTaskList();
+
         if (currentProject != null) {
             currentProject.deleteTask(selectedTask); // 프로젝트의 작업 목록에서 삭제
         }
@@ -248,14 +268,9 @@ public class TodoTaskController implements Initializable {
         if (taskListView == null) {
             taskListView = new ListView<>();
         }
-        int index = tasks.indexOf(oldTask);
+        int index = currentTasks.indexOf(oldTask);
         if (index != -1) {
-            tasks.set(index, newTask);
-        }
-
-        int currentTaskIndex = currentTasks.indexOf(oldTask);
-        if (currentTaskIndex != -1) {
-            currentTasks.set(currentTaskIndex, newTask);
+            currentTasks.set(index, newTask);
         }
 
         taskListView.setItems(currentTasks); // ListView 업데이트
@@ -284,6 +299,7 @@ public class TodoTaskController implements Initializable {
         return dueDates.get(task);
     }
 
+
     /**
      * 팝업 창을 표시하는 메서드.
      *
@@ -298,6 +314,10 @@ public class TodoTaskController implements Initializable {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+
+
+            //팝업창 색감 스타일 입히지 : 신창영
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             alert.showAndWait();
         });
     }
@@ -308,24 +328,30 @@ public class TodoTaskController implements Initializable {
      * 작업 목록이 비어 있고 실제 작업이 존재하는 경우에만 목록을 업데이트
      */
     private void updateTaskList() {
-        // taskListView가 null이면 초기화
+        // taskListView 및 completedTaskListView가 null이면 초기화
         if (taskListView == null) {
             taskListView = new ListView<>();
         }
-
-        // 작업 목록이 비어 있고, 실제 작업이 존재하는 경우에만 목록을 업데이트
-        if (taskListView.getItems().isEmpty() && !tasks.isEmpty()) {
-            taskListView.setItems(currentTasks); // ListView에 현재 작업 목록을 설정
+        if (completedTaskListView == null) {
+            completedTaskListView = new ListView<>();
         }
+
+        ObservableList<String> formattedTasks = currentTasks.stream()
+                .map(task -> formatTaskWithDueDate(task))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        taskListView.setItems(formattedTasks); // ListView에 현재 작업 목록 설정
+
+
+        ObservableList<String> formattedCompletedTasks = completedTasks.stream()
+                .map(task -> formatTaskWithDueDate(task))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        completedTaskListView.setItems(formattedCompletedTasks); // ListView에 완료한 작업 목록 설정
+
     }
 
-    /**
-     * 작업 목록을 반환
-     *
-     * @return 작업 목록
-     */
-    public ObservableList<String> getTasks() {
-        return tasks;
+    private String formatTaskWithDueDate(String task) {
+        LocalDate dueDate = dueDates.get(task);
+        return (dueDate != null) ? task + " [" + dueDate.toString() + "]" : task;
     }
 
     /**
@@ -335,11 +361,22 @@ public class TodoTaskController implements Initializable {
      * @param project 현재 프로젝트
      */
     public void setCurrentProject(ProjectManager project) {
+        if (currentTasks == null) {
+            currentTasks = FXCollections.observableArrayList();
+        }
+        if (completedTasks == null) {
+            completedTasks = FXCollections.observableArrayList();
+        }
+
         this.currentProject = project;
         this.currentTasks.setAll(project.getTasks());
+        this.completedTasks.setAll(project.getCompletedTasks());
 
         if (this.taskListView != null) {
             taskListView.setItems(this.currentTasks);
+        }
+        if (this.completedTaskListView != null) {
+            completedTaskListView.setItems(this.completedTasks);
         }
     }
 
@@ -372,6 +409,87 @@ public class TodoTaskController implements Initializable {
      */
     public boolean isTaskNameExist(String taskName) {
         return currentProject != null && currentProject.getTasks().contains(taskName);
+    }
+
+    @FXML
+    private void completeTask(ActionEvent event) {
+        // ListView에서 선택된 작업을 얻음
+        String selectedTaskWithDate = taskListView.getSelectionModel().getSelectedItem();
+
+        // 완료한 작업이 선택되지 않았을 경우 에러 메시지 표시
+        if (selectedTaskWithDate == null) {
+            showPopup("Error", "완료한 작업을 선택하세요..!");
+            return;
+        }
+        // 선택된 작업에서 작업 이름만 추출 (마감일 정보 제외)
+        String selectedCompletedTask = extractTaskName(selectedTaskWithDate);
+
+        completedTasks.add(selectedCompletedTask);
+
+        currentProject.addCompletedTask(selectedCompletedTask);
+
+        currentProject.deleteTask(selectedCompletedTask);
+
+        currentTasks.remove(selectedCompletedTask);
+
+        updateTaskList();
+    }
+
+    @FXML
+    private void restoreTask(ActionEvent event) {
+        // ListView에서 선택된 작업을 얻음
+        String selectedCompletedTaskWithDate = completedTaskListView.getSelectionModel().getSelectedItem();
+        if (selectedCompletedTaskWithDate == null) {
+            showPopup("Error", "완료한 작업을 선택하세요..!");
+            return;
+        }
+        String selectedCompletedTask = extractTaskName(selectedCompletedTaskWithDate); // 마감일 정보 제외한 작업 이름 추출
+        // 선택된 완료한 작업을 다시 작업 목록(currentTasks)으로 이동
+
+        currentTasks.add(selectedCompletedTask);
+
+        currentProject.addTask(selectedCompletedTask);
+        currentProject.deleteCompletedTask(selectedCompletedTask);
+
+        completedTasks.remove(selectedCompletedTask);
+        updateTaskList();
+    }
+
+    private String extractTaskName(String taskWithDate) {
+        if (taskWithDate != null) {
+            // '[' 문자 앞의 문자열을 작업 이름으로 간주
+            int bracketIndex = taskWithDate.indexOf(" [");
+            return (bracketIndex != -1) ? taskWithDate.substring(0, bracketIndex) : taskWithDate;
+        }
+        return null;
+    }
+
+    public void reloadScene() {
+        try {
+            // TodoTask.fxml 파일 로드
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TodoTask.fxml"));
+            Parent root = loader.load();
+
+            // 현재 스테이지(윈도우) 참조 얻기
+            Stage stage;
+            if (back_btn.getScene() != null) {
+                stage = (Stage) back_btn.getScene().getWindow();
+            } else {
+                // 현재 Scene이 없는 경우, 새로운 Stage 생성
+                stage = new Stage();
+            }
+
+            // 새로운 Scene 설정
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // 스테이지 표시
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 오류 처리
+            showPopup("오류", "씬을 다시 로드하는데 실패했습니다.");
+        }
     }
 
 }

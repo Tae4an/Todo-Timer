@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -20,29 +23,44 @@
             </font></Label>
 
 
-            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="121.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" textAlignment="CENTER" textFill="#6b0404">
+            <Button fx:id="tskmanage_btn" layoutX="10.0" layoutY="119.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" textFill="#6b0404">
             <font>
-               <Font size="16.0" />
+               <Font name="Arial Black" size="16.0" />
             </font>
             <graphic>
-               <ImageView fitHeight="25.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="19.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../../../img/Filetext.png" />
+                     <Image url="@../../../img/FiletextTodo.png" />
                   </image>
                </ImageView>
             </graphic></Button>
 
-            <ListView fx:id="taskListView" layoutX="10.0" layoutY="172.0" prefHeight="324.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 50; -fx-border-color: #c98888; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/style.css">
+            <ListView fx:id="taskListView" layoutX="10.0" layoutY="195.0" prefHeight="140.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 50; -fx-border-color: #c98888; -fx-border-radius: 5; -fx-border-width: 5;" stylesheets="@../../../css/TodoTimerManage.css">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="completion.." />
+                    </FXCollections>
+                </items>
         </ListView>
-            <Button fx:id="back_btn" layoutX="17.0" layoutY="544.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888; -fx-border-color: #865353; -fx-border-radius: 2;" textFill="#f5f1ed">
+            <ListView fx:id="completedTaskListView" layoutX="10.0" layoutY="386.0" prefHeight="140.0" prefWidth="320.0" style="-fx-background-color: #FFF2E6; -fx-background-radius: 50; -fx-border-color: #c98888; -fx-border-radius: 5; -fx-border-width: 5;">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Restore.." />
+                    </FXCollections>
+                </items>
+            <stylesheets>
+               <URL value="@../../../css/style.css" />
+               <URL value="@../../../css/TodoTimerManage.css" />
+            </stylesheets></ListView>
+            <Button fx:id="back_btn" layoutX="17.0" layoutY="554.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: #c98888; -fx-border-color: #865353; -fx-border-radius: 2;" textFill="#f5f1ed">
             <graphic>
-               <ImageView fitHeight="17.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="17.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../../../img/arrow.png" />
                   </image>
                </ImageView>
             </graphic></Button>
-         <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="25.0" fitWidth="31.0" layoutX="20.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../img/folder.png" />
             </image>
@@ -52,6 +70,16 @@
                <Image url="@../../../img/addImage.png" />
             </image>
          </ImageView>
+         <Label layoutX="13.0" layoutY="171.0" text="To-Do Lsit" textFill="#6b0404">
+            <font>
+               <Font name="Arial Black" size="14.0" />
+            </font></Label>
+         <Label layoutX="15.0" layoutY="362.0" text="Completed List" textFill="#6b0404">
+            <font>
+               <Font name="Arial Black" size="14.0" />
+            </font></Label>
+            <Button fx:id="complete_btn" layoutX="276.0" layoutY="169.0" mnemonicParsing="false" onAction="#completeTask" prefHeight="23.0" prefWidth="52.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="완료" textFill="#6b0404" />
+            <Button fx:id="restore_btn" layoutX="276.0" layoutY="359.0" mnemonicParsing="false" onAction="#restoreTask" prefHeight="23.0" prefWidth="52.0" style="-fx-border-color: #c98888; -fx-background-color: #f8d8ca; -fx-border-radius: 3;" text="복구" textFill="#6b0404" />
 
         </children>
     </AnchorPane>

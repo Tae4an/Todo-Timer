@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -80,6 +81,11 @@ public class TodoTaskManageController implements Initializable {
 
         tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
 
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
+
+        // ListView의 셀 스타일 적용
+        tskMemo.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
+
     }
 
     /**
@@ -104,47 +110,53 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
-public void loadTodoTask() {
-    try {
-        // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
-        Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
-        StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
+    public void loadTodoTask() {
+        try {
+            // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
+            Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
+            StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
 
 
-        // 현재 씬에 새로운 TodoTask 씬 추가
-        root.getChildren().add(todoTaskScene);
+            // 현재 씬에 새로운 TodoTask 씬 추가
+            root.getChildren().add(todoTaskScene);
 
-        // 필요한 경우, 새 씬에 애니메이션 효과 적용
-        todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
-        Timeline timeline = new Timeline();
-        KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.play();
+            // 필요한 경우, 새 씬에 애니메이션 효과 적용
+            todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
+            Timeline timeline = new Timeline();
+            KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
+            KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+            timeline.getKeyFrames().add(keyFrame);
+            timeline.play();
 
-        // 이전 씬 제거
-        root.getChildren().remove(1);
-    } catch (IOException e) {
-        e.printStackTrace();
+            // 이전 씬 제거
+            root.getChildren().remove(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
     /**
      * 선택된 작업을 삭제하는 메서드.
      *
      * @param selectedTask 삭제할 작업의 이름
      */
     public void deleteTask(String selectedTask) {
-        // 작업 삭제를 확인하는 다이얼로그를 생성 및 표시
-        Alert alert = new Alert(Alert.AlertType.NONE);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION); // 타입을 CONFIRMATION으로 설정
         alert.setTitle("삭제 확인");
         alert.setHeaderText("다음 작업을 삭제하시겠습니까?\n\n" + selectedTask);
 
+        ButtonType deleteButton = new ButtonType("삭제");
+        ButtonType cancelButton = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(deleteButton, cancelButton);
 
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = alert.getDialogPane();
 
-        // 사용자가 삭제를 확인하는 경우 해당 작업을 삭제함
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimerManage.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == deleteButton) {
             todoTaskController.deleteTask(task);
             showPopup("삭제", "삭제 되었습니다..!");
             loadTodoTask();
@@ -211,16 +223,29 @@ public void loadTodoTask() {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
             alert.showAndWait();
         });
     }
 
-    /**
-     * 데이트 피커의 Prompt Text를 마감일로 업데이트
-     */
     private void updateDueDatePicker() {
         LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+        dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
+        // 현재 날짜 이전의 모든 날짜를 비활성화
+        dueDatePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.compareTo(today) < 0); // 오늘 날짜 이전은 선택 불가능
+            }
+        });
+        // Prompt Text 설정
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
     }
+
+
+
+
 }

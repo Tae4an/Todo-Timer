@@ -19,16 +19,16 @@
                 </ImageView>
             </graphic></Button>
 
-        <Button fx:id="addProject_btn" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="ADD PROJECT" textFill="#6b0404">
+        <Button fx:id="addProject_btn" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" onAction="#addProject" prefHeight="35.0" prefWidth="320.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="ADD PROJECT" textFill="#6b0404">
             <font>
                 <Font name="Arial Black" size="16.0" />
             </font></Button>
 
-        <Button fx:id="manageProject_btn" layoutX="10.0" layoutY="133.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="158.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="PROJECT" textFill="#6b0404">
+        <Button fx:id="manageProject_btn" layoutX="10.0" layoutY="133.0" mnemonicParsing="false" onAction="#manageProject" prefHeight="35.0" prefWidth="158.0" style="-fx-background-color: #f8d8ca; -fx-border-color: #c98888; -fx-border-radius: 3;" text="PROJECT" textFill="#6b0404">
             <font>
                 <Font name="Arial Black" size="16.0" />
             </font></Button>
-        <ListView fx:id="projectListView" editable="true" layoutX="10.0" layoutY="185.0" pickOnBounds="false" prefHeight="324.0" prefWidth="320" style="-fx-border-color: #c98888; -fx-background-color: #FFF2E6; -fx-border-width: 5; -fx-border-radius: 3;">
+        <ListView fx:id="projectListView" editable="true" layoutX="10.0" layoutY="185.0" pickOnBounds="false" prefHeight="324.0" prefWidth="320" stylesheets="@../../../css/style.css">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Add Project.." />

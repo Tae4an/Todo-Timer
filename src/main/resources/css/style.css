@@ -1,16 +1,33 @@
+/* ListView의 셀 간격 조절 */
+.list-view {
+    -fx-background-color:  #FFF2E6;
+    -fx-background-radius: 5;
+    -fx-border-color:  #c98888;
+    -fx-border-width:  5;
+    -fx-border-radius:  5;
+    -fx-cell-size: 40px; /* 셀 간격 조절 */
+}
 
 /* ListView의 칸 사이의 색상을 변경 */
 .list-cell {
     -fx-background-color: #FFF2E6;
     -fx-border-color:  #CC9966; /* 테두리 색상 지정 */
     -fx-border-width: 0 0 1 0; /* 테두리 두께 지정 (top, right, bottom, left) */
+    -fx-font-size: 20px; /* 텍스트 크기 조절 */
+    -fx-text-fill: #6b0404; /* 폰트 색상 설정 */
+}
+/* 선택된 셀의 색상 및 폰트 변경 */
+.list-view .list-cell:selected {
+    -fx-background-color: #c98888; /* 선택된 셀의 배경색 변경 */
+    -fx-text-fill: white; /* 선택된 셀의 글자색 변경 */
 }
 
 /* 마우스를 갖다 대었을 때의 효과 */
 .list-cell:hover {
-    -fx-background-color: #add8e6; /* 마우스 호버시 배경색 변경 */
+    -fx-background-color: #e8c5c5; /* 마우스 호버시 배경색 변경 */
     -fx-text-fill: black; /* 마우스 호버 시 글자색 변경 */
 }
+
 
 name-text {
 
@@ -26,30 +43,80 @@ name-text {
 
 
 
-.choice-box .context-menu { -fx-background-color:  #FFF2E6; }
+/* ChoiceBox의 드롭다운 메뉴 스타일 */
 
-.choice-box .menu-item:focused { -fx-background-color:  #c98888; }
-
-.choice-box .menu-item > .label { -fx-text-fill: black; }
-
-.choice-box .menu-item:focused > .label { -fx-text-fill: white; }
-/* 화살표 색상 */
-.choice-box .arrow {
-    -fx-background-color: white;
+/* 드롭다운 메뉴의 배경 색상 설정 */
+.choice-box .context-menu {
+    -fx-background-color: #FFF2E6;
+    -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
+    -fx-translate-x: 43; /* 드롭다운 메뉴를 위로 이동시켜 가운데 정렬 시도 */
+    -fx-translate-y: 25; /* 드롭다운 메뉴를 위로 이동시켜 가운데 정렬 시도 */
 }
 
+/* 메뉴 아이템이 포커스를 받았을 때의 배경 색상 설정 */
+
+.choice-box .label {
+    -fx-text-fill: white; /* 원하는 텍스트 색상으로 변경 */
+    -fx-alignment: center; /* 가운데 정렬 설정 */
+    -fx-font-size: 17px; /* 텍스트 크기 설정 */
+
+}
+.choice-box .menu-item:focused {
+    -fx-background-color: #c98888;
+}
+
+/* 메뉴 아이템의 텍스트 색상 설정 */
+.choice-box .menu-item > .label {
+    -fx-text-fill: #6b0404;
+}
+
+/* 메뉴 아이템이 포커스를 받았을 때의 텍스트 색상 설정 */
+.choice-box .menu-item:focused > .label {
+    -fx-text-fill: white;
+}
+
+/* 드롭다운 메뉴의 화살표 색상 설정 */
+.choice-box .arrow {
+    -fx-background-color: white;
+    -fx-translate-y: 0;
+}
+
+
+
+/*다이얼로그 */
 .dialog-pane .header-panel {
     -fx-background-color: #FFCC99;
 }
 
 .text-area {
-    -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
+    -fx-control-inner-background:  #FFF2E6;
+    -fx-background-color:  #FFF2E6;
+    -fx-background-radius: 5;
+    -fx-border-color:  #c98888;
+    -fx-border-width:  5;
+    -fx-border-radius:  5;
+    -fx-font-size: 16px; /* 텍스트 크기 조절 */
+    -fx-text-fill: #6b0404; /* 폰트 색상 설정 */
 }
 .text-field{
-    -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
+    -fx-control-inner-background:  #FFF2E6;
+    -fx-font-size: 16px; /* 텍스트 크기 조절 */
+    -fx-text-fill: #6b0404; /* 폰트 색상 설정 */
 }
 .date-picker{
-    -fx-control-inner-background:  #FFF2E6; /* 노랑색으로 내부 색상 변경 */
+    -fx-control-inner-background:  #FFF2E6;
+    -fx-font-size: 16px; /* 텍스트 크기 조절 */
+    -fx-text-fill: #6b0404; /* 폰트 색상 설정 */
+}
+/* DatePicker 아이콘 변경 및 여백 조절 */
+.date-picker > .arrow-button > .arrow {
+    -fx-background-image: url('@../../../img/calendar.png');
+    -fx-background-color: transparent; /* 기본 화살표 숨기기 */
+    -fx-padding: 8 8 8 8; /* 오른쪽 여백 조절 */
+}
+/* 배경색 변경 */
+.date-picker > .arrow-button {
+    -fx-background-color:   #c98888;
 }
 
 .root_1 {
@@ -60,9 +127,14 @@ name-text {
 
 
 
+/* TodoTimer.css 파일에 추가할 CSS 코드 */
+
 /* 전체 다이얼로그 스타일 */
-.dialog-pane {
+.dialog-pane, .custom-dialog .dialog-pane {
     -fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+    -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
+    -fx-text-fill: #6b0404; /* 헤더 텍스트의 색상을 설정 */
+    -fx-graphic: null; /* 물음표 아이콘을 null로 설정하여 숨깁니다. */
 }
 
 /* 다이얼로그 제목 부분 스타일 */
@@ -70,30 +142,33 @@ name-text {
     -fx-background-image: url('@../../../img/Pinkptn.png');
 }
 
-/* 다이얼로그 내용 부분 스타일 */
-.dialog-pane .content {
-    -fx-background-color: #FEEFF2; /* 다이얼로그 내용 부분 배경 색상 */
-}
-
-/* 다이얼로그 버튼 바 스타일 */
-.dialog-pane .button-bar {
-    -fx-background-color: #FEEFF2; /* 다이얼로그 버튼 바 배경 색상 */
-}
-
 /* 다이얼로그 버튼 스타일 */
-.dialog-pane .button {
+.dialog-pane .button, .custom-dialog .button {
     -fx-background-color:  #f8d8ca; /* 다이얼로그 버튼 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 버튼 텍스트 색상 */
-
+    -fx-background-radius: 5; /* 버튼의 모서리를 둥글게 만듭니다. */
+    -fx-border-color: #c98888; /* 버튼의 테두리 색상을 변경합니다. */
+    -fx-border-radius: 5; /* 테두리의 모서리를 둥글게 만듭니다. */
 }
 
-.dialog-pane .button:hover {
+.dialog-pane .button:hover, .custom-dialog .button:hover {
     -fx-background-color: #c98888; /* 다이얼로그 버튼 호버 시 배경 색상 */
 }
 
-.dialog-pane .button:pressed {
+.dialog-pane .button:pressed, .custom-dialog .button:pressed {
     -fx-background-color: #c98888; /* 다이얼로그 버튼 누를 때 배경 색상 */
+        -fx-background-radius: 20 20 20 20; /*  왼쪽 모서리 각도 조절 */
+
 }
+
+
+/* TextInputDialog의 TextField 스타일 */
+.text-input-dialog .text-field {
+    -fx-border-color: #c98888; /* 텍스트 필드의 테두리 색상 설정 */
+    -fx-border-radius: 5; /* 텍스트 필드의 테두리 모서리를 둥글게 만듭니다. */
+    -fx-border-width : 3;
+}
+
 
 
 /* 버튼 이밴트 */
@@ -110,5 +185,19 @@ name-text {
 .styled-button:pressed {
     -fx-background-color: #c98888; /* 버튼 누를 때 버튼 배경 색상 변화 */
 }
+
+.button-with-padding {
+    -fx-padding: 10 20 10 20; /* 위, 오른쪽, 아래, 왼쪽의 여백 값을 지정 */
+}
+
+
+
+/* TodoTimer.css 파일에 추가할 CSS 코드 */
+.alert {
+    -fx-background-color: #FEEFF2; /* 팝업 창 전체 배경 색상 설정 */
+            -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
+            -fx-text-fill: #6b0404; /* 헤더 텍스트의 색상을 설정 */
+}
+
 
 
