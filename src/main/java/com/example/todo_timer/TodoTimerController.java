@@ -22,8 +22,6 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -40,7 +38,7 @@ public class TodoTimerController implements Initializable {
     @FXML
     private AnchorPane timer_layout;   // 타이머 홈의 레이아웃
     @FXML
-    private ChoiceBox<String> taskChoiceBox;   // 타이머 홈의 초이스 박스
+    private ChoiceBox<Task> taskChoiceBox;   // 타이머 홈의 초이스 박스
     @FXML
     private Label timer_label;
 
@@ -58,6 +56,7 @@ public class TodoTimerController implements Initializable {
     private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그
 
     private final TodoTaskController todoTaskController;
+
 
     @FXML
     private Arc timerArc; // Arc 객체 참조
@@ -99,11 +98,10 @@ public class TodoTimerController implements Initializable {
 
             }
         });
-
-        // 할 일 선택 상자에 할 일 목록을 설정합니다.
-        taskChoiceBox.setItems(todoTaskController.getTasks());
-        // 선택 상자의 기본 선택을 첫 번째 항목으로 설정
-        taskChoiceBox.getSelectionModel().selectFirst();
+            // 할 일 선택 상자에 할 일 목록을 설정합니다.
+            taskChoiceBox.setItems(ProjectManager.getAllTasks());
+            // 선택 상자의 기본 선택을 첫 번째 항목으로 설정
+            taskChoiceBox.getSelectionModel().selectFirst();
 
         // 타이머 초기화
         initializeTimer();

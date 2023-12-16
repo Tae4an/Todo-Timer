@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,8 @@ public class TodoTaskController implements Initializable {
 
     @FXML
     private ListView<String> taskListView; // 작업 목록을 표시하는 ListView 컴포넌트
-
+    @FXML
+    private ListView<String> completedTaskListView; // 완료한 작업 목록을 표시하는 ListView 컴포넌트
     @FXML
     private Button tskmanage_btn; // "작업 관리" 기능을 위한 버튼
     @FXML
@@ -37,9 +39,15 @@ public class TodoTaskController implements Initializable {
     private StackPane task_layout;
     @FXML
     private Label task_label;
+    @FXML
+    private Button complete_btn;
+    @FXML
+    private Button restore_btn;
 
-    // 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
-    private static ObservableList<String> tasks = FXCollections.observableArrayList();
+
+
+    // 완료한 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
+    private static ObservableList<String> completedTasks = FXCollections.observableArrayList();
 
     // 각 작업에 대한 마감일을 저장하는 Map, 키는 작업 이름, 값은 해당 작업의 마감일
     protected static final Map<String, LocalDate> dueDates = new HashMap<>();
@@ -58,6 +66,10 @@ public class TodoTaskController implements Initializable {
     private static boolean isInitialized = false;
 
     private static ProjectManager currentProject;
+
+    private ProjectManager projectManager;
+
+
 
 
     /**
@@ -91,14 +103,17 @@ public class TodoTaskController implements Initializable {
         tskmanage_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // ListView에서 선택된 작업을 얻음
                 String selectedTask = taskListView.getSelectionModel().getSelectedItem();
+                String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
 
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
                     showPopup("Error", "작업이 없습니다..!");
-                } else if (selectedTask == null) {
+                } else if (selectedTask == null && selectedCompletedTask == null) {
                     showPopup("Error", "작업을 선택하세요..!");
+                } else if (selectedCompletedTask != null) {
+                    // 완료한 작업은 변경할 수 없다는 팝업 표시
+                    showPopup("Error", "완료한 작업은 변경할 수 없습니다.");
                 } else {
                     // 선택된 작업으로 TodoTaskManageController 설정 및 뷰 로드
                     manageController = TodoTaskManageController.getInstance();
@@ -152,10 +167,9 @@ public class TodoTaskController implements Initializable {
         // 메서드가 처음 호출될 때만 currentTasks를 초기화
         if (!isInitialized) {
             this.currentTasks = FXCollections.observableArrayList();
+            this.completedTasks = FXCollections.observableArrayList();
             isInitialized = true;
         }
-        taskListView.setItems(currentTasks); // ListView에 현재 작업 목록을 설정
-
         // 작업 목록 업데이트
         updateTaskList();
     }
@@ -197,7 +211,6 @@ public class TodoTaskController implements Initializable {
                 } else {
                     currentProject.addTask(taskName); // 프로젝트에 작업 추가
                     currentTasks.add(taskName);
-                    tasks.add(taskName); // 현재 작업 목록 업데이트
                     taskListView.setItems(currentTasks); // ListView 업데이트
                 }
             }
@@ -212,10 +225,9 @@ public class TodoTaskController implements Initializable {
      * @param selectedTask 삭제할 작업
      */
     public void deleteTask(String selectedTask) {
-        if (tasks.remove(selectedTask)) {
-            currentTasks.remove(selectedTask); // currentTasks에서도 삭제
+            currentTasks.remove(selectedTask);
             updateTaskList();
-        }
+
         if (currentProject != null) {
             currentProject.deleteTask(selectedTask); // 프로젝트의 작업 목록에서 삭제
         }
@@ -248,14 +260,9 @@ public class TodoTaskController implements Initializable {
         if (taskListView == null) {
             taskListView = new ListView<>();
         }
-        int index = tasks.indexOf(oldTask);
+        int index = currentTasks.indexOf(oldTask);
         if (index != -1) {
-            tasks.set(index, newTask);
-        }
-
-        int currentTaskIndex = currentTasks.indexOf(oldTask);
-        if (currentTaskIndex != -1) {
-            currentTasks.set(currentTaskIndex, newTask);
+            currentTasks.set(index, newTask);
         }
 
         taskListView.setItems(currentTasks); // ListView 업데이트
@@ -316,20 +323,16 @@ public class TodoTaskController implements Initializable {
         if (taskListView == null) {
             taskListView = new ListView<>();
         }
-
+        if (completedTaskListView == null){
+            completedTaskListView = new ListView<>();
+        }
         // 작업 목록이 비어 있고, 실제 작업이 존재하는 경우에만 목록을 업데이트
-        if (taskListView.getItems().isEmpty() && !tasks.isEmpty()) {
+        if (!currentTasks.isEmpty()) {
             taskListView.setItems(currentTasks); // ListView에 현재 작업 목록을 설정
         }
-    }
-
-    /**
-     * 작업 목록을 반환
-     *
-     * @return 작업 목록
-     */
-    public ObservableList<String> getTasks() {
-        return tasks;
+        if (!completedTasks.isEmpty()) {
+            completedTaskListView.setItems(completedTasks); // ListView에 현재 작업 목록을 설정
+        }
     }
 
     /**
@@ -341,9 +344,13 @@ public class TodoTaskController implements Initializable {
     public void setCurrentProject(ProjectManager project) {
         this.currentProject = project;
         this.currentTasks.setAll(project.getTasks());
+        this.completedTasks.setAll(project.getCompletedTasks());
 
         if (this.taskListView != null) {
             taskListView.setItems(this.currentTasks);
+        }
+        if (this.completedTaskListView != null) {
+            completedTaskListView.setItems(this.completedTasks);
         }
     }
 
@@ -376,6 +383,50 @@ public class TodoTaskController implements Initializable {
      */
     public boolean isTaskNameExist(String taskName) {
         return currentProject != null && currentProject.getTasks().contains(taskName);
+    }
+
+    @FXML
+    private void completeTask(ActionEvent event) {
+        // ListView에서 선택된 작업을 얻음
+        String selectedTask = taskListView.getSelectionModel().getSelectedItem();
+
+        // 작업이 선택되지 않았을 경우 에러 메시지 표시
+        if (selectedTask == null) {
+            showPopup("Error", "작업을 선택하세요..!");
+            return;
+        }
+
+        // 선택된 작업을 completedTasks 컬렉션으로 이동
+        completedTasks.add(selectedTask);
+
+        currentProject.deleteTask(selectedTask);
+        currentProject.addCompletedTask(selectedTask);
+
+        currentTasks.remove(selectedTask);
+
+        updateTaskList();
+    }
+
+    @FXML
+    private void restoreTask(ActionEvent event) {
+        // ListView에서 선택된 작업을 얻음
+        String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
+
+        // 완료한 작업이 선택되지 않았을 경우 에러 메시지 표시
+        if (selectedCompletedTask == null) {
+            showPopup("Error", "완료한 작업을 선택하세요..!");
+            return;
+        }
+
+        // 선택된 완료한 작업을 다시 작업 목록(currentTasks)으로 이동
+        currentTasks.add(selectedCompletedTask);
+
+        currentProject.addTask(selectedCompletedTask);
+        currentProject.deleteCompletedTask(selectedCompletedTask);
+
+        completedTasks.remove(selectedCompletedTask);
+
+        updateTaskList();
     }
 
 }
