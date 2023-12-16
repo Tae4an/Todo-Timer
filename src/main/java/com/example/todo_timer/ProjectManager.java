@@ -15,6 +15,16 @@ public class ProjectManager {
 
     private ObservableList<String> completedTasks;
 
+    public int getNumberOfTasks() {
+        return tasks.size();
+    }
+
+    // toString 메서드를 오버라이드하여 프로젝트 이름과 작업 수를 포함하는 문자열을 반환
+    @Override
+    public String toString() {
+        return projectName + " (" + getNumberOfTasks() + ")";
+    }
+
     /**
      * ProjectManager의 생성자
      *
@@ -98,16 +108,6 @@ public class ProjectManager {
     }
 
 
-    /**
-     * 객체를 문자열로 표현할 때 사용하는 메서드
-     * 이 메서드는 ListView 등에서 프로젝트의 이름을 표시
-     *
-     * @return 프로젝트 이름
-     */
-    @Override
-    public String toString() {
-        return projectName;
-    }
 
     /**
      * 새로운 작업을 프로젝트에 추가
@@ -121,7 +121,15 @@ public class ProjectManager {
     public void addCompletedTask(String task) {
         completedTasks.add(task);
     }
-
+    /**
+     * 프로젝트의 작업 목록을 설정하는 메서드.
+     *
+     * @param newTasks 새로운 작업 목록
+     */
+    public void setTasks(ObservableList<String> newTasks) {
+        // 기존 작업 목록을 새로운 목록으로 교체
+        this.tasks = newTasks;
+    }
     public static ObservableList<Task> getAllTasks(){
         return allTasks;
     }
