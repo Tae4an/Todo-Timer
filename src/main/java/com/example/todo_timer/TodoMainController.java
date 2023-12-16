@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class TodoMainController implements Initializable {
         // "프로젝트 추가" 버튼에 대한 클릭 이벤트 핸들러
         addProject_btn.setOnMouseClicked(event -> {
             TextInputDialog dialog = new TextInputDialog();
+
             dialog.setTitle("프로젝트 추가");
             dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
 
@@ -53,6 +55,21 @@ public class TodoMainController implements Initializable {
 
             dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             dialogPane.getStyleClass().add("custom-dialog");
+
+            Font customFont = Font.loadFont(getClass().getResourceAsStream("/img/YEONGJUPunggiGinseng.otf"), 14);
+
+            // ListView의 셀 스타일 적용
+            projectListView.setStyle(
+                    "-fx-background-color: #FFF2E6;" +
+                            "-fx-border-color: #CC9966;" +
+                            "-fx-border-width: 0 0 1 0;" +
+                            "-fx-font-size: 20px;" +
+                            "-fx-text-fill: #6b0404;" +
+                            "-fx-font-family: '" + customFont.getFamily() + "';"
+            );
+
+
+
 
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(name -> {
@@ -65,6 +82,8 @@ public class TodoMainController implements Initializable {
                 }
             });
         });
+
+
 
         // "타이머" 버튼에 대한 클릭 이벤트 핸들러
         tm_btn.setOnMouseClicked(event -> {
@@ -91,6 +110,8 @@ public class TodoMainController implements Initializable {
             // ListView에서 선택된 프로젝트를 얻어옴
             ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
 
+
+
             // 프로젝트가 선택되지 않았을 경우 에러 메시지를 표시
             if (selectedProject == null) {
                 showPopup("오류", "프로젝트를 선택하세요..!");
@@ -103,6 +124,12 @@ public class TodoMainController implements Initializable {
             alert.setHeaderText("프로젝트 관리 옵션을 선택하세요.");
             alert.setContentText("프로젝트 이름을 수정하거나 삭제할 수 있습니다.");
             alert.getDialogPane().setStyle("-fx-background-color:  #f8d8ca;");
+
+            // 다이얼로그 패널에 접근 >> 신창영
+            DialogPane dialogPane = alert.getDialogPane();
+
+            dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+            dialogPane.getStyleClass().add("custom-dialog");
 
             ButtonType editButton = new ButtonType("수정");
             ButtonType deleteButton = new ButtonType("삭제");
@@ -216,6 +243,12 @@ public class TodoMainController implements Initializable {
         TextInputDialog dialog = new TextInputDialog(project.getName());
         dialog.setTitle("프로젝트 이름 수정");
         dialog.setHeaderText("새 프로젝트 이름을 입력하세요:");
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newName -> {
             // 중복 프로젝트 이름을 확인
@@ -241,6 +274,12 @@ public class TodoMainController implements Initializable {
         confirmation.setTitle("프로젝트 삭제");
         confirmation.setHeaderText("프로젝트 삭제 확인");
         confirmation.setContentText("선택한 프로젝트 '" + project + "'를 삭제하시겠습니까?");
+
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = confirmation.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
 
         Optional<ButtonType> result = confirmation.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {

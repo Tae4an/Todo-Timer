@@ -147,6 +147,12 @@ public class TodoTaskManageController implements Initializable {
         ButtonType cancelButton = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(deleteButton, cancelButton);
 
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = alert.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimerManage.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == deleteButton) {
             todoTaskController.deleteTask(task);
