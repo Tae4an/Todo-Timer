@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class TodoTimerApplication extends Application {
 
-    @Override
+    @Override/**/
     public void start(Stage primaryStage) throws Exception {
         //Objects.requireNonNull은 getResource("TodoTimer.fxml")의 반환값이 null이면 예외를 발생시키므로,
         // 리소스가 없는 경우에는 예외가 발생
