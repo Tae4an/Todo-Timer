@@ -80,10 +80,6 @@ public class TodoTaskManageController implements Initializable {
 
         tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
 
-        // 테스트를 위해 타이머를 30초마다 실행하도록 설정
-        Timeline deadlineCheckTimeline = new Timeline(new KeyFrame(Duration.seconds(30), ev -> checkDeadline()));
-        deadlineCheckTimeline.setCycleCount(Timeline.INDEFINITE);
-        deadlineCheckTimeline.play();
     }
 
     /**
@@ -220,24 +216,24 @@ public class TodoTaskManageController implements Initializable {
         });
     }
 
-    /**
-     * 데이트 피커의 Prompt Text를 마감일로 업데이트
-     */
     private void updateDueDatePicker() {
         LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+        dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
+        // 현재 날짜 이전의 모든 날짜를 비활성화
+        dueDatePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.compareTo(today) < 0); // 오늘 날짜 이전은 선택 불가능
+            }
+        });
+        // Prompt Text 설정
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
     }
 
-    private void checkDeadline() {
-        LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
-        LocalDate today = LocalDate.now();
 
-        // 여기서 dueDate.minusDays(1).isEqual(today) 대신에 테스트를 위해 조건을 제거
-        if (dueDate != null) {
-            Platform.runLater(() -> {
-                showPopup("마감 임박", "작업 '" + task + "'의 마감 기한이 하루 남았습니다.");
-            });
-        }
-    }
+
+
 }
