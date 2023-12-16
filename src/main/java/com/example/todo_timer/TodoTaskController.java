@@ -49,7 +49,6 @@ public class TodoTaskController implements Initializable {
     private Button restore_btn;
 
 
-
     // 완료한 작업 목록을 관리하는 ObservableList, UI와 데이터의 동기화를 위해 사용
     private static ObservableList<String> completedTasks = FXCollections.observableArrayList();
 
@@ -72,8 +71,6 @@ public class TodoTaskController implements Initializable {
     private static ProjectManager currentProject;
 
     private ProjectManager projectManager;
-
-
 
 
     /**
@@ -109,8 +106,8 @@ public class TodoTaskController implements Initializable {
             public void handle(MouseEvent event) {
                 String selectedTask = taskListView.getSelectionModel().getSelectedItem();
                 String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
-
-
+                selectedTask = extractTaskName(selectedTask);
+                selectedCompletedTask = extractTaskName(selectedCompletedTask);
                 // ListView의 셀 스타일 적용
                 Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
                 taskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
@@ -221,7 +218,7 @@ public class TodoTaskController implements Initializable {
                 } else {
                     currentProject.addTask(taskName); // 프로젝트에 작업 추가
                     currentTasks.add(taskName);
-                        taskListView.setItems(currentTasks); // ListView 업데이트
+                    taskListView.setItems(currentTasks); // ListView 업데이트
                 }
             }
         });
@@ -235,9 +232,9 @@ public class TodoTaskController implements Initializable {
      * @param selectedTask 삭제할 작업
      */
     public void deleteTask(String selectedTask) {
-            selectedTask= extractTaskName(selectedTask);
-            currentTasks.remove(selectedTask);
-            updateTaskList();
+        selectedTask = extractTaskName(selectedTask);
+        currentTasks.remove(selectedTask);
+        updateTaskList();
 
         if (currentProject != null) {
             currentProject.deleteTask(selectedTask); // 프로젝트의 작업 목록에서 삭제
@@ -339,16 +336,16 @@ public class TodoTaskController implements Initializable {
             completedTaskListView = new ListView<>();
         }
 
-            ObservableList<String> formattedTasks = currentTasks.stream()
-                    .map(task -> formatTaskWithDueDate(task))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-            taskListView.setItems(formattedTasks); // ListView에 현재 작업 목록 설정
+        ObservableList<String> formattedTasks = currentTasks.stream()
+                .map(task -> formatTaskWithDueDate(task))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        taskListView.setItems(formattedTasks); // ListView에 현재 작업 목록 설정
 
 
-            ObservableList<String> formattedCompletedTasks = completedTasks.stream()
-                    .map(task -> formatTaskWithDueDate(task))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-            completedTaskListView.setItems(formattedCompletedTasks); // ListView에 완료한 작업 목록 설정
+        ObservableList<String> formattedCompletedTasks = completedTasks.stream()
+                .map(task -> formatTaskWithDueDate(task))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        completedTaskListView.setItems(formattedCompletedTasks); // ListView에 완료한 작업 목록 설정
 
     }
 
@@ -459,13 +456,14 @@ public class TodoTaskController implements Initializable {
     }
 
     private String extractTaskName(String taskWithDate) {
-        if (taskWithDate != null){
+        if (taskWithDate != null) {
             // '[' 문자 앞의 문자열을 작업 이름으로 간주
             int bracketIndex = taskWithDate.indexOf(" [");
             return (bracketIndex != -1) ? taskWithDate.substring(0, bracketIndex) : taskWithDate;
         }
         return null;
     }
+
     public void reloadScene() {
         try {
             // TodoTask.fxml 파일 로드
