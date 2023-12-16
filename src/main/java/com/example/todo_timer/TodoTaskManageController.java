@@ -104,31 +104,31 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
-public void loadTodoTask() {
-    try {
-        // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
-        Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
-        StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
+    public void loadTodoTask() {
+        try {
+            // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
+            Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
+            StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
 
 
-        // 현재 씬에 새로운 TodoTask 씬 추가
-        root.getChildren().add(todoTaskScene);
+            // 현재 씬에 새로운 TodoTask 씬 추가
+            root.getChildren().add(todoTaskScene);
 
-        // 필요한 경우, 새 씬에 애니메이션 효과 적용
-        todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
-        Timeline timeline = new Timeline();
-        KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-        timeline.getKeyFrames().add(keyFrame);
-        timeline.play();
+            // 필요한 경우, 새 씬에 애니메이션 효과 적용
+            todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
+            Timeline timeline = new Timeline();
+            KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
+            KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
+            timeline.getKeyFrames().add(keyFrame);
+            timeline.play();
 
-        // 이전 씬 제거
-        root.getChildren().remove(1);
-    } catch (IOException e) {
-        e.printStackTrace();
+            // 이전 씬 제거
+            root.getChildren().remove(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
     /**
      * 선택된 작업을 삭제하는 메서드.
      *
@@ -211,6 +211,7 @@ public void loadTodoTask() {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
             alert.showAndWait();
         });
     }

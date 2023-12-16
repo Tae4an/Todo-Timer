@@ -170,13 +170,10 @@ public class TodoMainController implements Initializable {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);
+
+            //팝업창 색감 스타일 입히지 : 신창영
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             alert.showAndWait();
-
-            DialogPane dialogPane = alert.getDialogPane();
-
-            dialogPane.getStylesheets().add(getClass().getResource("/css/TaskManage.css").toExternalForm());
-            dialogPane.getStyleClass().add("custom-dialog");
-
 
         });
     }

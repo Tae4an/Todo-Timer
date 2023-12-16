@@ -30,13 +30,14 @@ name-text {
 
 .choice-box .menu-item:focused { -fx-background-color:  #c98888; }
 
-.choice-box .menu-item > .label { -fx-text-fill: black; }
+.choice-box .menu-item > .label { -fx-text-fill: #6b0404; }
 
 .choice-box .menu-item:focused > .label { -fx-text-fill: white; }
 /* 화살표 색상 */
 .choice-box .arrow {
     -fx-background-color: white;
 }
+
 
 .dialog-pane .header-panel {
     -fx-background-color: #FFCC99;
@@ -60,9 +61,14 @@ name-text {
 
 
 
+/* TodoTimer.css 파일에 추가할 CSS 코드 */
+
 /* 전체 다이얼로그 스타일 */
-.dialog-pane {
+.dialog-pane, .custom-dialog .dialog-pane {
     -fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+    -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
+    -fx-text-fill: #6b0404; /* 헤더 텍스트의 색상을 설정 */
+    -fx-graphic: null; /* 물음표 아이콘을 null로 설정하여 숨깁니다. */
 }
 
 /* 다이얼로그 제목 부분 스타일 */
@@ -70,30 +76,31 @@ name-text {
     -fx-background-image: url('@../../../img/Pinkptn.png');
 }
 
-/* 다이얼로그 내용 부분 스타일 */
-.dialog-pane .content {
-    -fx-background-color: #FEEFF2; /* 다이얼로그 내용 부분 배경 색상 */
-}
-
-/* 다이얼로그 버튼 바 스타일 */
-.dialog-pane .button-bar {
-    -fx-background-color: #FEEFF2; /* 다이얼로그 버튼 바 배경 색상 */
-}
-
 /* 다이얼로그 버튼 스타일 */
-.dialog-pane .button {
+.dialog-pane .button, .custom-dialog .button {
     -fx-background-color:  #f8d8ca; /* 다이얼로그 버튼 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 버튼 텍스트 색상 */
-
+    -fx-background-radius: 5; /* 버튼의 모서리를 둥글게 만듭니다. */
+    -fx-border-color: #c98888; /* 버튼의 테두리 색상을 변경합니다. */
+    -fx-border-radius: 5; /* 테두리의 모서리를 둥글게 만듭니다. */
 }
 
-.dialog-pane .button:hover {
+.dialog-pane .button:hover, .custom-dialog .button:hover {
     -fx-background-color: #c98888; /* 다이얼로그 버튼 호버 시 배경 색상 */
 }
 
-.dialog-pane .button:pressed {
+.dialog-pane .button:pressed, .custom-dialog .button:pressed {
     -fx-background-color: #c98888; /* 다이얼로그 버튼 누를 때 배경 색상 */
 }
+
+
+/* TextInputDialog의 TextField 스타일 */
+.text-input-dialog .text-field {
+    -fx-border-color: #c98888; /* 텍스트 필드의 테두리 색상 설정 */
+    -fx-border-radius: 5; /* 텍스트 필드의 테두리 모서리를 둥글게 만듭니다. */
+    -fx-border-width : 3;
+}
+
 
 
 /* 버튼 이밴트 */
@@ -110,5 +117,19 @@ name-text {
 .styled-button:pressed {
     -fx-background-color: #c98888; /* 버튼 누를 때 버튼 배경 색상 변화 */
 }
+
+.button-with-padding {
+    -fx-padding: 10 20 10 20; /* 위, 오른쪽, 아래, 왼쪽의 여백 값을 지정 */
+}
+
+
+
+/* TodoTimer.css 파일에 추가할 CSS 코드 */
+.alert {
+    -fx-background-color: #FEEFF2; /* 팝업 창 전체 배경 색상 설정 */
+            -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
+            -fx-text-fill: #6b0404; /* 헤더 텍스트의 색상을 설정 */
+}
+
 
 
