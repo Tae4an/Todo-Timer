@@ -31,19 +31,45 @@ name-text {
 
 
 
-.choice-box .context-menu { -fx-background-color:  #FFF2E6; }
+/* ChoiceBox의 드롭다운 메뉴 스타일 */
 
-.choice-box .menu-item:focused { -fx-background-color:  #c98888; }
+/* 드롭다운 메뉴의 배경 색상 설정 */
+.choice-box .context-menu {
+    -fx-background-color: #FFF2E6;
+    -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
+    -fx-translate-x: 63; /* 드롭다운 메뉴를 위로 이동시켜 가운데 정렬 시도 */
+    -fx-translate-y: 25; /* 드롭다운 메뉴를 위로 이동시켜 가운데 정렬 시도 */
 
-.choice-box .menu-item > .label { -fx-text-fill: #6b0404; }
+}
 
-.choice-box .menu-item:focused > .label { -fx-text-fill: white; }
-/* 화살표 색상 */
+/* 메뉴 아이템이 포커스를 받았을 때의 배경 색상 설정 */
+
+.choice-box .label {
+    -fx-text-fill: white; /* 원하는 텍스트 색상으로 변경 */
+    -fx-alignment: center; /* 가운데 정렬 설정 */
+    -fx-font-size: 17px; /* 텍스트 크기 설정 */
+
+}
+.choice-box .menu-item:focused {
+    -fx-background-color: #c98888;
+}
+
+/* 메뉴 아이템의 텍스트 색상 설정 */
+.choice-box .menu-item > .label {
+    -fx-text-fill: #6b0404;
+}
+
+/* 메뉴 아이템이 포커스를 받았을 때의 텍스트 색상 설정 */
+.choice-box .menu-item:focused > .label {
+    -fx-text-fill: white;
+}
+
+/* 드롭다운 메뉴의 화살표 색상 설정 */
 .choice-box .arrow {
     -fx-background-color: white;
 }
 
-
+/*다이얼로그 */
 .dialog-pane .header-panel {
     -fx-background-color: #FFCC99;
 }
