@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class TodoMainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         // "타이머" 버튼에 대한 클릭 이벤트 핸들러
         tm_btn.setOnMouseClicked(event -> {
             // TodoTimer.fxml 뷰를 로드하고 화면에 추가
@@ -62,6 +64,7 @@ public class TodoMainController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+
 
         // "작업 관리" 버튼에 대한 클릭 이벤트 핸들러
         manageTask_btn.setOnMouseClicked(event -> {
@@ -170,6 +173,12 @@ public class TodoMainController implements Initializable {
         TextInputDialog dialog = new TextInputDialog(project.getName());
         dialog.setTitle("프로젝트 이름 수정");
         dialog.setHeaderText("새 프로젝트 이름을 입력하세요:");
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(newName -> {
             // 중복 프로젝트 이름을 확인
@@ -195,6 +204,12 @@ public class TodoMainController implements Initializable {
         confirmation.setTitle("프로젝트 삭제");
         confirmation.setHeaderText("프로젝트 삭제 확인");
         confirmation.setContentText("선택한 프로젝트 '" + project + "'를 삭제하시겠습니까?");
+
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = confirmation.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
 
         Optional<ButtonType> result = confirmation.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -271,6 +286,12 @@ public class TodoMainController implements Initializable {
         alert.setContentText("프로젝트 이름을 수정하거나 삭제할 수 있습니다.");
         alert.getDialogPane().setStyle("-fx-background-color:  #f8d8ca;");
 
+        DialogPane dialogPane = alert.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
+
         ButtonType editButton = new ButtonType("수정");
         ButtonType deleteButton = new ButtonType("삭제");
         alert.getButtonTypes().setAll(editButton, deleteButton, ButtonType.CANCEL); // 취소 버튼 추가
@@ -298,6 +319,11 @@ public class TodoMainController implements Initializable {
         dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
 
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
+
+        // ListView의 셀 스타일 적용
+        projectListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
+
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
             // 프로젝트 이름 중복 검사
@@ -309,14 +335,7 @@ public class TodoMainController implements Initializable {
             }
         });
     }
-    private String extractTaskName(String projectWithTask) {
-        if (projectWithTask != null){
-            // '(' 문자 앞의 문자열을 작업 이름으로 간주
-            int bracketIndex = projectWithTask.indexOf(" (");
-            return (bracketIndex != -1) ? projectWithTask.substring(0, bracketIndex) : projectWithTask;
-        }
-        return null;
-    }
+
 }
 
 

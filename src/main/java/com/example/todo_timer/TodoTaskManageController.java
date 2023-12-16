@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -80,6 +81,11 @@ public class TodoTaskManageController implements Initializable {
 
         tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
 
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
+
+        // ListView의 셀 스타일 적용
+        tskMemo.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
+
     }
 
     /**
@@ -142,6 +148,12 @@ public class TodoTaskManageController implements Initializable {
         ButtonType deleteButton = new ButtonType("삭제");
         ButtonType cancelButton = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(deleteButton, cancelButton);
+
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = alert.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimerManage.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == deleteButton) {
