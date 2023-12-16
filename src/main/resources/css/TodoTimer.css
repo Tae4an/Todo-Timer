@@ -7,6 +7,7 @@
 .dialog-pane .header-panel {
 -fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 제목 글자 색상 */
+    -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
 }
 
 /* 다이얼로그 내용 부분 스타일 */
@@ -63,4 +64,22 @@
 .alert .content {
     -fx-background-color: #FEEFF2; /* 팝업 창 내용 부분 배경 색상 설정 */
 }
+
+
+
+
+
+
+/*
+ 버튼 스타일
+#timerSetting_btn,
+#btn_start_pause,
+#tsk_btn,
+#taskChoiceBox {
+    -fx-background-color:#47C83E;
+    -fx-background-radius: 10;
+    -fx-border-color: #005C00;
+    -fx-border-radius: 10;
+}
+*/
 

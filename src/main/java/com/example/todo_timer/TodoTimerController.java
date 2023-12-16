@@ -407,12 +407,25 @@ public class TodoTimerController implements Initializable {
 
         // 씬의 배경 색상을 #B7F0B1로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(183, 240, 177), null, null)));
+
+        // 각 컨트롤에 아이디 지정
+        timerSetting_btn.setId("timerSetting_btn");
+        btn_start_pause.setId("btn_start_pause");
+        tsk_btn.setId("tsk_btn");
+        taskChoiceBox.setId("taskChoiceBox");
+
+        timerSetting_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+        btn_start_pause.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+        tsk_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+        taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+
         timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
         btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
         tsk_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
         taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
         timerText.setFill(Color.web("#005C00"));
         timer_label.setTextFill(Color.web("#47C83E"));
+
 
 
     }
