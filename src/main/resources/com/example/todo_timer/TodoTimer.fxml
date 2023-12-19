@@ -72,7 +72,7 @@
             <Font name="Arial Black" size="66.0" />
         </font>
     </Text>
-    <Button fx:id="btn_start_pause" layoutX="113.0" layoutY="457.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;" text="START" textFill="WHITE">
+    <Button fx:id="btn_start_pause" layoutX="114.0" layoutY="470.0" mnemonicParsing="false" onAction="#startPauseTimer" prefHeight="38.0" prefWidth="124.0" style="-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;" text="START" textFill="WHITE">
         <font>
             <Font name="Arial Black" size="19.0" />
         </font></Button>
