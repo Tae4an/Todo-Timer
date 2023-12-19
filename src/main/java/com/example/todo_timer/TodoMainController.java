@@ -19,8 +19,13 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.example.todo_timer.TodoTaskController.dueDates;
+import static com.example.todo_timer.TodoTaskController.taskMemos;
 
 
 public class TodoMainController implements Initializable {
@@ -186,12 +191,38 @@ public class TodoMainController implements Initializable {
             if (isProjectNameExist(newName)) {
                 showPopup("중복된 프로젝트", "이미 존재하는 프로젝트 이름입니다.");
             } else {
+                String oldName = project.getName();
                 project.setName(newName);
                 showPopup("수정", "수정 되었습니다..!");
+                updateProjectNameInDueDatesAndMemos(oldName, newName);
                 updateProjectList();
                 reloadMainScene();
             }
         });
+    }
+
+    private void updateProjectNameInDueDatesAndMemos(String oldName, String newName) {
+        // dueDates 맵 업데이트
+        Map<String, LocalDate> updatedDueDates = new HashMap<>();
+        dueDates.forEach((key, value) -> {
+            if (key.startsWith(oldName + " - ")) {
+                key = newName + key.substring(oldName.length());
+            }
+            updatedDueDates.put(key, value);
+        });
+        dueDates.clear();
+        dueDates.putAll(updatedDueDates);
+
+        // taskMemos 맵 업데이트
+        Map<String, String> updatedTaskMemos = new HashMap<>();
+        taskMemos.forEach((key, value) -> {
+            if (key.startsWith(oldName + " - ")) {
+                key = newName + key.substring(oldName.length());
+            }
+            updatedTaskMemos.put(key, value);
+        });
+        taskMemos.clear();
+        taskMemos.putAll(updatedTaskMemos);
     }
 
     /**
@@ -253,7 +284,7 @@ public class TodoMainController implements Initializable {
 
         for (ProjectManager project : projects) {
             for (String task : project.getTasks()) {
-                LocalDate dueDate = todoTaskController.getDueDate(task);
+                LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(),task);
 
                 if (dueDate != null) {
                     if (dueDate.isEqual(today.plusDays(1))) {
