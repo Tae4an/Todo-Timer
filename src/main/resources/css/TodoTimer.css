@@ -5,7 +5,7 @@
 
 /* 다이얼로그 제목 부분 스타일 */
 .dialog-pane .header-panel {
--fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
+-fx-background-color: #f8d8ca; /* 다이얼로그 전체 배경 색상 */
     -fx-text-fill: #6b0404; /* 다이얼로그 제목 글자 색상 */
     -fx-font-size: 13px; /* 헤더 텍스트의 크기를 조정 */
 }
@@ -65,7 +65,7 @@
 }
 
 .alert .content {
-    -fx-background-color: #eedbdb; /* 팝업 창 내용 부분 배경 색상 설정 */
+    -fx-background-color: #FEEFF2; /* 팝업 창 제목 부분 배경 색상 설정 */
 }
 
 
