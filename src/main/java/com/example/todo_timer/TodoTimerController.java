@@ -4,9 +4,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -19,6 +19,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -81,20 +83,27 @@ public class TodoTimerController implements Initializable {
         tsk_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                StackPane stackPane = (StackPane) timer_layout.getScene().getRoot();
-                Parent sub = (Parent) stackPane.getChildren().get(1);
+                Parent todoTimerScene = null;
+                try {
+                    todoTimerScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                StackPane root = (StackPane) timer_layout.getScene().getRoot();
 
+                // 현재 씬에 새로운 TodoTask 씬 추가
+                root.getChildren().add(todoTimerScene);
+
+                // 필요한 경우, 새 씬에 애니메이션 효과 적용
+                todoTimerScene.setTranslateX(340); // 씬의 너비에 맞게 조정
                 Timeline timeline = new Timeline();
-                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 600);
-                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        stackPane.getChildren().remove(1);
-                    }
-                }, keyValue);
+                KeyValue keyValue = new KeyValue(todoTimerScene.translateXProperty(), 0);
+                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
                 timeline.getKeyFrames().add(keyFrame);
                 timeline.play();
 
+                // 이전 씬 제거
+                root.getChildren().remove(1);
 
             }
         });
@@ -118,7 +127,7 @@ public class TodoTimerController implements Initializable {
      */
     public TodoTimerController() {
         // TodoTaskController 인스턴스를 얻어옴
-        this.todoTaskController = TodoTaskController.getInstance();
+        this.todoTaskController = new TodoTaskController();
     }
 
     /**

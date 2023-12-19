@@ -45,23 +45,8 @@ public class TodoTaskManageController implements Initializable {
 
     private final TodoTaskController todoTaskController;  // 작업 관리에 필요한 로직을 담당하는 컨트롤러 인스턴스
 
-    private static TodoTaskManageController instance;  // TodoTaskManageController 클래스의 싱글톤 인스턴스
-
     private static String task;  // 현재 선택 또는 작업 중인 작업의 이름
 
-
-    /**
-     * TodoTaskManageController의 인스턴스를 반환하는 싱글톤 접근 메서드.
-     *
-     * @return TodoTaskManageController의 인스턴스
-     */
-    public static TodoTaskManageController getInstance() {
-        // 인스턴스가 null인 경우 새로 생성
-        if (instance == null) {
-            instance = new TodoTaskManageController();
-        }
-        return instance;
-    }
 
     /**
      * FXML 파일이 로드될 때 자동으로 호출되는 초기화 메서드.
@@ -79,17 +64,9 @@ public class TodoTaskManageController implements Initializable {
         // 마감일 업데이트 메서드 호출
         updateDueDatePicker();
 
-        tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
+        tskMemo.setText(todoTaskController.getTaskMemo(task));
 
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
 
-        // ListView의 셀 스타일 적용
-        tskMemo.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
-
-        // 테스트를 위해 타이머를 30초마다 실행하도록 설정
-        Timeline deadlineCheckTimeline = new Timeline(new KeyFrame(Duration.seconds(30), ev -> checkDeadline()));
-        deadlineCheckTimeline.setCycleCount(Timeline.INDEFINITE);
-        deadlineCheckTimeline.play();
     }
 
     /**
@@ -182,27 +159,27 @@ public class TodoTaskManageController implements Initializable {
         String updatedMemo = tskMemo.getText(); // 수정된 메모 가져오기
 
         // 작업 이름이 변경되고 중복된 경우 처리
-        if (!updatedTask.equals(task) && TodoTaskController.getInstance().isTaskNameExist(updatedTask)) {
+        if (!updatedTask.equals(task) && todoTaskController.isTaskNameExist(updatedTask)) {
             showPopup("중복된 작업", "이미 존재하는 작업 이름입니다.");
             return; // 중복된 경우 함수 종료
         }
 
         // 변경 여부 확인
         boolean isTaskNameChanged = !updatedTask.equals(task);
-        boolean isDueDateChanged = dueDate != null && !dueDate.equals(TodoTaskController.getInstance().getDueDate(task));
-        boolean isMemoChanged = !updatedMemo.equals(TodoTaskController.getInstance().getTaskMemo(task));
+        boolean isDueDateChanged = dueDate != null && !dueDate.equals(todoTaskController.getDueDate(task));
+        boolean isMemoChanged = !updatedMemo.equals(todoTaskController.getTaskMemo(task));
 
         // 변경된 내용이 있는 경우 처리
         if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
             if (isTaskNameChanged) {
-                TodoTaskController.getInstance().updateTask(task, updatedTask);
+                todoTaskController.updateTask(task, updatedTask);
                 task = updatedTask; // 현재 작업 이름 업데이트
             }
             if (isDueDateChanged) {
-                TodoTaskController.getInstance().updateDueDate(task, dueDate);
+                todoTaskController.updateDueDate(task, dueDate);
             }
             if (isMemoChanged) {
-                TodoTaskController.getInstance().updateTaskMemo(task, updatedMemo);
+                todoTaskController.updateTaskMemo(task, updatedMemo);
             }
 
             showPopup("저장", "저장 되었습니다..!");
@@ -232,24 +209,24 @@ public class TodoTaskManageController implements Initializable {
         });
     }
 
-    /**
-     * 데이트 피커의 Prompt Text를 마감일로 업데이트
-     */
     private void updateDueDatePicker() {
-        LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+        LocalDate dueDate = todoTaskController.getDueDate(task);
+        dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
+        // 현재 날짜 이전의 모든 날짜를 비활성화
+        dueDatePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.compareTo(today) < 0); // 오늘 날짜 이전은 선택 불가능
+            }
+        });
+        // Prompt Text 설정
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
     }
 
-    private void checkDeadline() {
-        LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
-        LocalDate today = LocalDate.now();
 
-        // 여기서 dueDate.minusDays(1).isEqual(today) 대신에 테스트를 위해 조건을 제거
-        if (dueDate != null) {
-            Platform.runLater(() -> {
-                showPopup("마감 임박", "작업 '" + task + "'의 마감 기한이 하루 남았습니다.");
-            });
-        }
-    }
+
+
 }

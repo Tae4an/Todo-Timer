@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,46 +36,15 @@ public class TodoMainController implements Initializable {
     private Button manageProject_btn; // "프로젝트 관리" 버튼
 
     private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
-    private final TodoTaskController todoTaskController = TodoTaskController.getInstance();
+    private final TodoTaskController todoTaskController;
 
 
     public TodoMainController() {
+        todoTaskController = new TodoTaskController();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // "프로젝트 추가" 버튼에 대한 클릭 이벤트 핸들러
-        addProject_btn.setOnMouseClicked(event -> {
-            TextInputDialog dialog = new TextInputDialog();
-
-            dialog.setTitle("프로젝트 추가");
-            dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
-
-            // 다이얼로그 패널에 접근 >> 신창영
-            DialogPane dialogPane = dialog.getDialogPane();
-
-            dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-            dialogPane.getStyleClass().add("custom-dialog");
-
-            Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
-
-            // ListView의 셀 스타일 적용
-            projectListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
-
-
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(name -> {
-                // 프로젝트 이름 중복 검사
-                if (isProjectNameExist(name)) {
-                    showPopup("중복된 프로젝트", "이미 존재하는 프로젝트 이름입니다.");
-                } else {
-                    ProjectManager newProject = new ProjectManager(name);
-                    projects.add(newProject);
-                }
-            });
-        });
-
-
 
         // "타이머" 버튼에 대한 클릭 이벤트 핸들러
         tm_btn.setOnMouseClicked(event -> {
@@ -85,9 +55,9 @@ public class TodoMainController implements Initializable {
                 root.getChildren().add(sub);
 
                 // 뷰에 애니메이션 효과 적용
-                sub.setTranslateY(600);
+                sub.setTranslateX(-340);
                 Timeline timeline = new Timeline();
-                KeyValue keyValue = new KeyValue(sub.translateYProperty(), 0);
+                KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
                 KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
                 timeline.getKeyFrames().add(keyFrame);
                 timeline.play();
@@ -96,53 +66,11 @@ public class TodoMainController implements Initializable {
             }
         });
 
-        // "프로젝트 관리" 버튼에 대한 클릭 이벤트 핸들러
-        manageProject_btn.setOnMouseClicked(event -> {
-            // ListView에서 선택된 프로젝트를 얻어옴
-            ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
-
-
-
-            // 프로젝트가 선택되지 않았을 경우 에러 메시지를 표시
-            if (selectedProject == null) {
-                showPopup("오류", "프로젝트를 선택하세요..!");
-                return;
-            }
-
-            // 사용자에게 프로젝트 관리 옵션을 선택할 다이얼로그를 표시
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("프로젝트 관리");
-            alert.setHeaderText("프로젝트 관리 옵션을 선택하세요.");
-            alert.setContentText("프로젝트 이름을 수정하거나 삭제할 수 있습니다.");
-            alert.getDialogPane().setStyle("-fx-background-color:  #f8d8ca;");
-
-            // 다이얼로그 패널에 접근 >> 신창영
-            DialogPane dialogPane = alert.getDialogPane();
-
-            dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
-            dialogPane.getStyleClass().add("custom-dialog");
-
-            ButtonType editButton = new ButtonType("수정");
-            ButtonType deleteButton = new ButtonType("삭제");
-            alert.getButtonTypes().setAll(editButton, deleteButton, ButtonType.CANCEL); // 취소 버튼 추가
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent()) {
-                if (result.get() == editButton) {
-                    // "프로젝트 이름 수정" 버튼이 선택된 경우
-                    editProjectName(selectedProject);
-                } else if (result.get() == deleteButton) {
-                    // "프로젝트 삭제" 버튼이 선택된 경우
-                    deleteProject(selectedProject);
-                }
-            }
-        });
 
         // "작업 관리" 버튼에 대한 클릭 이벤트 핸들러
         manageTask_btn.setOnMouseClicked(event -> {
             // ListView에서 선택된 작업을 얻어옴
             ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
-
             // 작업이 없거나 선택되지 않았을 경우 에러 메시지를 표시
             if (projectListView.getItems().isEmpty()) {
                 showPopup("오류", "프로젝트가 없습니다..!");
@@ -150,10 +78,11 @@ public class TodoMainController implements Initializable {
                 showPopup("오류", "프로젝트를 선택하세요..!");
             } else {
                 try {
+
+                    todoTaskController.setCurrentProject(selectedProject);
                     Parent sub = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
                     StackPane root = (StackPane) manageTask_btn.getScene().getRoot();
                     root.getChildren().add(sub);
-                    todoTaskController.setCurrentProject(selectedProject);
 
                     // 뷰에 애니메이션 효과를 적용합니다.
                     sub.setTranslateX(500);
@@ -169,9 +98,20 @@ public class TodoMainController implements Initializable {
             }
         });
 
-
-        projectListView.setItems(projects);
+        // ListView에 대한 cellFactory를 설정하여 각 프로젝트를 커스텀 형식으로 표시
+        projectListView.setCellFactory(lv -> new ListCell<ProjectManager>() {
+            @Override
+            protected void updateItem(ProjectManager project, boolean empty) {
+                super.updateItem(project, empty);
+                if (empty || project == null) {
+                    setText(null);
+                } else {
+                    setText(project.toString()); // 여기서 프로젝트 이름과 작업 수를 표시
+                }
+            }
+        });
         updateProjectList();
+        checkAllDeadlines();
     }
 
     /**
@@ -307,6 +247,92 @@ public class TodoMainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void checkAllDeadlines() {
+        LocalDate today = LocalDate.now();
+
+        for (ProjectManager project : projects) {
+            for (String task : project.getTasks()) {
+                LocalDate dueDate = todoTaskController.getDueDate(task);
+
+                if (dueDate != null) {
+                    if (dueDate.isEqual(today.plusDays(1))) {
+                        // 마감일이 하루 남았을 경우
+                        String message = String.format("작업 '%s'의 마감 기한이 하루 남았습니다.", task);
+                        Platform.runLater(() -> showPopup("마감 임박", message));
+                    } else if (dueDate.isEqual(today)) {
+                        // 마감일이 오늘인 경우
+                        String message = String.format("작업 '%s'의 마감 기한이 오늘입니다!", task);
+                        Platform.runLater(() -> showPopup("마감일", message));
+                    }
+                }
+            }
+        }
+    }
+    @FXML
+    public void manageProject(){
+        // ListView에서 선택된 프로젝트를 얻어옴
+        ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
+
+        // 프로젝트가 선택되지 않았을 경우 에러 메시지를 표시
+        if (selectedProject == null) {
+            showPopup("오류", "프로젝트를 선택하세요..!");
+            return;
+        }
+
+        // 사용자에게 프로젝트 관리 옵션을 선택할 다이얼로그를 표시
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("프로젝트 관리");
+        alert.setHeaderText("프로젝트 관리 옵션을 선택하세요.");
+        alert.setContentText("프로젝트 이름을 수정하거나 삭제할 수 있습니다.");
+        alert.getDialogPane().setStyle("-fx-background-color:  #f8d8ca;");
+
+        DialogPane dialogPane = alert.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
+
+        ButtonType editButton = new ButtonType("수정");
+        ButtonType deleteButton = new ButtonType("삭제");
+        alert.getButtonTypes().setAll(editButton, deleteButton, ButtonType.CANCEL); // 취소 버튼 추가
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == editButton) {
+                // "프로젝트 이름 수정" 버튼이 선택된 경우
+                editProjectName(selectedProject);
+            } else if (result.get() == deleteButton) {
+                // "프로젝트 삭제" 버튼이 선택된 경우
+                deleteProject(selectedProject);
+            }
+        }
+    }
+    @FXML
+    public void addProject(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("프로젝트 추가");
+        dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
+
+        // 다이얼로그 패널에 접근 >> 신창영
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        dialogPane.getStyleClass().add("custom-dialog");
+
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            // 프로젝트 이름 중복 검사
+            if (isProjectNameExist(name)) {
+                showPopup("중복된 프로젝트", "이미 존재하는 프로젝트 이름입니다.");
+            } else {
+                ProjectManager newProject = new ProjectManager(name);
+                projects.add(newProject);
+            }
+        });
+    }
+
 }
 
 

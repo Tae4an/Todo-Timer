@@ -18,7 +18,7 @@
 
 /* 다이얼로그 버튼 바 스타일 */
 .dialog-pane .button-bar {
-    -fx-background-color: #eedbdb; /* 다이얼로그 버튼 바 배경 색상 */
+    -fx-background-color: #FEEFF2; /* 다이얼로그 버튼 바 배경 색상 */
 
 
 }
