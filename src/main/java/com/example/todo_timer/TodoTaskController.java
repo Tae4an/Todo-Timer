@@ -57,15 +57,14 @@ public class TodoTaskController implements Initializable {
 
     // 작업에 대한 메모를 저장하는 Map
     protected static final Map<String, String> taskMemos = new HashMap<>();
+    private static ObservableList<String> tasks; // 현재 선택된 프로젝트의 작업 목록
 
     // TodoTaskManageController 인스턴스, 작업 관리 화면의 컨트롤러
     private TodoTaskManageController manageController;
 
-    private static ObservableList<String> currentTasks; // 현재 선택된 프로젝트의 작업 목록
-
     private static boolean isInitialized = false;
 
-    private static ProjectManager currentProject;
+    private static ProjectManager projects;
 
 
 
@@ -83,8 +82,6 @@ public class TodoTaskController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         // "작업 관리" 버튼에 대한 클릭 이벤트 핸들러 설정
         tskmanage_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -158,7 +155,7 @@ public class TodoTaskController implements Initializable {
 
         // 메서드가 처음 호출될 때만 currentTasks를 초기화
         if (!isInitialized) {
-            this.currentTasks = FXCollections.observableArrayList();
+            this.tasks = FXCollections.observableArrayList();
             this.completedTasks = FXCollections.observableArrayList();
             isInitialized = true;
         }
@@ -197,13 +194,13 @@ public class TodoTaskController implements Initializable {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(taskName -> {
-            if (!taskName.isEmpty() && currentProject != null) {
+            if (!taskName.isEmpty() && projects != null) {
                 if (isTaskNameExist(taskName)) {
                     showPopup("중복된 작업", "이미 존재하는 작업 이름입니다.");
                 } else {
-                    currentProject.addTask(taskName); // 프로젝트에 작업 추가
-                    currentTasks.add(taskName);
-                    taskListView.setItems(currentTasks); // ListView 업데이트
+                    projects.addTask(taskName); // 프로젝트에 작업 추가
+                    tasks.add(taskName);
+                    taskListView.setItems(tasks); // ListView 업데이트
                 }
             }
         });
@@ -218,11 +215,11 @@ public class TodoTaskController implements Initializable {
      */
     public void deleteTask(String selectedTask) {
         selectedTask = extractTaskName(selectedTask);
-        currentTasks.remove(selectedTask);
+        tasks.remove(selectedTask);
         updateTaskList();
 
-        if (currentProject != null) {
-            currentProject.deleteTask(selectedTask); // 프로젝트의 작업 목록에서 삭제
+        if (projects != null) {
+            projects.deleteTask(selectedTask); // 프로젝트의 작업 목록에서 삭제
         }
     }
 
@@ -233,11 +230,11 @@ public class TodoTaskController implements Initializable {
      * @param newTask 새로운 작업 이름
      */
     public void updateTask(String oldTask, String newTask) {
-        if (currentProject != null && currentProject.getTasks().contains(oldTask)) {
+        if (projects != null && projects.getTasks().contains(oldTask)) {
             // 현재 프로젝트에서 oldTask 이름의 작업을 찾아 newTask로 업데이트
-            currentProject.updateTask(oldTask, newTask);
+            projects.updateTask(oldTask, newTask);
 
-            // 전역 작업 목록(tasks)과 현재 작업 목록(currentTasks) 업데이트
+            // 전역 작업 목록(tasks)과 현재 작업 목록(tasks) 업데이트
             updateGlobalAndCurrentTaskLists(oldTask, newTask);
         }
     }
@@ -253,12 +250,12 @@ public class TodoTaskController implements Initializable {
         if (taskListView == null) {
             taskListView = new ListView<>();
         }
-        int index = currentTasks.indexOf(oldTask);
+        int index = tasks.indexOf(oldTask);
         if (index != -1) {
-            currentTasks.set(index, newTask);
+            tasks.set(index, newTask);
         }
 
-        taskListView.setItems(currentTasks); // ListView 업데이트
+        taskListView.setItems(tasks); // ListView 업데이트
 
     }
 
@@ -321,7 +318,7 @@ public class TodoTaskController implements Initializable {
             completedTaskListView = new ListView<>();
         }
 
-        ObservableList<String> formattedTasks = currentTasks.stream()
+        ObservableList<String> formattedTasks = tasks.stream()
                 .map(task -> formatTaskWithDueDate(task))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
         taskListView.setItems(formattedTasks); // ListView에 현재 작업 목록 설정
@@ -346,22 +343,22 @@ public class TodoTaskController implements Initializable {
      * @param project 현재 프로젝트
      */
     public void setCurrentProject(ProjectManager project) {
-        if (currentTasks == null) {
-            currentTasks = FXCollections.observableArrayList();
+        if (tasks == null) {
+            tasks = FXCollections.observableArrayList();
         }
         if (completedTasks == null) {
             completedTasks = FXCollections.observableArrayList();
         }
 
-        this.currentProject = project;
-        this.currentTasks.setAll(project.getTasks());
-        this.completedTasks.setAll(project.getCompletedTasks());
+        projects = project;
+        tasks.setAll(project.getTasks());
+        completedTasks.setAll(project.getCompletedTasks());
 
         if (this.taskListView != null) {
-            taskListView.setItems(this.currentTasks);
+            taskListView.setItems(tasks);
         }
         if (this.completedTaskListView != null) {
-            completedTaskListView.setItems(this.completedTasks);
+            completedTaskListView.setItems(completedTasks);
         }
     }
 
@@ -393,7 +390,7 @@ public class TodoTaskController implements Initializable {
      * @return 중복 여부 (true: 중복됨, false: 중복되지 않음)
      */
     public boolean isTaskNameExist(String taskName) {
-        return currentProject != null && currentProject.getTasks().contains(taskName);
+        return projects != null && projects.getTasks().contains(taskName);
     }
 
     @FXML
@@ -411,11 +408,11 @@ public class TodoTaskController implements Initializable {
 
         completedTasks.add(selectedCompletedTask);
 
-        currentProject.addCompletedTask(selectedCompletedTask);
+        projects.addCompletedTask(selectedCompletedTask);
 
-        currentProject.deleteTask(selectedCompletedTask);
+        projects.deleteTask(selectedCompletedTask);
 
-        currentTasks.remove(selectedCompletedTask);
+        tasks.remove(selectedCompletedTask);
 
         updateTaskList();
     }
@@ -429,12 +426,12 @@ public class TodoTaskController implements Initializable {
             return;
         }
         String selectedCompletedTask = extractTaskName(selectedCompletedTaskWithDate); // 마감일 정보 제외한 작업 이름 추출
-        // 선택된 완료한 작업을 다시 작업 목록(currentTasks)으로 이동
+        // 선택된 완료한 작업을 다시 작업 목록(tasks)으로 이동
 
-        currentTasks.add(selectedCompletedTask);
+        tasks.add(selectedCompletedTask);
 
-        currentProject.addTask(selectedCompletedTask);
-        currentProject.deleteCompletedTask(selectedCompletedTask);
+        projects.addTask(selectedCompletedTask);
+        projects.deleteCompletedTask(selectedCompletedTask);
 
         completedTasks.remove(selectedCompletedTask);
         updateTaskList();
@@ -447,34 +444,6 @@ public class TodoTaskController implements Initializable {
             return (bracketIndex != -1) ? taskWithDate.substring(0, bracketIndex) : taskWithDate;
         }
         return null;
-    }
-
-    public void reloadScene() {
-        try {
-            // TodoTask.fxml 파일 로드
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TodoTask.fxml"));
-            Parent root = loader.load();
-
-            // 현재 스테이지(윈도우) 참조 얻기
-            Stage stage;
-            if (back_btn.getScene() != null) {
-                stage = (Stage) back_btn.getScene().getWindow();
-            } else {
-                // 현재 Scene이 없는 경우, 새로운 Stage 생성
-                stage = new Stage();
-            }
-
-            // 새로운 Scene 설정
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-
-            // 스테이지 표시
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // 오류 처리
-            showPopup("오류", "씬을 다시 로드하는데 실패했습니다.");
-        }
     }
 
 }
