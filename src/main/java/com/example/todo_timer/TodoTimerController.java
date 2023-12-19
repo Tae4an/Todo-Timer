@@ -127,7 +127,7 @@ public class TodoTimerController implements Initializable {
      */
     public TodoTimerController() {
         // TodoTaskController 인스턴스를 얻어옴
-        this.todoTaskController = TodoTaskController.getInstance();
+        this.todoTaskController = new TodoTaskController();
     }
 
     /**
