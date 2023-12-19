@@ -22,4 +22,13 @@ public class Task {
     public String getProjectName() {
         return projectName;
     }
+
+    /**
+     * 프로젝트 이름을 설정하는 메서드
+     *
+     * @param projectName 새로운 프로젝트 이름
+     */
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 }
