@@ -45,23 +45,8 @@ public class TodoTaskManageController implements Initializable {
 
     private final TodoTaskController todoTaskController;  // 작업 관리에 필요한 로직을 담당하는 컨트롤러 인스턴스
 
-    private static TodoTaskManageController instance;  // TodoTaskManageController 클래스의 싱글톤 인스턴스
-
     private static String task;  // 현재 선택 또는 작업 중인 작업의 이름
 
-
-    /**
-     * TodoTaskManageController의 인스턴스를 반환하는 싱글톤 접근 메서드.
-     *
-     * @return TodoTaskManageController의 인스턴스
-     */
-    public static TodoTaskManageController getInstance() {
-        // 인스턴스가 null인 경우 새로 생성
-        if (instance == null) {
-            instance = new TodoTaskManageController();
-        }
-        return instance;
-    }
 
     /**
      * FXML 파일이 로드될 때 자동으로 호출되는 초기화 메서드.
@@ -79,7 +64,7 @@ public class TodoTaskManageController implements Initializable {
         // 마감일 업데이트 메서드 호출
         updateDueDatePicker();
 
-        tskMemo.setText(TodoTaskController.getInstance().getTaskMemo(task));
+        tskMemo.setText(todoTaskController.getTaskMemo(task));
 
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
 
@@ -178,27 +163,27 @@ public class TodoTaskManageController implements Initializable {
         String updatedMemo = tskMemo.getText(); // 수정된 메모 가져오기
 
         // 작업 이름이 변경되고 중복된 경우 처리
-        if (!updatedTask.equals(task) && TodoTaskController.getInstance().isTaskNameExist(updatedTask)) {
+        if (!updatedTask.equals(task) && todoTaskController.isTaskNameExist(updatedTask)) {
             showPopup("중복된 작업", "이미 존재하는 작업 이름입니다.");
             return; // 중복된 경우 함수 종료
         }
 
         // 변경 여부 확인
         boolean isTaskNameChanged = !updatedTask.equals(task);
-        boolean isDueDateChanged = dueDate != null && !dueDate.equals(TodoTaskController.getInstance().getDueDate(task));
-        boolean isMemoChanged = !updatedMemo.equals(TodoTaskController.getInstance().getTaskMemo(task));
+        boolean isDueDateChanged = dueDate != null && !dueDate.equals(todoTaskController.getDueDate(task));
+        boolean isMemoChanged = !updatedMemo.equals(todoTaskController.getTaskMemo(task));
 
         // 변경된 내용이 있는 경우 처리
         if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
             if (isTaskNameChanged) {
-                TodoTaskController.getInstance().updateTask(task, updatedTask);
+                todoTaskController.updateTask(task, updatedTask);
                 task = updatedTask; // 현재 작업 이름 업데이트
             }
             if (isDueDateChanged) {
-                TodoTaskController.getInstance().updateDueDate(task, dueDate);
+                todoTaskController.updateDueDate(task, dueDate);
             }
             if (isMemoChanged) {
-                TodoTaskController.getInstance().updateTaskMemo(task, updatedMemo);
+                todoTaskController.updateTaskMemo(task, updatedMemo);
             }
 
             showPopup("저장", "저장 되었습니다..!");
@@ -229,7 +214,7 @@ public class TodoTaskManageController implements Initializable {
     }
 
     private void updateDueDatePicker() {
-        LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+        LocalDate dueDate = todoTaskController.getDueDate(task);
         dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
         // 현재 날짜 이전의 모든 날짜를 비활성화

@@ -36,10 +36,11 @@ public class TodoMainController implements Initializable {
     private Button manageProject_btn; // "프로젝트 관리" 버튼
 
     private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
-    private final TodoTaskController todoTaskController = TodoTaskController.getInstance();
+    private final TodoTaskController todoTaskController;
 
 
     public TodoMainController() {
+        todoTaskController = new TodoTaskController();
     }
 
     @Override
@@ -252,7 +253,7 @@ public class TodoMainController implements Initializable {
 
         for (ProjectManager project : projects) {
             for (String task : project.getTasks()) {
-                LocalDate dueDate = TodoTaskController.getInstance().getDueDate(task);
+                LocalDate dueDate = todoTaskController.getDueDate(task);
 
                 if (dueDate != null) {
                     if (dueDate.isEqual(today.plusDays(1))) {

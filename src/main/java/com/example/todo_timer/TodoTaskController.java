@@ -61,29 +61,14 @@ public class TodoTaskController implements Initializable {
     // TodoTaskManageController 인스턴스, 작업 관리 화면의 컨트롤러
     private TodoTaskManageController manageController;
 
-    // TodoTaskController 클래스의 싱글톤 인스턴스
-    private static TodoTaskController instance;
-
     private static ObservableList<String> currentTasks; // 현재 선택된 프로젝트의 작업 목록
 
     private static boolean isInitialized = false;
 
     private static ProjectManager currentProject;
 
-    private ProjectManager projectManager;
 
 
-    /**
-     * Singleton 패턴을 사용하여 TodoTaskController의 인스턴스를 반환
-     *
-     * @return TodoTaskController의 인스턴스
-     */
-    public static TodoTaskController getInstance() {
-        if (instance == null) {
-            instance = new TodoTaskController();
-        }
-        return instance;
-    }
 
     /**
      * TodoTaskController의 생성자
@@ -122,7 +107,7 @@ public class TodoTaskController implements Initializable {
                     showPopup("Error", "완료한 작업은 변경할 수 없습니다.");
                 } else {
                     // 선택된 작업으로 TodoTaskManageController 설정 및 뷰 로드
-                    manageController = TodoTaskManageController.getInstance();
+                    manageController = new TodoTaskManageController();
                     manageController.setSelectTask(selectedTask);
                     try {
                         Parent sub = FXMLLoader.load(getClass().getResource("TodoTaskManage.fxml"));
