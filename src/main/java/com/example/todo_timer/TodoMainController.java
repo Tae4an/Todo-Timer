@@ -187,7 +187,7 @@ public class TodoMainController implements Initializable {
     private void editProjectName(ProjectManager project) {
         TextInputDialog dialog = new TextInputDialog(project.getName());
         dialog.setTitle("프로젝트 이름 수정");
-        dialog.setHeaderText("새 프로젝트 이름을 입력하세요:");
+        dialog.setHeaderText("새 프로젝트 이름을 입력하세요.");
         // 다이얼로그 패널에 접근 >> 신창영
         DialogPane dialogPane = dialog.getDialogPane();
 
