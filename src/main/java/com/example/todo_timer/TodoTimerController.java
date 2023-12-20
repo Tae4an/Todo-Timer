@@ -61,7 +61,6 @@ public class TodoTimerController implements Initializable {
      * TodoTimerController의 생성자.
      */
     public TodoTimerController() {
-        // TodoTaskController 인스턴스를 얻어옴
         // TodoTaskController의 인스턴스
         TodoTaskController todoTaskController = new TodoTaskController();
     }
@@ -72,10 +71,37 @@ public class TodoTimerController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    // "할 일 목록" 버튼에 대한 액션 설정
+        // "할 일 목록" 버튼에 대한 액션 설정
         main_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if (timer.getStatus().equals(Timeline.Status.RUNNING) && !isPaused) {
+                    // 타이머가 실행 중일 때 확인 창을 표시
+                    Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmAlert.setTitle("타이머 실행 중");
+                    confirmAlert.setHeaderText("타이머가 아직 실행 중입니다. ");
+                    confirmAlert.setContentText("타이머가 초기화 됩니다. 메인 홈으로 돌아가시겠습니까?");
+
+                    // 다이얼로그 패널에 접근 >> 신창영
+                    DialogPane dialogPane = confirmAlert.getDialogPane();
+                    dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+                    dialogPane.getStyleClass().add("custom-dialog");
+
+                    // 확인 및 취소 버튼 설정
+                    Optional<ButtonType> result = confirmAlert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        // 사용자가 '확인'을 선택한 경우
+                        loadMainScene(); // 메인 홈으로 이동하는 메소드
+                    }
+                    // '취소'를 선택하거나 창을 닫으면 아무것도 하지 않음
+                } else {
+                    // 타이머가 실행 중이 아닐 때 메인 홈으로 바로 이동
+                    loadMainScene(); // 메인 홈으로 이동하는 메소드
+                }
+            }
+
+            private void loadMainScene() {
+                // 여기에 메인 홈으로 이동하는 코드를 작성
                 Parent todoMainScene;
                 try {
                     todoMainScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
@@ -83,8 +109,6 @@ public class TodoTimerController implements Initializable {
                     throw new RuntimeException(e);
                 }
                 StackPane root = (StackPane) timer_layout.getScene().getRoot();
-
-                // 새 씬(메인 홈) 추가 및 초기 스케일 설정 (크게 시작)
                 todoMainScene.setScaleX(3); // 초기 스케일을 크게 설정
                 todoMainScene.setScaleY(3); // 초기 스케일을 크게 설정
                 root.getChildren().add(todoMainScene);
@@ -93,7 +117,6 @@ public class TodoTimerController implements Initializable {
                 ScaleTransition zoomOut = new ScaleTransition(Duration.millis(300), todoMainScene);
                 zoomOut.setToX(1); // 최종적으로 정상 크기로
                 zoomOut.setToY(1); // 최종적으로 정상 크기로
-
                 zoomOut.play(); // 애니메이션 실행
             }
         });
@@ -234,7 +257,6 @@ public class TodoTimerController implements Initializable {
 
         // 다이얼로그 패널에 접근 >> 신창영
         DialogPane dialogPane = alert.getDialogPane();
-
         dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
 
@@ -248,6 +270,7 @@ public class TodoTimerController implements Initializable {
         if (result.isPresent() && result.get() == resumeButton) {
             startTimer(); // "계속" 버튼이 선택된 경우 타이머 계속 진행
         } else {
+            isRest = false;
             stopTimer(); // "종료" 버튼이나 다이얼로그를 닫은 경우 타이머 정지
         }
     }
@@ -279,6 +302,57 @@ public class TodoTimerController implements Initializable {
 
 
     }
+
+    /**
+     * 작업 타이머를 시작하는 메서드.
+     * 작업 시간 25분 설정
+     */
+    private void startWorkTimer() {
+        minutes = newMinutes;
+        seconds = 0;
+        isPaused = false;
+        isRest = false;
+
+        // 씬의 배경 색상을 #FFD8D8로 변경
+        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
+
+        // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        timerSetting_btn.setStyle("-fx-background-color:#c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        main_btn.setStyle("-fx-background-color: #c98888; -fx-background-radius: 50; -fx-border-color: #865353; -fx-border-radius: 50;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color:  #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;");
+        // 색상을 #6b0404로 설정
+        timerText.setFill(Color.web("#6b0404"));
+        timer_label.setTextFill(Color.web("#c98888"));
+    }
+
+    /**
+     * 휴식 타이머를 시작하는 메서드.
+     * 휴식 시간 5분 설정
+     */
+    private void startRestTimer() {
+        minutes = newRestMinutes;
+        seconds = 0;
+        isPaused = false;
+        isRest = true;
+
+        //아이디 지정
+        taskChoiceBox.setId("custom-choice-box");
+        taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+
+        // 씬의 배경 색상을 #B7F0B1로 변경
+        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(183, 240, 177), null, null)));
+
+        timerSetting_btn.setStyle("-fx-background-color:#47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
+        btn_start_pause.setStyle("-fx-background-color:#47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
+        main_btn.setStyle("-fx-background-color: #47C83E; -fx-border-color: #0B7903; -fx-border-radius: 50; -fx-background-radius: 50;");
+        taskChoiceBox.setStyle("-fx-background-color:  #47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
+        timerText.setFill(Color.web("#005C00"));
+        timer_label.setTextFill(Color.web("#47C83E"));
+    }
+
+
+
     /**
      * 타이머 설정 및 휴식 시간 설정 다이얼로그를 열고 사용자 선택을 처리하는 메서드
      */
@@ -396,55 +470,6 @@ public class TodoTimerController implements Initializable {
     }
 
 
-    /**
-     * 작업 타이머를 시작하는 메서드.
-     * 작업 시간 25분 설정
-     */
-    private void startWorkTimer() {
-        minutes = newMinutes;
-        seconds = 0;
-        isPaused = false;
-        isRest = false;
-
-        // 씬의 배경 색상을 #FFD8D8로 변경
-        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
-
-        // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        timerSetting_btn.setStyle("-fx-background-color:#c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        main_btn.setStyle("-fx-background-color: #c98888; -fx-background-radius: 50; -fx-border-color: #865353; -fx-border-radius: 50;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        taskChoiceBox.setStyle("-fx-background-color:  #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;");
-        // 색상을 #6b0404로 설정
-        timerText.setFill(Color.web("#6b0404"));
-        timer_label.setTextFill(Color.web("#c98888"));
-    }
-
-    /**
-     * 휴식 타이머를 시작하는 메서드.
-     * 휴식 시간 5분 설정
-     */
-    private void startRestTimer() {
-        minutes = newRestMinutes;
-        seconds = 0;
-        isPaused = false;
-        isRest = true;
-
-        //아이디 지정
-        taskChoiceBox.setId("custom-choice-box");
-        taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
-
-        // 씬의 배경 색상을 #B7F0B1로 변경
-        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(183, 240, 177), null, null)));
-
-        timerSetting_btn.setStyle("-fx-background-color:#47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
-        btn_start_pause.setStyle("-fx-background-color:#47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
-        main_btn.setStyle("-fx-background-color: #47C83E; -fx-border-color: #0B7903; -fx-border-radius: 50; -fx-background-radius: 50;");
-        taskChoiceBox.setStyle("-fx-background-color:  #47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
-        timerText.setFill(Color.web("#005C00"));
-        timer_label.setTextFill(Color.web("#47C83E"));
-
-
-    }
 
     /**
      * 팝업 창을 표시하는 메서드.
