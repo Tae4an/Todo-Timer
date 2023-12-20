@@ -81,7 +81,7 @@
       <graphic>
          <ImageView fitHeight="36.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@../../../img/free-icon-font-home.png" />
+               <Image url="@../../../img/home.png" />
             </image>
          </ImageView>
       </graphic></Button>
