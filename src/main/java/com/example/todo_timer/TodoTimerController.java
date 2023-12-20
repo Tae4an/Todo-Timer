@@ -282,6 +282,16 @@ public class TodoTimerController implements Initializable {
         isPaused = false;
         btn_start_pause.setText("START");
         updateTimerDisplay();
+
+        // 씬의 배경 색상을 #FFD8D8로 변경
+        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
+        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        tsk_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+        // 색상을 #6b0404로 설정
+        timerText.setFill(Color.web("#6b0404"));
+        timer_label.setTextFill(Color.web("#c98888"));
     }
     @FXML
     private void openTimerSettingDialog() {

@@ -51,12 +51,12 @@
             </image>
         </ImageView>
 
-        <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="18.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="40.0" fitWidth="20.0" layoutX="18.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../img/free-icon-font-pencil.png" />
+                <Image url="@../../../img/edit.png" />
             </image>
         </ImageView>
-      <ImageView fitHeight="39.0" fitWidth="23.0" layoutX="185.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="21.0" layoutX="181.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../img/edit.png" />
          </image>
