@@ -9,14 +9,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -82,6 +78,7 @@ public class TodoTaskController implements Initializable {
                 String selectedTask = taskListView.getSelectionModel().getSelectedItem();
                 String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
                 selectedTask = extractTaskName(selectedTask);
+
                 selectedCompletedTask = extractTaskName(selectedCompletedTask);
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
@@ -159,6 +156,7 @@ public class TodoTaskController implements Initializable {
         }
         // 작업 목록 업데이트
         updateTaskList();
+        task_label.setText(projects.getName());
     }
 
 
@@ -509,4 +507,5 @@ public class TodoTaskController implements Initializable {
             alert.showAndWait();
         });
     }
+
 }

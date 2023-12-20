@@ -21,7 +21,7 @@
         <DatePicker fx:id="dueDatePicker" editable="false" layoutX="13.0" layoutY="114.0" prefHeight="33.0" prefWidth="215.0" style="-fx-border-radius: 3; -fx-border-color: #c98888; -fx-border-width: 2;" stylesheets="@../../../css/style.css" />
         <Button fx:id="save_btn" layoutX="284.0" layoutY="461.0" mnemonicParsing="false" style="-fx-background-color: #c98888; -fx-border-color: #865353; -fx-border-radius: 2;" text="저장" textFill="#f5f1ed" />
         <Button fx:id="delete_btn" layoutX="228.0" layoutY="461.0" mnemonicParsing="false" style="-fx-background-color: #832929; -fx-border-color: #430d0d; -fx-border-radius: 2;" text="삭제" textFill="#f5f1ed" />
-      <Label layoutX="11.0" layoutY="20.0" text="Task Manage" textFill="#c98888">
+      <Label fx:id="tskManage_label" layoutX="11.0" layoutY="20.0" text="Task Manage" textFill="#c98888">
          <font>
             <Font name="Arial Black" size="25.0" />
          </font>

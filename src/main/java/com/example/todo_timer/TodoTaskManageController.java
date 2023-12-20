@@ -48,6 +48,8 @@ public class TodoTaskManageController implements Initializable {
 
     private static String task;  // 현재 선택 또는 작업 중인 작업의 이름
 
+    @FXML
+    private Label tskManage_label;
 
 
     @Override
@@ -63,8 +65,7 @@ public class TodoTaskManageController implements Initializable {
         updateDueDatePicker();
 
         tskMemo.setText(todoTaskController.getTaskMemo(todoTaskController.getCurrentProjectName(),task));
-
-
+        tskManage_label.setText(task);
     }
 
     /**
