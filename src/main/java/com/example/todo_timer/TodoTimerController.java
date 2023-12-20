@@ -279,7 +279,7 @@ public class TodoTimerController implements Initializable {
         btn_start_pause.setText("START");
         updateTimerDisplay();
 
-        // 씬의 배경 색상을 #FFD8D8로 변경
+       // 씬의 배경 색상을 #FFD8D8로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
         timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
         btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
@@ -288,6 +288,8 @@ public class TodoTimerController implements Initializable {
         // 색상을 #6b0404로 설정
         timerText.setFill(Color.web("#6b0404"));
         timer_label.setTextFill(Color.web("#c98888"));
+
+
     }
     @FXML
     private void openTimerSettingDialog() {
@@ -429,15 +431,18 @@ public class TodoTimerController implements Initializable {
 
         timerSetting_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
         btn_start_pause.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
-        main_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+
         taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
 
-        timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        main_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
-        timerText.setFill(Color.web("#005C00"));
-        timer_label.setTextFill(Color.web("#47C83E"));
+       timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+       btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+       main_btn.setStyle("-fx-background-color: #47C83E;" +
+                     "   -fx-border-color: #0B7903;\n" +
+                     "    -fx-border-radius: 50;\n" +
+                     "    -fx-background-radius: 50;"); // css로 같이 적용하면 각도가 다르게 나옴
+       taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
+       timerText.setFill(Color.web("#005C00"));
+       timer_label.setTextFill(Color.web("#47C83E"));
 
 
 
