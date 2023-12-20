@@ -64,7 +64,7 @@ public class TodoTaskManageController implements Initializable {
         // 마감일 업데이트 메서드 호출
         updateDueDatePicker();
 
-        tskMemo.setText(todoTaskController.getTaskMemo(task));
+        tskMemo.setText(todoTaskController.getTaskMemo(todoTaskController.getCurrentProjectName(),task));
 
 
     }
@@ -166,8 +166,8 @@ public class TodoTaskManageController implements Initializable {
 
         // 변경 여부 확인
         boolean isTaskNameChanged = !updatedTask.equals(task);
-        boolean isDueDateChanged = dueDate != null && !dueDate.equals(todoTaskController.getDueDate(task));
-        boolean isMemoChanged = !updatedMemo.equals(todoTaskController.getTaskMemo(task));
+        boolean isDueDateChanged = dueDate != null && !dueDate.equals(todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(),task));
+        boolean isMemoChanged = !updatedMemo.equals(todoTaskController.getTaskMemo(todoTaskController.getCurrentProjectName(), task));
 
         // 변경된 내용이 있는 경우 처리
         if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
@@ -176,10 +176,10 @@ public class TodoTaskManageController implements Initializable {
                 task = updatedTask; // 현재 작업 이름 업데이트
             }
             if (isDueDateChanged) {
-                todoTaskController.updateDueDate(task, dueDate);
+                todoTaskController.updateDueDate(todoTaskController.getCurrentProjectName(),task, dueDate);
             }
             if (isMemoChanged) {
-                todoTaskController.updateTaskMemo(task, updatedMemo);
+                todoTaskController.updateTaskMemo(todoTaskController.getCurrentProjectName(),task, updatedMemo);
             }
 
             showPopup("저장", "저장 되었습니다..!");
@@ -210,7 +210,7 @@ public class TodoTaskManageController implements Initializable {
     }
 
     private void updateDueDatePicker() {
-        LocalDate dueDate = todoTaskController.getDueDate(task);
+        LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(),task);
         dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
         // 현재 날짜 이전의 모든 날짜를 비활성화

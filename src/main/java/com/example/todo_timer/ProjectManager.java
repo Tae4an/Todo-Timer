@@ -85,14 +85,6 @@ public class ProjectManager {
         return projectName;
     }
 
-    /**
-     * 프로젝트 이름을 수정
-     *
-     * @param newName 새로운 프로젝트 이름
-     */
-    public void setName(String newName) {
-        this.projectName = newName;
-    }
 
     /**
      * 프로젝트에 속한 작업 목록을 반환
@@ -121,18 +113,25 @@ public class ProjectManager {
     public void addCompletedTask(String task) {
         completedTasks.add(task);
     }
-    /**
-     * 프로젝트의 작업 목록을 설정하는 메서드.
-     *
-     * @param newTasks 새로운 작업 목록
-     */
-    public void setTasks(ObservableList<String> newTasks) {
-        // 기존 작업 목록을 새로운 목록으로 교체
-        this.tasks = newTasks;
-    }
+
     public static ObservableList<Task> getAllTasks(){
         return allTasks;
     }
 
+    /**
+     * 프로젝트 이름을 수정
+     *
+     * @param newName 새로운 프로젝트 이름
+     */
+    public void setName(String newName) {
+        // allTasks 목록에서 해당 프로젝트의 작업을 찾아 프로젝트 이름을 업데이트
+        for (Task task : allTasks) {
+            if (task.getProjectName().equals(this.projectName)) {
+                task.setProjectName(newName);
+            }
+        }
 
+        // 프로젝트 이름을 업데이트
+        this.projectName = newName;
+    }
 }

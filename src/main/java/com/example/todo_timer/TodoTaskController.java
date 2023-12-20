@@ -255,50 +255,31 @@ public class TodoTaskController implements Initializable {
 
     }
 
+
     /**
      * 지정된 작업의 마감일을 업데이트하는 메서드.
      *
-     * @param task    업데이트할 작업의 이름
-     * @param dueDate 새로운 마감일
+     * @param projectName 프로젝트 이름
+     * @param taskName    작업 이름
+     * @param dueDate     새로운 마감일
      */
-    public void updateDueDate(String task, LocalDate dueDate) {
-        // 'dueDates' 맵에 작업 이름을 키로 하고 마감일을 값으로 저장
-        dueDates.put(task, dueDate);
+    public void updateDueDate(String projectName, String taskName, LocalDate dueDate) {
+        String key = projectName + " - " + taskName;
+        dueDates.put(key, dueDate);
     }
 
     /**
      * 지정된 작업의 마감일을 반환하는 메서드.
      *
-     * @param task 조회할 작업의 이름
+     * @param projectName 프로젝트 이름
+     * @param taskName    작업 이름
      * @return 해당 작업의 마감일, 저장된 마감일이 없을 경우 null 반환
      */
-    public LocalDate getDueDate(String task) {
-        // 'dueDates' 맵에서 작업 이름에 해당하는 마감일을 조회하여 반환
-        return dueDates.get(task);
+    public LocalDate getDueDate(String projectName, String taskName) {
+        String key = projectName + " - " + taskName;
+        return dueDates.get(key);
     }
 
-
-    /**
-     * 팝업 창을 표시하는 메서드.
-     *
-     * @param title   팝업 창 제목
-     * @param message 팝업 메시지
-     */
-    private void showPopup(String title, String message) {
-        // Platform.runLater() 메서드를 사용하여 JavaFX 애플리케이션 스레드에서 실행되도록 작업을 예약하는 데 사용
-        // 이렇게 하면 showAndWait()가 다음 프레임에서 실행되므로 애니메이션이나 레이아웃 처리와 충돌하지 않음
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-
-
-            //팝업창 색감 스타일 입히지 : 신창영
-            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-            alert.showAndWait();
-        });
-    }
 
 
     /**
@@ -327,9 +308,17 @@ public class TodoTaskController implements Initializable {
 
     }
 
+
     private String formatTaskWithDueDate(String task) {
-        LocalDate dueDate = dueDates.get(task);
-        return (dueDate != null) ? task + " [" + dueDate.toString() + "]" : task;
+        String projectName = projects != null ? projects.getName() : "";
+        String key = projectName + " - " + task;
+        LocalDate dueDate = dueDates.get(key);
+
+        if (dueDate != null) {
+            return task + " [" + dueDate.toString() + "]";
+        } else {
+            return task;
+        }
     }
 
     /**
@@ -359,26 +348,30 @@ public class TodoTaskController implements Initializable {
     }
 
     /**
-     * 작업의 메모를 업데이트합니다. 지정된 작업에 대한 메모를 설정
+     * 작업 메모를 업데이트하는 메서드.
+     * 프로젝트 이름과 작업 이름을 결합하여 고유한 키 생성.
      *
-     * @param task 작업 이름
+     * @param projectName 프로젝트 이름
+     * @param taskName 작업 이름
      * @param memo 작업 메모
      */
-    public void updateTaskMemo(String task, String memo) {
-        taskMemos.put(task, memo);
+    public void updateTaskMemo(String projectName, String taskName, String memo) {
+        String key = projectName + " - " + taskName;
+        taskMemos.put(key, memo);
     }
-
 
     /**
-     * 지정된 작업의 메모를 가져옴. 만약 메모가 없는 경우 빈 문자열을 반환
+     * 지정된 작업의 메모를 반환하는 메서드.
+     * 프로젝트 이름과 작업 이름을 결합하여 고유한 키 생성.
      *
-     * @param task 작업 이름
-     * @return 작업 메모 (없는 경우 빈 문자열)
+     * @param projectName 프로젝트 이름
+     * @param taskName 작업 이름
+     * @return 해당 작업의 메모, 저장된 메모가 없을 경우 빈 문자열 반환
      */
-    public String getTaskMemo(String task) {
-        return taskMemos.getOrDefault(task, "");
+    public String getTaskMemo(String projectName, String taskName) {
+        String key = projectName + " - " + taskName;
+        return taskMemos.getOrDefault(key, "");
     }
-
     /**
      * 입력된 작업 이름이 이미 존재하는지 검사하는 메서드
      *
@@ -413,6 +406,19 @@ public class TodoTaskController implements Initializable {
         updateTaskList();
     }
 
+    /**
+     * 현재 프로젝트의 이름을 반환하는 메서드.
+     *
+     * @return 현재 프로젝트의 이름
+     */
+    public String getCurrentProjectName() {
+        if (projects != null) {
+            return projects.getName();
+        } else {
+            return ""; // 현재 프로젝트가 설정되지 않은 경우 빈 문자열 반환
+        }
+    }
+
     @FXML
     private void restoreTask(ActionEvent event) {
         // ListView에서 선택된 작업을 얻음
@@ -442,4 +448,26 @@ public class TodoTaskController implements Initializable {
         return null;
     }
 
+
+    /**
+     * 팝업 창을 표시하는 메서드.
+     *
+     * @param title   팝업 창 제목
+     * @param message 팝업 메시지
+     */
+    private void showPopup(String title, String message) {
+        // Platform.runLater() 메서드를 사용하여 JavaFX 애플리케이션 스레드에서 실행되도록 작업을 예약하는 데 사용
+        // 이렇게 하면 showAndWait()가 다음 프레임에서 실행되므로 애니메이션이나 레이아웃 처리와 충돌하지 않음
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+
+
+            //팝업창 색감 스타일 입히지 : 신창영
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+            alert.showAndWait();
+        });
+    }
 }
