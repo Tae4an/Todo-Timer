@@ -82,6 +82,11 @@ public class TodoTimerController implements Initializable {
                     confirmAlert.setHeaderText("타이머가 아직 실행 중입니다. ");
                     confirmAlert.setContentText("타이머가 초기화 됩니다. 메인 홈으로 돌아가시겠습니까?");
 
+                    // 다이얼로그 패널에 접근 >> 신창영
+                    DialogPane dialogPane = confirmAlert.getDialogPane();
+                    dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+                    dialogPane.getStyleClass().add("custom-dialog");
+
                     // 확인 및 취소 버튼 설정
                     Optional<ButtonType> result = confirmAlert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -252,7 +257,6 @@ public class TodoTimerController implements Initializable {
 
         // 다이얼로그 패널에 접근 >> 신창영
         DialogPane dialogPane = alert.getDialogPane();
-
         dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
 
