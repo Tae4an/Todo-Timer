@@ -6,7 +6,7 @@
  {
     -fx-background-color:#47C83E;
     -fx-background-radius: 10;
-    -fx-border-color: #005C00;
+    -fx-border-color: #0B7903;
     -fx-border-radius: 10;
 }
 
@@ -15,7 +15,7 @@
 {
     -fx-background-color:#47C83E;
     -fx-background-radius: 10;
-    -fx-border-color: #005C00;
+    -fx-border-color: #0B7903;
     -fx-border-radius: 10;
 }
 
@@ -25,7 +25,7 @@
  {
     -fx-background-color:#47C83E;
     -fx-background-radius: 50;
-    -fx-border-color: #005C00;
+    -fx-border-color: #0B7903;
     -fx-border-radius: 50;
 }
 
@@ -33,6 +33,6 @@
 /* 버튼 스타일 */
 .taskChoiceBox
 {
-    -fx-border-color: #005C00;
+    -fx-border-color: #0B7903;
     -fx-border-radius: 10;
 }
