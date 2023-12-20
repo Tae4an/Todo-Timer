@@ -194,7 +194,7 @@ public class TodoTaskController implements Initializable {
                 } else {
                     projects.addTask(taskName); // 프로젝트에 작업 추가
                     tasks.add(taskName);
-                    taskListView.setItems(tasks); // ListView 업데이트
+                    updateTaskList();
                 }
             }
         });

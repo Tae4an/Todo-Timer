@@ -263,14 +263,23 @@ public class TodoMainController implements Initializable {
 
         // 다이얼로그 패널에 접근
         DialogPane dialogPane = confirmation.getDialogPane();
-
         dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
 
         Optional<ButtonType> result = confirmation.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            // 사용자가 '확인'을 선택한 경우
+
+            // allTasks에서 해당 프로젝트의 작업들을 제거
+            ProjectManager.getAllTasks().removeIf(task -> task.getProjectName().equals(project.getName()));
+
+            // ObservableList에서 프로젝트 제거
             projects.remove(project);
+
+            // 사용자에게 피드백 제공
             showPopup("삭제", "삭제 되었습니다..!");
+
+            // 프로젝트 목록 업데이트
             updateProjectList();
             reloadMainScene();
         }
@@ -379,7 +388,7 @@ public class TodoMainController implements Initializable {
     public void addProject() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("프로젝트 추가");
-        dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
+        dialog.setHeaderText("새 프로젝트의 이름을 입력하세요");
 
         // 다이얼로그 패널에 접근
         DialogPane dialogPane = dialog.getDialogPane();
