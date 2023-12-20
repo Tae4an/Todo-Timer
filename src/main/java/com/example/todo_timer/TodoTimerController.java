@@ -1,8 +1,6 @@
 package com.example.todo_timer;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -36,42 +34,39 @@ public class TodoTimerController implements Initializable {
     @FXML
     private Button btn_start_pause;  // 시작/일시정지 버튼. 레이블은 상태에 따라 동적으로 변경 됨
     @FXML
-    private Button tsk_btn;  // 작업 홈 버튼
+    private Button main_btn;  // 메인 홈 버튼
     @FXML
     private AnchorPane timer_layout;   // 타이머 홈의 레이아웃
     @FXML
     private ChoiceBox<Task> taskChoiceBox;   // 타이머 홈의 초이스 박스
     @FXML
-    private Label timer_label;
-
-
-    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용
-
-    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
-
-
-
-    private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
-
-    private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정
-
-    private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그
-
-    private final TodoTaskController todoTaskController;
-
-
+    private Label timer_label;  // 타이머 홈 라벨
     @FXML
     private Arc timerArc; // Arc 객체 참조
+    @FXML
+    private Button timerSetting_btn; // 타이머 시간 설정 버튼
+
+    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용
+    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
+    private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
+    private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정
+    private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그
+    private int newMinutes = 25; // 변경된 작업 타이머 시간
+    private int newRestMinutes = 5; // 변경된 휴식 타이머 시간
+
+    // TodoTaskController의 인스턴스
+    private final TodoTaskController todoTaskController;
+
     Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
 
-    @FXML
-    private Button timerSetting_btn;
 
-    private int newMinutes = 25;
-
-    private int newRestMinutes = 5;
-
-
+    /**
+     * TodoTimerController의 생성자.
+     */
+    public TodoTimerController() {
+        // TodoTaskController 인스턴스를 얻어옴
+        this.todoTaskController = new TodoTaskController();
+    }
 
     /**
      * 화면 초기화 시 호출되는 메서드
@@ -79,35 +74,33 @@ public class TodoTimerController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // "할 일 목록" 버튼에 대한 액션 설정
-        tsk_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    // "할 일 목록" 버튼에 대한 액션 설정
+        main_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Parent todoTimerScene = null;
+                Parent todoMainScene;
                 try {
-                    todoTimerScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
+                    todoMainScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 StackPane root = (StackPane) timer_layout.getScene().getRoot();
 
-                // 현재 씬에 새로운 TodoTask 씬 추가
-                root.getChildren().add(todoTimerScene);
+                // 새 씬(메인 홈) 추가 및 초기 스케일 설정 (크게 시작)
+                todoMainScene.setScaleX(3); // 초기 스케일을 크게 설정
+                todoMainScene.setScaleY(3); // 초기 스케일을 크게 설정
+                root.getChildren().add(todoMainScene);
 
-                // 필요한 경우, 새 씬에 애니메이션 효과 적용
-                todoTimerScene.setTranslateX(340); // 씬의 너비에 맞게 조정
-                Timeline timeline = new Timeline();
-                KeyValue keyValue = new KeyValue(todoTimerScene.translateXProperty(), 0);
-                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
+                // 새 씬(메인 홈)에 줌 아웃 애니메이션 적용
+                ScaleTransition zoomOut = new ScaleTransition(Duration.millis(300), todoMainScene);
+                zoomOut.setToX(1); // 최종적으로 정상 크기로
+                zoomOut.setToY(1); // 최종적으로 정상 크기로
 
-                // 이전 씬 제거
-                root.getChildren().remove(1);
-
+                zoomOut.play(); // 애니메이션 실행
             }
         });
-            // 할 일 선택 상자에 할 일 목록을 설정합니다.
+
+        // 할 일 선택 상자에 할 일 목록을 설정합니다.
             taskChoiceBox.setItems(ProjectManager.getAllTasks());
             // 선택 상자의 기본 선택을 첫 번째 항목으로 설정
             taskChoiceBox.getSelectionModel().selectFirst();
@@ -117,17 +110,9 @@ public class TodoTimerController implements Initializable {
 
         // #FFD8D8 색상으로 아크 색상 변경
         timerArc.setFill(color); // 아크 색상 설정
-
+        // 타이머 텍스트를 앞 쪽으로 오게 함
         timerText.toFront();
 
-    }
-
-    /**
-     * TodoTimerController의 생성자.
-     */
-    public TodoTimerController() {
-        // TodoTaskController 인스턴스를 얻어옴
-        this.todoTaskController = new TodoTaskController();
     }
 
     /**
@@ -282,7 +267,22 @@ public class TodoTimerController implements Initializable {
         isPaused = false;
         btn_start_pause.setText("START");
         updateTimerDisplay();
+
+       // 씬의 배경 색상을 #FFD8D8로 변경
+        timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
+        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        main_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+        // 색상을 #6b0404로 설정
+        timerText.setFill(Color.web("#6b0404"));
+        timer_label.setTextFill(Color.web("#c98888"));
+
+
     }
+    /**
+     * 타이머 설정 및 휴식 시간 설정 다이얼로그를 열고 사용자 선택을 처리하는 메서드
+     */
     @FXML
     private void openTimerSettingDialog() {
         // 다이얼로그에 타이머 및 휴식 시간 설정 버튼을 포함하는 커스텀 다이얼로그를 생성합니다.
@@ -320,8 +320,13 @@ public class TodoTimerController implements Initializable {
 
         dialog.showAndWait();
     }
+
+
+    /**
+     * 사용자로부터 새로운 작업 타이머 시간을 입력받는 다이얼로그를 열고 입력을 처리하는 메서드
+     */
     private void openTimerInputDialog() {
-        // 새로운 타이머 시간을 입력받을 다이얼로그 생성
+        // 새로운 작업 타이머 시간을 입력받을 다이얼로그 생성
         TextInputDialog dialog = new TextInputDialog(Integer.toString(newMinutes)); // 현재 설정된 시간을 기본값으로 설정
         dialog.setTitle("타이머 시간 설정");
         dialog.setHeaderText("1분에서 60분 사이의 시간을 입력하세요.");
@@ -352,6 +357,10 @@ public class TodoTimerController implements Initializable {
     }
 
 
+
+    /**
+     * 사용자로부터 새로운 휴식 시간을 입력받는 다이얼로그를 열고 입력을 처리하는 메서드
+     */
     private void openRestInputDialog() {
         // 새로운 휴식 시간을 입력받을 다이얼로그 생성
         TextInputDialog dialog = new TextInputDialog(Integer.toString(newRestMinutes)); // 기본값은 5분
@@ -391,12 +400,16 @@ public class TodoTimerController implements Initializable {
         seconds = 0;
         isPaused = false;
         isRest = false;
+
         // 씬의 배경 색상을 #FFD8D8로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
-        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        tsk_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+
+        // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        timerSetting_btn.setStyle("-fx-background-color:  #c98888;");
+        btn_start_pause.setStyle("-fx-background-color:  #c98888;");
+        main_btn.setStyle("-fx-background-color:  #c98888;");
         taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+
         // 색상을 #6b0404로 설정
         timerText.setFill(Color.web("#6b0404"));
         timer_label.setTextFill(Color.web("#c98888"));
@@ -418,20 +431,23 @@ public class TodoTimerController implements Initializable {
         // 각 컨트롤에 아이디 지정
         timerSetting_btn.setId("timerSetting_btn");
         btn_start_pause.setId("btn_start_pause");
-        tsk_btn.setId("tsk_btn");
+        main_btn.setId("tsk_btn");
         taskChoiceBox.setId("taskChoiceBox");
 
         timerSetting_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
         btn_start_pause.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
-        tsk_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+
         taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
 
-        timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        tsk_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
-        timerText.setFill(Color.web("#005C00"));
-        timer_label.setTextFill(Color.web("#47C83E"));
+       timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+       btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+       main_btn.setStyle("-fx-background-color: #47C83E;" +
+                     "   -fx-border-color: #0B7903;\n" +
+                     "    -fx-border-radius: 50;\n" +
+                     "    -fx-background-radius: 50;"); // css로 같이 적용하면 각도가 다르게 나옴
+       taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
+       timerText.setFill(Color.web("#005C00"));
+       timer_label.setTextFill(Color.web("#47C83E"));
 
 
 
@@ -455,4 +471,6 @@ public class TodoTimerController implements Initializable {
             alert.showAndWait();
         });
     }
+
+
 }

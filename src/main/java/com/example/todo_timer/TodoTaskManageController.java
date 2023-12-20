@@ -1,5 +1,6 @@
 package com.example.todo_timer;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -48,10 +49,7 @@ public class TodoTaskManageController implements Initializable {
     private static String task;  // 현재 선택 또는 작업 중인 작업의 이름
 
 
-    /**
-     * FXML 파일이 로드될 때 자동으로 호출되는 초기화 메서드.
-     * UI 요소들의 초기 설정 및 이벤트 핸들러를 등록하는 역할을 수행.
-     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 버튼에 이벤트 핸들러를 설정
@@ -66,10 +64,6 @@ public class TodoTaskManageController implements Initializable {
 
         tskMemo.setText(todoTaskController.getTaskMemo(todoTaskController.getCurrentProjectName(),task));
 
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
-
-        // ListView의 셀 스타일 적용
-        tskMemo.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
 
     }
 
@@ -95,31 +89,31 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
+    /**
+     * TodoTask.fxml 파일을 로드하여 TodoTask 씬을 불러오고 페이드 인 애니메이션을 적용하는 메서드
+     */
     public void loadTodoTask() {
         try {
             // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
             Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
             StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
-
-
             // 현재 씬에 새로운 TodoTask 씬 추가
             root.getChildren().add(todoTaskScene);
 
-            // 필요한 경우, 새 씬에 애니메이션 효과 적용
-            todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
-            Timeline timeline = new Timeline();
-            KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
-            KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-            timeline.getKeyFrames().add(keyFrame);
-            timeline.play();
+            // 새 씬에 페이드 인 애니메이션 적용
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(300), todoTaskScene);
+            fadeIn.setFromValue(0); // 시작 투명도를 0으로 설정 (완전히 투명)
+            fadeIn.setToValue(1); // 종료 투명도를 1로 설정 (완전히 불투명)
 
-            // 이전 씬 제거
-            root.getChildren().remove(1);
+            fadeIn.play(); // 애니메이션 실행
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
     /**
      * 선택된 작업을 삭제하는 메서드.
      *
@@ -175,13 +169,14 @@ public class TodoTaskManageController implements Initializable {
 
         // 변경된 내용이 있는 경우 처리
         if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
+            // 작업 이름이 변경 되었을 경우
             if (isTaskNameChanged) {
                 todoTaskController.updateTask(task, updatedTask);
                 task = updatedTask; // 현재 작업 이름 업데이트
-            }
+            } // 마감일이 변경 되었을 경우
             if (isDueDateChanged) {
                 todoTaskController.updateDueDate(todoTaskController.getCurrentProjectName(),task, dueDate);
-            }
+            } // 메모가 변경 되었을 경우
             if (isMemoChanged) {
                 todoTaskController.updateTaskMemo(todoTaskController.getCurrentProjectName(),task, updatedMemo);
             }
@@ -213,8 +208,11 @@ public class TodoTaskManageController implements Initializable {
         });
     }
 
+    /**
+     * 마감일 선택 DatePicker를 업데이트하는 메서드
+     */
     private void updateDueDatePicker() {
-        LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(),task);
+        LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(), task);
         dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
         // 현재 날짜 이전의 모든 날짜를 비활성화
@@ -229,8 +227,4 @@ public class TodoTaskManageController implements Initializable {
         // Prompt Text 설정
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
     }
-
-
-
-
 }

@@ -13,7 +13,7 @@
 
 /* 다이얼로그 내용 부분 스타일 */
 .dialog-pane .content {
-    -fx-background-color: #FEEFF2; /* 다이얼로그 내용 부분 배경 색상 */
+-fx-background-image: url('@../../../img/DeleteBack.png');
     -fx-text-fill: #6b0404; /* 다이얼로그 내용 텍스트 색상 */
 }
 
