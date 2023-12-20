@@ -24,9 +24,9 @@
 .tsk_btn,
  {
     -fx-background-color:#47C83E;
-    -fx-background-radius: 10;
+    -fx-background-radius: 50;
     -fx-border-color: #005C00;
-    -fx-border-radius: 10;
+    -fx-border-radius: 50;
 }
 
 

@@ -66,10 +66,6 @@ public class TodoTaskManageController implements Initializable {
 
         tskMemo.setText(todoTaskController.getTaskMemo(todoTaskController.getCurrentProjectName(),task));
 
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/HakgyoansimWoojuR.ttf"), 20);
-
-        // ListView의 셀 스타일 적용
-        tskMemo.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
 
     }
 

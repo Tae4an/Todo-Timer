@@ -139,7 +139,7 @@ name-text {
 
 /* 다이얼로그 제목 부분 스타일 */
 .dialog-pane .header-panel {
-    -fx-background-image: url('@../../../img/Pinkptn.png');
+        -fx-background-color: #FEEFF2; /* 다이얼로그 전체 배경 색상 */
 }
 
 /* 다이얼로그 버튼 스타일 */

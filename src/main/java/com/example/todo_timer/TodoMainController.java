@@ -351,10 +351,6 @@ public class TodoMainController implements Initializable {
         dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
 
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
-
-        // ListView의 셀 스타일 적용
-        projectListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {

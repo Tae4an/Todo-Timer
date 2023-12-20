@@ -90,10 +90,6 @@ public class TodoTaskController implements Initializable {
                 String selectedCompletedTask = completedTaskListView.getSelectionModel().getSelectedItem();
                 selectedTask = extractTaskName(selectedTask);
                 selectedCompletedTask = extractTaskName(selectedCompletedTask);
-                // ListView의 셀 스타일 적용
-                Font customFont = Font.loadFont(getClass().getResourceAsStream("/oft/KCC-Ganpan.otf"), 20);
-                taskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
-                completedTaskListView.setStyle("-fx-font-family: '" + customFont.getFamily() + "';");
                 // 작업이 없거나 선택되지 않았을 경우 에러 메시지 표시
                 if (taskListView.getItems().isEmpty()) {
                     showPopup("Error", "작업이 없습니다..!");
@@ -171,7 +167,7 @@ public class TodoTaskController implements Initializable {
     private void addTask() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("작업 추가");
-        dialog.setHeaderText("새로운 작업을 추가하세요");
+        dialog.setHeaderText("새로운 작업을 추가하세요 ");
 
         // 다이얼로그 패널에 접근 >> 신창영
         DialogPane dialogPane = dialog.getDialogPane();
