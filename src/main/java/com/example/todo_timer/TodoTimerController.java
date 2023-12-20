@@ -61,7 +61,6 @@ public class TodoTimerController implements Initializable {
      * TodoTimerController의 생성자.
      */
     public TodoTimerController() {
-        // TodoTaskController 인스턴스를 얻어옴
         // TodoTaskController의 인스턴스
         TodoTaskController todoTaskController = new TodoTaskController();
     }
@@ -72,10 +71,32 @@ public class TodoTimerController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    // "할 일 목록" 버튼에 대한 액션 설정
+        // "할 일 목록" 버튼에 대한 액션 설정
         main_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if (timer.getStatus().equals(Timeline.Status.RUNNING) && !isPaused) {
+                    // 타이머가 실행 중일 때 확인 창을 표시
+                    Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmAlert.setTitle("타이머 실행 중");
+                    confirmAlert.setHeaderText("타이머가 아직 실행 중입니다. ");
+                    confirmAlert.setContentText("타이머가 초기화 됩니다. 메인 홈으로 돌아가시겠습니까?");
+
+                    // 확인 및 취소 버튼 설정
+                    Optional<ButtonType> result = confirmAlert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        // 사용자가 '확인'을 선택한 경우
+                        loadMainScene(); // 메인 홈으로 이동하는 메소드
+                    }
+                    // '취소'를 선택하거나 창을 닫으면 아무것도 하지 않음
+                } else {
+                    // 타이머가 실행 중이 아닐 때 메인 홈으로 바로 이동
+                    loadMainScene(); // 메인 홈으로 이동하는 메소드
+                }
+            }
+
+            private void loadMainScene() {
+                // 여기에 메인 홈으로 이동하는 코드를 작성
                 Parent todoMainScene;
                 try {
                     todoMainScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
@@ -83,8 +104,6 @@ public class TodoTimerController implements Initializable {
                     throw new RuntimeException(e);
                 }
                 StackPane root = (StackPane) timer_layout.getScene().getRoot();
-
-                // 새 씬(메인 홈) 추가 및 초기 스케일 설정 (크게 시작)
                 todoMainScene.setScaleX(3); // 초기 스케일을 크게 설정
                 todoMainScene.setScaleY(3); // 초기 스케일을 크게 설정
                 root.getChildren().add(todoMainScene);
@@ -93,7 +112,6 @@ public class TodoTimerController implements Initializable {
                 ScaleTransition zoomOut = new ScaleTransition(Duration.millis(300), todoMainScene);
                 zoomOut.setToX(1); // 최종적으로 정상 크기로
                 zoomOut.setToY(1); // 최종적으로 정상 크기로
-
                 zoomOut.play(); // 애니메이션 실행
             }
         });
