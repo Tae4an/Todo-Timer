@@ -49,10 +49,7 @@ public class TodoTaskManageController implements Initializable {
     private static String task;  // 현재 선택 또는 작업 중인 작업의 이름
 
 
-    /**
-     * FXML 파일이 로드될 때 자동으로 호출되는 초기화 메서드.
-     * UI 요소들의 초기 설정 및 이벤트 핸들러를 등록하는 역할을 수행.
-     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 버튼에 이벤트 핸들러를 설정
@@ -92,6 +89,9 @@ public class TodoTaskManageController implements Initializable {
         this.task = task;
     }
 
+    /**
+     * TodoTask.fxml 파일을 로드하여 TodoTask 씬을 불러오고 페이드 인 애니메이션을 적용하는 메서드
+     */
     public void loadTodoTask() {
         try {
             // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
@@ -111,6 +111,7 @@ public class TodoTaskManageController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
 
     /**
@@ -168,13 +169,14 @@ public class TodoTaskManageController implements Initializable {
 
         // 변경된 내용이 있는 경우 처리
         if (isTaskNameChanged || isDueDateChanged || isMemoChanged) {
+            // 작업 이름이 변경 되었을 경우
             if (isTaskNameChanged) {
                 todoTaskController.updateTask(task, updatedTask);
                 task = updatedTask; // 현재 작업 이름 업데이트
-            }
+            } // 마감일이 변경 되었을 경우
             if (isDueDateChanged) {
                 todoTaskController.updateDueDate(todoTaskController.getCurrentProjectName(),task, dueDate);
-            }
+            } // 메모가 변경 되었을 경우
             if (isMemoChanged) {
                 todoTaskController.updateTaskMemo(todoTaskController.getCurrentProjectName(),task, updatedMemo);
             }
@@ -206,8 +208,11 @@ public class TodoTaskManageController implements Initializable {
         });
     }
 
+    /**
+     * 마감일 선택 DatePicker를 업데이트하는 메서드
+     */
     private void updateDueDatePicker() {
-        LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(),task);
+        LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(), task);
         dueDatePicker.setValue(dueDate); // 기존 마감일을 설정
 
         // 현재 날짜 이전의 모든 날짜를 비활성화
@@ -222,8 +227,4 @@ public class TodoTaskManageController implements Initializable {
         // Prompt Text 설정
         dueDatePicker.setPromptText(dueDate != null ? dueDate.toString() : "마감일을 선택하세요..");
     }
-
-
-
-
 }

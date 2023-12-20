@@ -40,36 +40,33 @@ public class TodoTimerController implements Initializable {
     @FXML
     private ChoiceBox<Task> taskChoiceBox;   // 타이머 홈의 초이스 박스
     @FXML
-    private Label timer_label;
-
-
-    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용
-
-    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
-
-
-
-    private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
-
-    private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정
-
-    private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그
-
-    private final TodoTaskController todoTaskController;
-
-
+    private Label timer_label;  // 타이머 홈 라벨
     @FXML
     private Arc timerArc; // Arc 객체 참조
+    @FXML
+    private Button timerSetting_btn; // 타이머 시간 설정 버튼
+
+    private Timeline timer;  // JavaFX의 Timeline 클래스를 사용한 타이머 인스턴스. 작업 시간을 측정하고 업데이트하는 데 사용
+    private int minutes = 25;  // 타이머의 초기 분 설정. 기본값은 25분
+    private int seconds = 0;  // 타이머의 초기 초 설정. 기본값은 0초
+    private boolean isPaused = false;  // 타이머의 일시정지 상태를 나타내는 플래그. 일시정지 상태인 경우 true로 설정
+    private boolean isRest = false;  // 타이머의 휴식 상태를 나타내는 플래그
+    private int newMinutes = 25; // 변경된 작업 타이머 시간
+    private int newRestMinutes = 5; // 변경된 휴식 타이머 시간
+
+    // TodoTaskController의 인스턴스
+    private final TodoTaskController todoTaskController;
+
     Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
 
-    @FXML
-    private Button timerSetting_btn;
 
-    private int newMinutes = 25;
-
-    private int newRestMinutes = 5;
-
-
+    /**
+     * TodoTimerController의 생성자.
+     */
+    public TodoTimerController() {
+        // TodoTaskController 인스턴스를 얻어옴
+        this.todoTaskController = new TodoTaskController();
+    }
 
     /**
      * 화면 초기화 시 호출되는 메서드
@@ -113,17 +110,9 @@ public class TodoTimerController implements Initializable {
 
         // #FFD8D8 색상으로 아크 색상 변경
         timerArc.setFill(color); // 아크 색상 설정
-
+        // 타이머 텍스트를 앞 쪽으로 오게 함
         timerText.toFront();
 
-    }
-
-    /**
-     * TodoTimerController의 생성자.
-     */
-    public TodoTimerController() {
-        // TodoTaskController 인스턴스를 얻어옴
-        this.todoTaskController = new TodoTaskController();
     }
 
     /**
@@ -291,6 +280,9 @@ public class TodoTimerController implements Initializable {
 
 
     }
+    /**
+     * 타이머 설정 및 휴식 시간 설정 다이얼로그를 열고 사용자 선택을 처리하는 메서드
+     */
     @FXML
     private void openTimerSettingDialog() {
         // 다이얼로그에 타이머 및 휴식 시간 설정 버튼을 포함하는 커스텀 다이얼로그를 생성합니다.
@@ -328,8 +320,13 @@ public class TodoTimerController implements Initializable {
 
         dialog.showAndWait();
     }
+
+
+    /**
+     * 사용자로부터 새로운 작업 타이머 시간을 입력받는 다이얼로그를 열고 입력을 처리하는 메서드
+     */
     private void openTimerInputDialog() {
-        // 새로운 타이머 시간을 입력받을 다이얼로그 생성
+        // 새로운 작업 타이머 시간을 입력받을 다이얼로그 생성
         TextInputDialog dialog = new TextInputDialog(Integer.toString(newMinutes)); // 현재 설정된 시간을 기본값으로 설정
         dialog.setTitle("타이머 시간 설정");
         dialog.setHeaderText("1분에서 60분 사이의 시간을 입력하세요.");
@@ -360,6 +357,10 @@ public class TodoTimerController implements Initializable {
     }
 
 
+
+    /**
+     * 사용자로부터 새로운 휴식 시간을 입력받는 다이얼로그를 열고 입력을 처리하는 메서드
+     */
     private void openRestInputDialog() {
         // 새로운 휴식 시간을 입력받을 다이얼로그 생성
         TextInputDialog dialog = new TextInputDialog(Integer.toString(newRestMinutes)); // 기본값은 5분
@@ -399,12 +400,16 @@ public class TodoTimerController implements Initializable {
         seconds = 0;
         isPaused = false;
         isRest = false;
+
         // 씬의 배경 색상을 #FFD8D8로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
-        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        main_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+
+        // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        timerSetting_btn.setStyle("-fx-background-color:  #c98888;");
+        btn_start_pause.setStyle("-fx-background-color:  #c98888;");
+        main_btn.setStyle("-fx-background-color:  #c98888;");
         taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+
         // 색상을 #6b0404로 설정
         timerText.setFill(Color.web("#6b0404"));
         timer_label.setTextFill(Color.web("#c98888"));

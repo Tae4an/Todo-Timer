@@ -28,7 +28,7 @@ import static com.example.todo_timer.TodoTaskController.taskMemos;
 
 public class TodoMainController implements Initializable {
     @FXML
-    private Button tm_btn; // "타이머" 기능을 위한 버튼
+    private Button tm_btn; // "타이머" 버튼
     @FXML
     private Button addProject_btn; // "프로젝트 추가" 버튼
     @FXML
@@ -38,11 +38,18 @@ public class TodoMainController implements Initializable {
     @FXML
     private Button manageProject_btn; // "프로젝트 관리" 버튼
 
+    // 프로젝트 관리 목록을 저장하는 ObservableList
     private static ObservableList<ProjectManager> projects = FXCollections.observableArrayList();
+
+    // TodoTaskController 인스턴스
     private final TodoTaskController todoTaskController;
 
 
+    /**
+     * TodoMainController의 생성자
+     */
     public TodoMainController() {
+        // TodoTaskController 인스턴스 생성
         todoTaskController = new TodoTaskController();
     }
 
@@ -71,8 +78,7 @@ public class TodoMainController implements Initializable {
             }
         });
 
-
-        // "작업 관리" 버튼에 대한 클릭 이벤트 핸들러
+        // "To-Do 관리" 버튼에 대한 클릭 이벤트 핸들러
         manageTask_btn.setOnMouseClicked(event -> {
             // ListView에서 선택된 작업을 얻어옴
             ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
@@ -102,10 +108,12 @@ public class TodoMainController implements Initializable {
         });
 
 
+        /*
+          projectListView의 셀 팩토리를 설정하는 메서드
 
-
-        // ListView에 대한 cellFactory를 설정하여 각 프로젝트를 커스텀 형식으로 표시
-        projectListView.setCellFactory(lv -> new ListCell<ProjectManager>() {
+          @param lv ListView<ProjectManager> 인스턴스
+         */
+        projectListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(ProjectManager project, boolean empty) {
                 super.updateItem(project, empty);
@@ -116,8 +124,9 @@ public class TodoMainController implements Initializable {
                 }
             }
         });
-        updateProjectList();
-        checkAllDeadlines();
+
+        updateProjectList(); // 프로젝트 목록 업데이트
+        checkAllDeadlines(); // 마감 기한 체크
     }
 
     /**
@@ -135,7 +144,7 @@ public class TodoMainController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText(message);
 
-            //팝업창 색감 스타일 입히지 : 신창영
+            //팝업창 색감 스타일 입히기
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
             alert.showAndWait();
 
@@ -152,14 +161,13 @@ public class TodoMainController implements Initializable {
             projectListView = new ListView<>();
         }
         projectListView.setItems(projects);
-
     }
 
     /**
-     * 입력된 프로젝트 이름이 이미 존재하는지 검사하는 메서드
+     * 입력된 프로젝트 이름이 이미 존재 하는지 검사 하는 메서드
      *
      * @param projectName 검사할 프로젝트 이름
-     * @return 중복 여부 (true: 중복됨, false: 중복되지 않음)
+     * @return 중복 여부 (true: 중복됨, false: 중복 되지 않음)
      */
     private boolean isProjectNameExist(String projectName) {
         for (ProjectManager project : projects) {
@@ -172,7 +180,7 @@ public class TodoMainController implements Initializable {
 
 
     /**
-     * 프로젝트 이름을 편집하는 메서드
+     * 프로젝트 이름을 편집 하는 메서드
      *
      * @param project 편집할 프로젝트
      */
@@ -202,29 +210,44 @@ public class TodoMainController implements Initializable {
         });
     }
 
+    /**
+     * dueDates와 taskMemos 맵에서 프로젝트 이름을 변경 하는 메서드
+     *
+     * @param oldName 이전 프로젝트 이름
+     * @param newName 새로운 프로젝트 이름
+     */
     private void updateProjectNameInDueDatesAndMemos(String oldName, String newName) {
         // dueDates 맵 업데이트
         Map<String, LocalDate> updatedDueDates = new HashMap<>();
         dueDates.forEach((key, value) -> {
+            // 프로젝트 이름이 이전 프로젝트 이름으로 시작하는 경우
             if (key.startsWith(oldName + " - ")) {
+                // 새로운 프로젝트 이름을 추가한 키로 변경
                 key = newName + key.substring(oldName.length());
             }
+            // 업데이트된 키와 값을 새 맵에 저장
             updatedDueDates.put(key, value);
         });
+        // 원래 맵을 비우고 업데이트된 맵의 내용을 복사
         dueDates.clear();
         dueDates.putAll(updatedDueDates);
 
         // taskMemos 맵 업데이트
         Map<String, String> updatedTaskMemos = new HashMap<>();
         taskMemos.forEach((key, value) -> {
+            // 프로젝트 이름이 이전 프로젝트 이름으로 시작하는 경우
             if (key.startsWith(oldName + " - ")) {
+                // 새로운 프로젝트 이름을 추가한 키로 변경
                 key = newName + key.substring(oldName.length());
             }
+            // 업데이트된 키와 값을 새 맵에 저장
             updatedTaskMemos.put(key, value);
         });
+        // 원래 맵을 비우고 업데이트된 맵의 내용을 복사
         taskMemos.clear();
         taskMemos.putAll(updatedTaskMemos);
     }
+
 
     /**
      * 프로젝트를 삭제하는 메서드
@@ -238,7 +261,7 @@ public class TodoMainController implements Initializable {
         confirmation.setHeaderText("프로젝트 삭제 확인");
         confirmation.setContentText("선택한 프로젝트 '" + project + "'를 삭제하시겠습니까?");
 
-        // 다이얼로그 패널에 접근 >> 신창영
+        // 다이얼로그 패널에 접근
         DialogPane dialogPane = confirmation.getDialogPane();
 
         dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
@@ -280,12 +303,17 @@ public class TodoMainController implements Initializable {
         }
     }
 
+    /**
+     * 모든 프로젝트의 작업들의 마감 기한을 확인하고, 마감일에 따라 팝업 메시지를 표시하는 메서드
+     */
     private void checkAllDeadlines() {
         LocalDate today = LocalDate.now();
 
+        // 모든 프로젝트를 반복하며 작업들의 마감 기한 확인
         for (ProjectManager project : projects) {
             for (String task : project.getTasks()) {
-                LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(),task);
+                // 작업의 마감일을 가져옴
+                LocalDate dueDate = todoTaskController.getDueDate(todoTaskController.getCurrentProjectName(), task);
 
                 if (dueDate != null) {
                     if (dueDate.isEqual(today.plusDays(1))) {
@@ -301,8 +329,12 @@ public class TodoMainController implements Initializable {
             }
         }
     }
+
+    /**
+     * 프로젝트 관리 다이얼로그를 표시하고, 사용자가 프로젝트 이름을 수정하거나 삭제할 수 있는 메서드
+     */
     @FXML
-    public void manageProject(){
+    public void manageProject() {
         // ListView에서 선택된 프로젝트를 얻어옴
         ProjectManager selectedProject = projectListView.getSelectionModel().getSelectedItem();
 
@@ -324,9 +356,8 @@ public class TodoMainController implements Initializable {
         dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
 
-
-        ButtonType editButton = new ButtonType("수정");
-        ButtonType deleteButton = new ButtonType("삭제");
+        ButtonType editButton = new ButtonType("수정"); // 수정 버튼 추가
+        ButtonType deleteButton = new ButtonType("삭제"); // 삭제 버튼 추가
         alert.getButtonTypes().setAll(editButton, deleteButton, ButtonType.CANCEL); // 취소 버튼 추가
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -340,18 +371,21 @@ public class TodoMainController implements Initializable {
             }
         }
     }
+
+    /**
+     * 사용자에게 프로젝트 이름을 입력받아 새로운 프로젝트를 추가하는 메서드
+     */
     @FXML
-    public void addProject(){
+    public void addProject() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("프로젝트 추가");
         dialog.setHeaderText("새 프로젝트의 이름을 입력하세요:");
 
-        // 다이얼로그 패널에 접근 >> 신창영
+        // 다이얼로그 패널에 접근
         DialogPane dialogPane = dialog.getDialogPane();
 
         dialogPane.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         dialogPane.getStyleClass().add("custom-dialog");
-
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> {
@@ -364,6 +398,7 @@ public class TodoMainController implements Initializable {
             }
         });
     }
+
 
 }
 

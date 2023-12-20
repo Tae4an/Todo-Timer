@@ -8,21 +8,17 @@ import javafx.collections.ObservableList;
  * 이 클래스는 프로젝트 이름과 해당 프로젝트에 속한 작업 목록을 관리
  */
 public class ProjectManager {
-    private String projectName;           // 각 프로젝트 이름
+    private String projectName;    // 각 프로젝트 이름
     private ObservableList<String> tasks; // 각 프로젝트에 속한 작업 목록
 
     private static ObservableList<Task> allTasks = FXCollections.observableArrayList(); // 모든 프로젝트에 속한 작업
 
-    private ObservableList<String> completedTasks;
+    private ObservableList<String> completedTasks; // 각 프로젝트에 속한 완료한 작업 목록
 
-    public int getNumberOfTasks() {
-        return tasks.size();
-    }
-
-    // toString 메서드를 오버라이드하여 프로젝트 이름과 작업 수를 포함하는 문자열을 반환
-    @Override
-    public String toString() {
-        return projectName + " (" + getNumberOfTasks() + ")";
+    /**
+     * ProjectManager의 생성자
+     */
+    public ProjectManager() {
     }
 
     /**
@@ -36,7 +32,25 @@ public class ProjectManager {
         this.completedTasks = FXCollections.observableArrayList();
     }
 
-    public ProjectManager() {
+    /**
+     * 해당 프로젝트에 속한 작업의 수를 반환하는 메서드
+     *
+     * @return 현재 프로젝트에 속한 작업의 수를 나타내는 정수 값
+     */
+    public int getNumberOfTasks() {
+        // 현재 프로젝트에 속한 작업의 수를 반환
+        return tasks.size();
+    }
+
+
+    /**
+     * 객체를 문자열로 나타내는 메서드
+     *
+     * @return 프로젝트 이름과 해당 프로젝트에 속한 작업 수를 문자열로 반환
+     */
+    @Override
+    public String toString() {
+        return projectName + " (" + getNumberOfTasks() + ")";
     }
 
     /**
@@ -71,9 +85,14 @@ public class ProjectManager {
         tasks.remove(task);
         allTasks.removeIf(t -> t.getName().equals(task) && t.getProjectName().equals(projectName));
     }
+
+    /**
+     * 완료된 작업을 삭제하는 메서드
+     *
+     * @param task 삭제할 완료된 작업의 이름
+     */
     public void deleteCompletedTask(String task) {
         completedTasks.remove(task);
-
     }
 
     /**
@@ -95,10 +114,15 @@ public class ProjectManager {
         return tasks;
     }
 
+
+    /**
+     * 완료된 작업 목록을 반환하는 메서드
+     *
+     * @return 완료된 작업 목록
+     */
     public ObservableList<String> getCompletedTasks() {
         return completedTasks;
     }
-
 
 
     /**
@@ -110,13 +134,24 @@ public class ProjectManager {
         tasks.add(task);
         allTasks.add(new Task(task, projectName)); // Task 객체 생성
     }
+    /**
+     * 완료된 작업을 추가하는 메서드
+     *
+     * @param task 추가할 완료된 작업
+     */
     public void addCompletedTask(String task) {
         completedTasks.add(task);
     }
 
+    /**
+     * 모든 작업 목록을 반환하는 메서드
+     *
+     * @return 모든 작업 목록
+     */
     public static ObservableList<Task> getAllTasks(){
         return allTasks;
     }
+
 
     /**
      * 프로젝트 이름을 수정
@@ -130,7 +165,6 @@ public class ProjectManager {
                 task.setProjectName(newName);
             }
         }
-
         // 프로젝트 이름을 업데이트
         this.projectName = newName;
     }
