@@ -54,9 +54,6 @@ public class TodoTimerController implements Initializable {
     private int newMinutes = 25; // 변경된 작업 타이머 시간
     private int newRestMinutes = 5; // 변경된 휴식 타이머 시간
 
-    // TodoTaskController의 인스턴스
-    private final TodoTaskController todoTaskController;
-
     Color color = Color.rgb(255, 255, 255); // RGB 값을 사용
 
 
@@ -65,7 +62,8 @@ public class TodoTimerController implements Initializable {
      */
     public TodoTimerController() {
         // TodoTaskController 인스턴스를 얻어옴
-        this.todoTaskController = new TodoTaskController();
+        // TodoTaskController의 인스턴스
+        TodoTaskController todoTaskController = new TodoTaskController();
     }
 
     /**
@@ -285,40 +283,46 @@ public class TodoTimerController implements Initializable {
      */
     @FXML
     private void openTimerSettingDialog() {
-        // 다이얼로그에 타이머 및 휴식 시간 설정 버튼을 포함하는 커스텀 다이얼로그를 생성합니다.
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("설정 선택");
-        dialog.setHeaderText("원하는 설정을 선택하세요.");
+        if (timer.getStatus().equals(Timeline.Status.RUNNING)){
+            showPopup("타이머 실행 중","타이머 실행 중엔 타이머 시간을 변경할 수 없습니다..!");
+        }
+        else {
+            // 다이얼로그에 타이머 및 휴식 시간 설정 버튼을 포함하는 커스텀 다이얼로그를 생성합니다.
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("설정 선택");
+            dialog.setHeaderText("원하는 설정을 선택하세요.");
 
-        // 타이머 시간 설정 버튼
-        ButtonType timerSettingButtonType = new ButtonType("타이머 시간 설정");
-        dialog.getDialogPane().getButtonTypes().add(timerSettingButtonType);
+            // 타이머 시간 설정 버튼
+            ButtonType timerSettingButtonType = new ButtonType("타이머 시간 설정");
+            dialog.getDialogPane().getButtonTypes().add(timerSettingButtonType);
 
-        // 휴식 시간 설정 버튼
-        ButtonType restSettingButtonType = new ButtonType("휴식 시간 설정");
-        dialog.getDialogPane().getButtonTypes().add(restSettingButtonType);
+            // 휴식 시간 설정 버튼
+            ButtonType restSettingButtonType = new ButtonType("휴식 시간 설정");
+            dialog.getDialogPane().getButtonTypes().add(restSettingButtonType);
 
-        // 취소 버튼
-        ButtonType cancelButtonType = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().add(cancelButtonType);
+            // 취소 버튼
+            ButtonType cancelButtonType = new ButtonType("취소", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().add(cancelButtonType);
 
-        // 다이얼로그 패널에 접근 >> 신창영
-        DialogPane dialogPane = dialog.getDialogPane();
+            // 다이얼로그 패널에 접근 >> 신창영
+            DialogPane dialogPane = dialog.getDialogPane();
 
-        dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
-        dialogPane.getStyleClass().add("custom-dialog");
+            dialogPane.getStylesheets().add(getClass().getResource("/css/TodoTimer.css").toExternalForm());
+            dialogPane.getStyleClass().add("custom-dialog");
 
-        // 사용자가 어떤 설정을 선택했는지 확인
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == timerSettingButtonType) {
-                openTimerInputDialog();
-            } else if (dialogButton == restSettingButtonType) {
-                openRestInputDialog();
-            }
-            return null;
-        });
+            // 사용자가 어떤 설정을 선택했는지 확인
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == timerSettingButtonType) {
+                    openTimerInputDialog();
+                } else if (dialogButton == restSettingButtonType) {
+                    openRestInputDialog();
+                }
+                return null;
+            });
 
-        dialog.showAndWait();
+            dialog.showAndWait();
+        }
+
     }
 
 
