@@ -77,9 +77,9 @@
             <Font name="Arial Black" size="19.0" />
         </font></Button>
 
-    <Button fx:id="tsk_btn" layoutX="151.0" layoutY="534.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="50.0" style="-fx-background-color: #c98888; -fx-border-color: #865353; -fx-border-radius: 50; -fx-background-radius: 50;" textFill="#f5e5e8">
+    <Button fx:id="tsk_btn" layoutX="151.0" layoutY="539.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="50.0" style="-fx-background-color: #c98888; -fx-border-color: #865353; -fx-border-radius: 50; -fx-background-radius: 50;" textFill="#f5e5e8">
       <graphic>
-         <ImageView fitHeight="69.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="36.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../img/free-icon-font-home.png" />
             </image>
