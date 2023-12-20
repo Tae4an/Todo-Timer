@@ -1,8 +1,6 @@
 package com.example.todo_timer;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,19 +51,21 @@ public class TodoMainController implements Initializable {
 
         // "타이머" 버튼에 대한 클릭 이벤트 핸들러
         tm_btn.setOnMouseClicked(event -> {
-            // TodoTimer.fxml 뷰를 로드하고 화면에 추가
             try {
+                // TodoTimer.fxml 뷰를 로드하고 화면에 추가
                 Parent sub = FXMLLoader.load(getClass().getResource("TodoTimer.fxml"));
                 StackPane root = (StackPane) tm_btn.getScene().getRoot();
                 root.getChildren().add(sub);
 
-                // 뷰에 애니메이션 효과 적용
-                sub.setTranslateX(-340);
-                Timeline timeline = new Timeline();
-                KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
-                KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.play();
+                // 뷰에 줌 인 애니메이션 효과 적용
+                sub.setScaleX(0); // 초기 스케일을 0으로 설정 (완전히 작게 시작)
+                sub.setScaleY(0); // 초기 스케일을 0으로 설정 (완전히 작게 시작)
+
+                ScaleTransition zoomIn = new ScaleTransition(Duration.millis(300), sub);
+                zoomIn.setToX(1); // 최종적으로 정상 크기로
+                zoomIn.setToY(1); // 최종적으로 정상 크기로
+
+                zoomIn.play(); // 애니메이션 실행
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -83,25 +83,26 @@ public class TodoMainController implements Initializable {
                 showPopup("오류", "프로젝트를 선택하세요..!");
             } else {
                 try {
-
                     todoTaskController.setCurrentProject(selectedProject);
                     Parent sub = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
                     StackPane root = (StackPane) manageTask_btn.getScene().getRoot();
                     root.getChildren().add(sub);
 
-                    // 뷰에 애니메이션 효과를 적용합니다.
-                    sub.setTranslateX(500);
-                    Timeline timeline = new Timeline();
-                    KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
-                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                    timeline.getKeyFrames().add(keyFrame);
-                    timeline.play();
+                    // 뷰에 오른쪽 바깥에서 중앙으로 슬라이드하는 애니메이션 효과 적용
+                    sub.setTranslateX(root.getWidth()); // 시작 위치를 화면 오른쪽 바깥으로 설정
+                    TranslateTransition slideTransition = new TranslateTransition(Duration.millis(300), sub);
+                    slideTransition.setToX(0); // 최종 위치를 화면 내부(0)로 설정
+
+                    slideTransition.play(); // 애니메이션 실행
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
+
+
+
 
         // ListView에 대한 cellFactory를 설정하여 각 프로젝트를 커스텀 형식으로 표시
         projectListView.setCellFactory(lv -> new ListCell<ProjectManager>() {

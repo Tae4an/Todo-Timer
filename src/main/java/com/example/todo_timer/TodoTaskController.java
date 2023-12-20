@@ -1,8 +1,6 @@
 package com.example.todo_timer;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -107,13 +106,12 @@ public class TodoTaskController implements Initializable {
                         StackPane root = (StackPane) tskmanage_btn.getScene().getRoot();
                         root.getChildren().add(sub);
 
-                        // 뷰에 애니메이션 효과 적용
-                        sub.setTranslateX(500);
-                        Timeline timeline = new Timeline();
-                        KeyValue keyValue = new KeyValue(sub.translateXProperty(), 0);
-                        KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                        timeline.getKeyFrames().add(keyFrame);
-                        timeline.play();
+                        // 뷰에 오른쪽 바깥에서 중앙으로 슬라이드하는 애니메이션 효과 적용
+                        sub.setTranslateX(root.getWidth()); // 시작 위치를 화면 오른쪽 바깥으로 설정
+                        TranslateTransition slideTransition = new TranslateTransition(Duration.millis(300), sub);
+                        slideTransition.setToX(0); // 최종 위치를 화면 내부(0)로 설정
+
+                        slideTransition.play(); // 애니메이션 실행
 
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -121,27 +119,37 @@ public class TodoTaskController implements Initializable {
                 }
             }
         });
+
+        // "뒤로 가기" 버튼에 대한 클릭 이벤트 핸들러
         back_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    // TodoTask.fxml 파일을 로드하여 새로운 씬을 생성
-                    Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
+                    // TodoMain.fxml 파일을 로드하여 새로운 씬을 생성
+                    Parent todoMainScene = FXMLLoader.load(getClass().getResource("TodoMain.fxml"));
                     StackPane root = (StackPane) task_layout.getScene().getRoot();
+                    Parent currentScene = (Parent) root.getChildren().get(0);
 
-                    // 현재 씬에 새로운 TodoTask 씬 추가
-                    root.getChildren().add(todoTaskScene);
+                    // 새 씬 추가
+                    root.getChildren().add(todoMainScene);
+                    todoMainScene.setOpacity(0); // 새 씬을 투명하게 시작
 
-                    // 필요한 경우, 새 씬에 애니메이션 효과 적용
-                    todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
-                    Timeline timeline = new Timeline();
-                    KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
-                    KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-                    timeline.getKeyFrames().add(keyFrame);
-                    timeline.play();
+                    // 현재 씬에 페이드 아웃 애니메이션 적용
+                    FadeTransition fadeOut = new FadeTransition(Duration.millis(300), currentScene);
+                    fadeOut.setFromValue(1);
+                    fadeOut.setToValue(0);
 
-                    // 이전 씬 제거
-                    root.getChildren().remove(1);
+                    // 새 씬에 페이드 인 애니메이션 적용
+                    FadeTransition fadeIn = new FadeTransition(Duration.millis(300), todoMainScene);
+                    fadeIn.setFromValue(0);
+                    fadeIn.setToValue(1);
+
+                    // 두 애니메이션 동시 실행
+                    fadeOut.play();
+                    fadeIn.play();
+
+                    // 페이드 아웃 종료 후 이전 씬 제거
+                    fadeOut.setOnFinished(e -> root.getChildren().remove(currentScene));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

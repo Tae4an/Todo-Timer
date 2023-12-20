@@ -1,5 +1,6 @@
 package com.example.todo_timer;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -97,25 +98,21 @@ public class TodoTaskManageController implements Initializable {
             Parent todoTaskScene = FXMLLoader.load(getClass().getResource("TodoTask.fxml"));
             StackPane root = (StackPane) tskManage_layout.getScene().getRoot();
 
-
-
             // 현재 씬에 새로운 TodoTask 씬 추가
             root.getChildren().add(todoTaskScene);
 
-            // 필요한 경우, 새 씬에 애니메이션 효과 적용
-            todoTaskScene.setTranslateX(-340); // 씬의 너비에 맞게 조정
-            Timeline timeline = new Timeline();
-            KeyValue keyValue = new KeyValue(todoTaskScene.translateXProperty(), 0);
-            KeyFrame keyFrame = new KeyFrame(Duration.millis(300), keyValue);
-            timeline.getKeyFrames().add(keyFrame);
-            timeline.play();
+            // 새 씬에 페이드 인 애니메이션 적용
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(300), todoTaskScene);
+            fadeIn.setFromValue(0); // 시작 투명도를 0으로 설정 (완전히 투명)
+            fadeIn.setToValue(1); // 종료 투명도를 1로 설정 (완전히 불투명)
 
-            // 이전 씬 제거
-            root.getChildren().remove(1);
+            fadeIn.play(); // 애니메이션 실행
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
     /**
      * 선택된 작업을 삭제하는 메서드.
      *
