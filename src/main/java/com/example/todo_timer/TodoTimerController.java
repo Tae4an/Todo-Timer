@@ -281,10 +281,11 @@ public class TodoTimerController implements Initializable {
 
        // 씬의 배경 색상을 #FFD8D8로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
-        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        main_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+
+        timerSetting_btn.setStyle("-fx-background-color:#c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        main_btn.setStyle("-fx-background-color: #c98888; -fx-background-radius: 50; -fx-border-color: #865353; -fx-border-radius: 50;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color:  #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;");
         // 색상을 #6b0404로 설정
         timerText.setFill(Color.web("#6b0404"));
         timer_label.setTextFill(Color.web("#c98888"));
@@ -401,10 +402,10 @@ public class TodoTimerController implements Initializable {
         isRest = false;
         // 씬의 배경 색상을 #FFD8D8로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(255, 216, 216), null, null)));
-        timerSetting_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        btn_start_pause.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        main_btn.setStyle("-fx-background-color:  #c98888;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-        taskChoiceBox.setStyle("-fx-background-color: #c98888;");
+        timerSetting_btn.setStyle("-fx-background-color:#c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        btn_start_pause.setStyle("-fx-background-color: #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        main_btn.setStyle("-fx-background-color: #c98888; -fx-background-radius: 50; -fx-border-color: #865353; -fx-border-radius: 50;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
+        taskChoiceBox.setStyle("-fx-background-color:  #c98888; -fx-background-radius: 10; -fx-border-color: #865353; -fx-border-radius: 10;");
         // 색상을 #6b0404로 설정
         timerText.setFill(Color.web("#6b0404"));
         timer_label.setTextFill(Color.web("#c98888"));
@@ -420,33 +421,23 @@ public class TodoTimerController implements Initializable {
         isPaused = false;
         isRest = true;
 
+        //아이디 지정
+        taskChoiceBox.setId("custom-choice-box");
+        taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
+
         // 씬의 배경 색상을 #B7F0B1로 변경
         timer_layout.setBackground(new Background(new BackgroundFill(Color.rgb(183, 240, 177), null, null)));
 
-        // 각 컨트롤에 아이디 지정
-        timerSetting_btn.setId("timerSetting_btn");
-        btn_start_pause.setId("btn_start_pause");
-        main_btn.setId("tsk_btn");
-        taskChoiceBox.setId("taskChoiceBox");
-
-        timerSetting_btn.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
-        btn_start_pause.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
-
-        taskChoiceBox.getStylesheets().add(getClass().getResource("/css/rest.css").toExternalForm());
-
-       timerSetting_btn.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-       btn_start_pause.setStyle("-fx-background-color: #47C83E;"); // 휴식 타이머가 시작될 때의 배경 색상으로 설정
-       main_btn.setStyle("-fx-background-color: #47C83E;" +
-                     "   -fx-border-color: #0B7903;\n" +
-                     "    -fx-border-radius: 50;\n" +
-                     "    -fx-background-radius: 50;"); // css로 같이 적용하면 각도가 다르게 나옴
-       taskChoiceBox.setStyle("-fx-background-color: #47C83E;");
-       timerText.setFill(Color.web("#005C00"));
-       timer_label.setTextFill(Color.web("#47C83E"));
-
+        timerSetting_btn.setStyle("-fx-background-color:#47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
+        btn_start_pause.setStyle("-fx-background-color:#47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
+        main_btn.setStyle("-fx-background-color: #47C83E; -fx-border-color: #0B7903; -fx-border-radius: 50; -fx-background-radius: 50;");
+        taskChoiceBox.setStyle("-fx-background-color:  #47C83E; -fx-background-radius: 10; -fx-border-color: #0B7903; -fx-border-radius: 10;");
+        timerText.setFill(Color.web("#005C00"));
+        timer_label.setTextFill(Color.web("#47C83E"));
 
 
     }
+
     /**
      * 팝업 창을 표시하는 메서드.
      *

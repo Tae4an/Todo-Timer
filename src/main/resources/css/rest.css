@@ -1,59 +1,18 @@
-/* TodoTimer.css 파일에 추가할 CSS 코드 */
+/* 적용할 스타일을 담은 CSS 파일 (예: custom-styles.css) */
 
-
-/* 버튼 스타일 */
-.timerSetting_btn,
- {
-    -fx-background-color:#47C83E;
-    -fx-background-radius: 10;
-    -fx-border-color: #0B7903;
-    -fx-border-radius: 10;
+.custom-choice-box .menu-item:focused {
+    -fx-background-color: #CEF6E3;
 }
 
-/* 버튼 스타일 */
-.btn_start_pause,
-{
-    -fx-background-color:#47C83E;
-    -fx-background-radius: 10;
-    -fx-border-color: #0B7903;
-    -fx-border-radius: 10;
-}
-
-
-/* 버튼 스타일 */
-.taskChoiceBox
-{
-    -fx-background-color:#47C83E;
-    -fx-background-radius: 10;
-    -fx-border-color: #0B7903;
-    -fx-border-radius: 10;
-}
-
-
-/* 메뉴 아이템이 포커스를 받았을 때의 배경 색상 설정 */
-
-.choice-box .label {
-    -fx-text-fill: white; /* 원하는 텍스트 색상으로 변경 */
-    -fx-alignment: center; /* 가운데 정렬 설정 */
-    -fx-font-size: 17px; /* 텍스트 크기 설정 */
-
-}
-.choice-box .menu-item:focused {
-    -fx-background-color: #c98888;
-}
-
-/* 메뉴 아이템의 텍스트 색상 설정 */
-.choice-box .menu-item > .label {
+.custom-choice-box .menu-item > .label {
     -fx-text-fill: #6b0404;
 }
 
-/* 메뉴 아이템이 포커스를 받았을 때의 텍스트 색상 설정 */
-.choice-box .menu-item:focused > .label {
+.custom-choice-box .menu-item:focused > .label {
     -fx-text-fill: white;
 }
 
-/* 드롭다운 메뉴의 화살표 색상 설정 */
-.choice-box .arrow {
+.custom-choice-box .arrow {
     -fx-background-color: white;
     -fx-translate-y: 0;
 }
